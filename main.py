@@ -8,16 +8,23 @@ class Jogo:
         self.largura = 600
         self.altura = 600
         self.tela = pygame.display.set_mode((self.largura,self.altura))
-        self.pygame.display.set_caption('Block-Bricks')
+        self.titulo = pygame.display.set_caption('Block-Bricks')
+        self.relogio = pygame.time.Clock()
+
+    def layout(self):
+        self.borda = pygame.draw.rect(self.tela, (120, 150, 145), (0, 0, self.largura, self.altura), 3)
 
     def run(self):
         while True:
 
+            self.relogio.tick(30)
+            self.tela.fill('Black')
+            self.layout()
             for event in pygame.event.get():
                 if event. type == QUIT:
                     pygame.quit()
                     exit()
-
+            
             pygame.display.update()
 
 class Player:
