@@ -3,6 +3,17 @@ from pygame.locals import *
 from sys import exit
 #from random import randint
 
+""" Na função Player_colisao(), a linha self.jogo.x = self.colisao.right - self.player.width é responsável por ajustar a posição do jogador caso ele ultrapasse a borda direita da tela.
+
+Vamos analisar essa linha em detalhes:
+
+self.jogo.x: É a posição atual do jogador no eixo x.
+self.colisao.right: É a coordenada do lado direito da área delimitada pela borda.
+self.player.width: É a largura do retângulo do jogador.
+A expressão self.colisao.right - self.player.width calcula a posição máxima que o jogador pode ter sem ultrapassar a borda direita. Se o jogador estiver além dessa posição máxima, ou seja, se self.player.right for maior que self.colisao.right, a linha ajusta a posição self.jogo.x para que o jogador fique exatamente na borda direita.
+
+Isso garante que o jogador não ultrapasse a borda direita e permaneça visível dentro da área delimitada pelas bordas. """
+
 class Jogo:
     def __init__(self):
         pygame.init()
@@ -12,7 +23,6 @@ class Jogo:
         self.y = self.altura / 2 - 5 / 2 + 100
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.titulo = pygame.display.set_caption('Block-Bricks')
-        self.mover_player = True
 
     def layout(self):
         self.tela.fill('Black')
@@ -42,16 +52,23 @@ class Player:
         self.colisao = borda
         self.player = pygame.draw.rect(self.jogo.tela, (255,0,0), (self.jogo.x,self.jogo.y,40,5))
 
-    def input_player(self):
+    def input_player(self):  
+        novo_x = self.jogo.x
         if pygame.key.get_pressed()[K_a]:
-            self.jogo.x -= 0.4
+            novo_x -= 0.4
 
         if pygame.key.get_pressed()[K_d]:
-            self.jogo.x += 0.4
+            novo_x += 0.4
+
+        if self.colisao.left <= novo_x <= self.colisao.right - self.player.width:
+            self.jogo.x = novo_x
 
     def Player_colisao(self):
-        if not self.player.colliderect(self.colisao):
-            self.jogo.x = 0 
+        if self.player.left < self.colisao.left:
+            self.jogo.x = self.colisao.left
+
+        if self.player.right > self.colisao.right:
+            self.jogo.x = self.colisao.right - self.player.width
 
 class Bola:
     def __init__(self, jogo):
