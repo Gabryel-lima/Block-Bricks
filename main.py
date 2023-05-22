@@ -72,20 +72,21 @@ class Player:
     def __init__(self, jogo, borda):
         self.jogo = jogo
         self.colisao = borda
-        self.player = pygame.draw.rect(self.jogo.tela, (255, 0, 0), (self.jogo.x, self.jogo.y, 40, 5))
         self.x = self.jogo.x
         self.y = self.jogo.y
+        self.velocidade = 4  # Velocidade do jogador
+        self.rect = pygame.Rect(self.x, self.y, 40, 5)
 
     def input_player(self):
-        novo_x = self.jogo.x
-        if pygame.key.get_pressed()[K_a]:
-            novo_x -= 0.4
+        keys = pygame.key.get_pressed()
+        if keys[K_a]:
+            self.x -= self.velocidade
 
-        if pygame.key.get_pressed()[K_d]:
-            novo_x += 0.4
+        if keys[K_d]:
+            self.x += self.velocidade
 
-        if self.colisao.left <= novo_x <= self.colisao.right - 40:
-            self.jogo.x = novo_x
+        if self.colisao.left <= self.x <= self.colisao.right - 40:
+            self.jogo.x = self.x
 
         self.rect = pygame.Rect(self.jogo.x, self.jogo.y, 40, 5)
 
@@ -123,7 +124,6 @@ class Bola:
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        
 
 if __name__ == "__main__":
     jogo = Jogo()
