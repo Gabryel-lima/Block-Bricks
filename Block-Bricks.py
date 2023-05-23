@@ -3,30 +3,6 @@ from pygame.locals import *
 from sys import exit
 import random
 
-""" Na função Player_colisao(), a linha self.jogo.x = self.colisao.right - self.player.width é responsável por ajustar a posição do jogador caso ele ultrapasse a borda direita da tela.
-
-Vamos analisar essa linha em detalhes:
-
-self.jogo.x: É a posição atual do jogador no eixo x.
-self.colisao.right: É a coordenada do lado direito da área delimitada pela borda.
-self.player.width: É a largura do retângulo do jogador.
-A expressão self.colisao.right - self.player.width calcula a posição máxima que o jogador pode ter sem ultrapassar a borda direita. Se o jogador estiver além dessa posição máxima, ou seja, se self.player.right for maior que self.colisao.right, a linha ajusta a posição self.jogo.x para que o jogador fique exatamente na borda direita.
-
-Isso garante que o jogador não ultrapasse a borda direita e permaneça visível dentro da área delimitada pelas bordas. """
-
-
-'''Importações: Importei apenas os módulos necessários do pygame (pygame e pygame.locals) e o módulo exit do pacote sys.
-
-Classe Jogo: Na inicialização da classe, adicionei a criação de um objeto pygame.Rect chamado borda que representa a borda da área do jogo. Removi a linha self.titulo e defini o título diretamente usando pygame.display.set_caption. Também adicionei um objeto pygame.time.Clock() chamado relogio para controlar a taxa de atualização do jogo.
-
-Método run(): Adicionei uma chamada ao método layout() no início do loop principal do jogo. Em seguida, movi a criação dos objetos Player, Bola e Blocos para antes do loop principal. Isso evita que esses objetos sejam criados a cada iteração do loop.
-
-Método layout(): Modifiquei esse método para desenhar o jogador e a bola com base nas coordenadas x e y dos respectivos objetos. Utilizei as propriedades self.player.x, self.player.y, self.bola.x e self.bola.y para obter as coordenadas atualizadas dos objetos. Os retângulos são desenhados usando pygame.draw.rect() e pygame.draw.circle().
-
-Classe Player: Removi a linha que desenha o retângulo do jogador na inicialização da classe, pois agora o desenho é feito no método layout(). No método input_player(), atualizei as verificações de tecla pressionada para mover o jogador de forma mais suave, adicionando uma velocidade fracionada ao novo_x. Verifiquei se o novo valor de x está dentro dos limites da borda antes de atualizar a posição do jogador.
-
-Classe Bola: No método atualizar(), atualizei a posição da bola com base nas velocidades velocidade_x e velocidade_y. Verifiquei se a bola atingiu as bordas da área do jogo e inverti a direção das velocidades quando necessário.'''
-
 class Jogo:
     def __init__(self):
         pygame.init()
