@@ -49,6 +49,8 @@ class Jogo:
         pygame.draw.rect(self.tela, (255, 0, 0), ((self.player.x), (self.player.y), 40, 5))
         pygame.draw.rect(self.tela, (120, 150, 145), self.borda, 3)
 
+        self.blocos.desenhar_blocos()
+
     def exibir_mensagem(self, texto, posicao):
         fonte = pygame.font.Font(None, 30)
         mensagem = fonte.render(texto, True, (255, 255, 255))
@@ -61,6 +63,14 @@ class Jogo:
             self.bola.inverter_direcao()
         elif self.bola.y + self.bola.raio >= self.altura - 190:
             self.reset()
+            return
+
+        for bloco in self.blocos.blocos:
+            if self.bola.rect.colliderect(bloco):
+                self.bola.inverter_direcao()
+                self.blocos.blocos.remove(bloco)
+                break
+
 
     def reset(self):
         self.jogo_iniciado = False
@@ -112,8 +122,8 @@ class Bola:
         self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 2, self.raio * 2)
 
     def iniciar_movimento(self):
-        self.velocidade_x = random.choice([1,2,3,4])
-        self.velocidade_y = -1
+        self.velocidade_x = random.choice([1,2,3])
+        self.velocidade_y = -3
         self.rect.center = (self.x, self.y)
 
     def atualizar(self):
@@ -140,6 +150,26 @@ class Bola:
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
+        self.num_fileiras = 4
+        self.num_blocos_por_fileira = 8
+        self.espaco_blocos = 8  # Espaço entre os blocos
+        self.largura_bloco = (self.jogo.largura - (self.num_blocos_por_fileira + 1) * self.espaco_blocos) / self.num_blocos_por_fileira
+        self.altura_bloco = 20
+        self.blocos = []
+        self.criar_blocos()
+
+    def criar_blocos(self):
+        for i in range(self.num_fileiras):
+            for j in range(self.num_blocos_por_fileira):
+                x = self.espaco_blocos + j * (self.largura_bloco + self.espaco_blocos)
+                y = self.espaco_blocos + i * (self.altura_bloco + self.espaco_blocos)
+                bloco = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
+                self.blocos.append(bloco)
+
+    def desenhar_blocos(self):
+        for bloco in self.blocos:
+            pygame.draw.rect(self.jogo.tela, (97,155,100), bloco)
+
 
 if __name__ == "__main__":
     jogo = Jogo()

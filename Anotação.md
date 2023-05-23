@@ -1,6 +1,5 @@
 # Parte 1
 
-
 """ Na função Player_colisao(), a linha self.jogo.x = self.colisao.right - self.player.width é responsável por ajustar a posição do jogador caso ele ultrapasse a borda direita da tela.
 
 Vamos analisar essa linha em detalhes:
@@ -30,7 +29,6 @@ Classe Bola: No método atualizar(), atualizei a posição da bola com base nas 
 ---
 
 ## Parte 2
-
 
 Esse código é uma implementação básica de um jogo chamado "Block-Bricks" usando a biblioteca Pygame em Python. Vou explicar cada parte do código passo a passo:
 
@@ -99,5 +97,16 @@ Esse código é uma implementação básica de um jogo chamado "Block-Bricks" us
     - O bloco principal de execução cria um objeto `Jogo` e chama o método `run` para iniciar o jogo.
 
 Espero que esta explicação passo a passo tenha sido útil para entender o funcionamento do código. Se você tiver alguma dúvida específica sobre algum ponto, sinta-se à vontade para perguntar!
+
+---
+
+# Blocos
+
+
+1. Criamos uma nova classe chamada `Bloco` para representar cada bloco individualmente. Cada bloco possui uma posição (coordenadas x e y), largura e altura, representados pela classe `pygame.Rect`.
+2. Na classe `Blocos`, adicionamos um novo método chamado `gerar_blocos`. Esse método é responsável por gerar uma lista de blocos com posições aleatórias dentro das bordas definidas. Utilizamos um loop para criar um número específico de blocos (no exemplo, são gerados 10 blocos), e a função `random.randint` é usada para definir a posição x de cada bloco dentro dos limites permitidos. O espaçamento entre os blocos é calculado para garantir que eles não se sobreponham e fiquem distribuídos uniformemente na tela.
+3. Adicionamos o método `desenhar_blocos` na classe `Blocos` para desenhar os blocos na tela. Utilizamos a função `pygame.draw.rect` para desenhar um retângulo representando cada bloco com a cor (150, 150, 150).
+4. No método `verificar_colisao` da classe `Jogo`, adicionamos um novo loop que verifica se houve colisão entre a bola e cada bloco. Se houver colisão, invertemos a direção da bola e removemos o bloco da lista de blocos usando o método `remover_bloco` da classe `Blocos`.
+5. No método `reset` da classe `Jogo`, adicionamos a chamada ao método `reset` da classe `Blocos` para limpar a lista de blocos e gerar novos blocos para um novo jogo.
 
 ---
