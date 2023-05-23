@@ -43,7 +43,7 @@ class Jogo:
     def layout(self):
         self.tela.fill((0,0,0))
         if not self.jogo_iniciado:
-            self.exibir_mensagem("Pressione Enter para iniciar o jogo", (self.largura // 2, self.altura // 2))
+            self.exibir_mensagem("Pressione 'Enter' para iniciar o jogo", (self.largura // 2, self.altura // 2))
 
         pygame.draw.circle(self.tela, (255, 255, 255), ((self.bola.x), (self.bola.y)), self.bola.raio)
         pygame.draw.rect(self.tela, (255, 0, 0), ((self.player.x), (self.player.y), 40, 5))
@@ -62,6 +62,7 @@ class Jogo:
         if self.bola.rect.colliderect(self.player.rect):
             self.bola.inverter_direcao()
         elif self.bola.y + self.bola.raio >= self.altura - 190:
+            self.blocos.resetar_blocos()
             self.reset()
             return
 
@@ -70,7 +71,6 @@ class Jogo:
                 self.bola.inverter_direcao()
                 self.blocos.blocos.remove(bloco)
                 break
-
 
     def reset(self):
         self.jogo_iniciado = False
@@ -152,7 +152,7 @@ class Blocos:
         self.jogo = jogo
         self.num_fileiras = 4
         self.num_blocos_por_fileira = 8
-        self.espaco_blocos = 8  # Espaço entre os blocos
+        self.espaco_blocos = 8  
         self.largura_bloco = (self.jogo.largura - (self.num_blocos_por_fileira + 1) * self.espaco_blocos) / self.num_blocos_por_fileira
         self.altura_bloco = 20
         self.blocos = []
@@ -170,6 +170,9 @@ class Blocos:
         for bloco in self.blocos:
             pygame.draw.rect(self.jogo.tela, (97,155,100), bloco)
 
+    def resetar_blocos(self):
+        self.blocos = []
+        self.criar_blocos()
 
 if __name__ == "__main__":
     jogo = Jogo()
