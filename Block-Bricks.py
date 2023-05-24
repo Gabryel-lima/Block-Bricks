@@ -10,6 +10,8 @@ class Jogo:
         self.relogio = pygame.time.Clock()
         self.largura = 600
         self.altura = 600
+        self.pontos = 0
+        self.mesg = f'Pontos: {self.pontos}'
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
@@ -17,28 +19,6 @@ class Jogo:
         self.bola = Bola(self)
         self.blocos = Blocos(self)
         self.jogo_iniciado = False
-
-    def run(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    exit()
-
-                if not self.jogo_iniciado:
-                    if event.type == KEYDOWN and event.key == K_RETURN:
-                        self.jogo_iniciado = True
-                        self.bola.iniciar_movimento()
-
-            self.relogio.tick(60)
-            self.layout()
-            if self.jogo_iniciado:
-                self.player.input_player()
-                self.player.player_colisao()
-                self.bola.atualizar()
-                self.verificar_colisao()
-
-            pygame.display.update()
 
     def layout(self):
         self.tela.fill((0,0,0))
@@ -48,7 +28,7 @@ class Jogo:
         pygame.draw.circle(self.tela, (255, 255, 255), ((self.bola.x), (self.bola.y)), self.bola.raio)
         pygame.draw.rect(self.tela, (255, 0, 0), ((self.player.x), (self.player.y), 40, 5))
         pygame.draw.rect(self.tela, (120, 150, 145), self.borda, 3)
-
+        
         self.blocos.desenhar_blocos()
 
     def exibir_mensagem(self, texto, posicao):
@@ -58,19 +38,61 @@ class Jogo:
         retangulo.center = posicao
         self.tela.blit(mensagem, retangulo)
 
+    def exibir_pontuacao(self):
+        mensagem = self.mesg
+        texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (40,430))
+
+    def atualiza_pontuacao(self):
+        self.pontos += 1
+        self.mesg = f'Pontos: {self.pontos}'
+
+    def reset_pontos(self):
+        if self.jogo_iniciado == True:
+            self.pontos = 0
+            self.mesg = f'Pontos: {self.pontos}'
+
+    def run(self):
+
+        while True:
+            
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    exit()
+
+                if not self.jogo_iniciado:
+                    if event.type == KEYDOWN and event.key == K_RETURN:
+                        self.jogo_iniciado = True
+                        self.reset_pontos()
+                        self.bola.iniciar_movimento()
+
+            self.relogio.tick(60)
+            self.layout()
+            if self.jogo_iniciado:
+                self.exibir_pontuacao()
+                self.verificar_colisao()
+                self.player.input_player()
+                self.player.player_colisao()
+                self.bola.atualizar()
+
+            pygame.display.update()
+
     def verificar_colisao(self):
         if self.bola.rect.colliderect(self.player.rect):
             self.bola.inverter_direcao()
-        elif self.bola.y + self.bola.raio >= self.altura - 190:
+
+        elif self.bola.y + self.bola.raio >= self.altura - 180:
             self.blocos.resetar_blocos()
             self.reset()
             return
 
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
+                self.atualiza_pontuacao()
                 self.bola.inverter_direcao()
                 self.blocos.blocos.remove(bloco)
-                break
+                break  # Adicionado para sair do loop após a colisão
 
     def reset(self):
         self.jogo_iniciado = False
@@ -122,8 +144,8 @@ class Bola:
         self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 2, self.raio * 2)
 
     def iniciar_movimento(self):
-        self.velocidade_x = random.choice([1,2,3])
-        self.velocidade_y = -3
+        self.velocidade_x = random.choice([-1,-2,-3,1,2,3])
+        self.velocidade_y = random.choice([-3,-4,-5])
         self.rect.center = (self.x, self.y)
 
     def atualizar(self):
@@ -139,6 +161,7 @@ class Bola:
 
     def inverter_direcao(self):
         self.velocidade_y *= -1
+        self.velocidade_x *= 1
 
     def reset(self):
         self.x = 300
@@ -152,29 +175,28 @@ class Blocos:
         self.jogo = jogo
         self.num_fileiras = 4
         self.num_blocos_por_fileira = 8
-        self.espaco_blocos = 8  
+        self.espaco_blocos = 16
         self.largura_bloco = (self.jogo.largura - (self.num_blocos_por_fileira + 1) * self.espaco_blocos) / self.num_blocos_por_fileira
         self.altura_bloco = 20
         self.blocos = []
         self.criar_blocos()
 
     def criar_blocos(self):
-        for i in range(self.num_fileiras):
-            for j in range(self.num_blocos_por_fileira):
-                x = self.espaco_blocos + j * (self.largura_bloco + self.espaco_blocos)
-                y = self.espaco_blocos + i * (self.altura_bloco + self.espaco_blocos)
+        for fileira in range(self.num_fileiras):
+            for coluna in range(self.num_blocos_por_fileira):
+                x = self.espaco_blocos + coluna * (self.largura_bloco + self.espaco_blocos)
+                y = self.espaco_blocos + fileira * (self.altura_bloco + self.espaco_blocos)
                 bloco = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
                 self.blocos.append(bloco)
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
-            pygame.draw.rect(self.jogo.tela, (97,155,100), bloco)
+            pygame.draw.rect(self.jogo.tela, (100,100,100), bloco)
 
     def resetar_blocos(self):
-        self.blocos = []
+        self.blocos.clear()
         self.criar_blocos()
 
 if __name__ == "__main__":
     jogo = Jogo()
     jogo.run()
-
