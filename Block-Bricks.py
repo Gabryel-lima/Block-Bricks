@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from sys import exit
+import os
 import random
 
 class Jogo:
@@ -59,7 +60,7 @@ class Jogo:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
-                    exit()
+                    os._exit(0)
 
                 if not self.jogo_iniciado:
                     if event.type == KEYDOWN and event.key == K_RETURN:
@@ -110,6 +111,7 @@ class Player:
     def input_player(self):
         novo_x = self.x
         if pygame.key.get_pressed()[K_a]:
+            
             novo_x -= 3.5
 
         if pygame.key.get_pressed()[K_d]:
