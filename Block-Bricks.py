@@ -13,6 +13,7 @@ class Jogo:
         self.altura = 600
         self.pontos = 0
         self.mesg = f'Pontos: {self.pontos}'
+        self.mesgfim = f'Fim de jogo!'
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
@@ -26,15 +27,15 @@ class Jogo:
         if not self.jogo_iniciado:
             self.exibir_mensagem("Pressione 'Enter' para iniciar o jogo", (self.largura // 2, self.altura // 2))
 
-        pygame.draw.circle(self.tela, (255, 255, 255), ((self.bola.x), (self.bola.y)), self.bola.raio)
-        pygame.draw.rect(self.tela, (255, 0, 0), ((self.player.x), (self.player.y), 40, 5))
-        pygame.draw.rect(self.tela, (120, 150, 145), self.borda, 3)
+        pygame.draw.circle(self.tela, (255,255,255), ((self.bola.x), (self.bola.y)), self.bola.raio)
+        pygame.draw.rect(self.tela, (255,0,0), ((self.player.x), (self.player.y), 40, 5))
+        pygame.draw.rect(self.tela, (120,150,145), self.borda, 3)
         
         self.blocos.desenhar_blocos()
 
     def exibir_mensagem(self, texto, posicao):
         fonte = pygame.font.Font(None, 30)
-        mensagem = fonte.render(texto, True, (255, 255, 255))
+        mensagem = fonte.render(texto, True, (255,255,255))
         retangulo = mensagem.get_rect()
         retangulo.center = posicao
         self.tela.blit(mensagem, retangulo)
@@ -43,6 +44,11 @@ class Jogo:
         mensagem = self.mesg
         texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, (40,430))
+
+    def mensagem_fim_de_jogo(self):
+        mensagem = self.mesgfim
+        texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (215,225))
 
     def atualiza_pontuacao(self):
         self.pontos += 1
@@ -84,10 +90,11 @@ class Jogo:
             self.bola.inverter_direcao()
 
         elif self.bola.y + self.bola.raio >= self.altura - 180:
+            self.mensagem_fim_de_jogo()
             self.blocos.resetar_blocos()
             self.reset()
             return
-
+            
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
                 self.atualiza_pontuacao()
@@ -96,9 +103,10 @@ class Jogo:
                 break  # Adicionado para sair do loop após a colisão
 
     def reset(self):
-        self.jogo_iniciado = False
-        self.bola.reset()
-        self.player.reset()
+        if self.verificar_colisao == self.mensagem_fim_de_jogo:
+            self.jogo_iniciado = False
+            self.bola.reset()
+            self.player.reset()
 
 class TelaInicial:
         def __init__(self):
@@ -147,7 +155,7 @@ class Bola:
         self.velocidade_x = 0
         self.velocidade_y = 0
         self.raio = 5
-        self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 2, self.raio * 2)
+        self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 1, self.raio * 1)
 
     def iniciar_movimento(self):
         self.velocidade_x = random.choice([-1,-2,-3,1,2,3])
@@ -179,8 +187,8 @@ class Bola:
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_fileiras = 4
-        self.num_blocos_por_fileira = 8
+        self.num_fileiras = 1 #4
+        self.num_blocos_por_fileira = 1 #8
         self.espaco_blocos = 16
         self.largura_bloco = (self.jogo.largura - (self.num_blocos_por_fileira + 1) * self.espaco_blocos) / self.num_blocos_por_fileira
         self.altura_bloco = 20
