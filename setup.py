@@ -6,7 +6,6 @@ setup(
     name="Block-Bricks",
     version="1.0",
     description="Jogo",
-    icon= "nome_do_icone.ico",
     executables=executables
 )
 

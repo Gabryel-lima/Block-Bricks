@@ -100,6 +100,10 @@ class Jogo:
         self.bola.reset()
         self.player.reset()
 
+class TelaInicial:
+        def __init__(self):
+            pass
+
 class Player:
     def __init__(self, jogo, borda):
         self.jogo = jogo
