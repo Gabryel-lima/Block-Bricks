@@ -69,31 +69,6 @@ class Jogo:
 
     def niveis_count(self):
         self.nivel += 1
-        
-    def run(self):
-        
-        while True:
-            
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    os._exit(0)
-
-                if not self.jogo_iniciado:
-                    if event.type == KEYDOWN and event.key == K_RETURN:
-                        self.jogo_iniciado = True
-                        self.bola.iniciar_movimento()
-
-            self.relogio.tick(60)
-            self.layout()
-            if self.jogo_iniciado:
-                self.exibir_pontuacao()
-                self.verificar_colisao()
-                self.player.input_player()
-                self.bola.atualizar()
-
-            self.mensagem_fim_de_jogo()
-            pygame.display.update()
 
     def verificar_colisao(self):
         if self.bola.rect.colliderect(self.player.rect):
@@ -120,9 +95,32 @@ class Jogo:
         self.bola.reset()
         self.player.reset()
 
-class TelaInicial:
-        def __init__(self):
-            pass
+class TelaInicial(Jogo):
+    def __init__(self):
+        super().__init__()
+
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
+
+                if not self.jogo_iniciado:
+                    if event.type == KEYDOWN and event.key == K_RETURN:
+                        self.jogo_iniciado = True
+                        self.bola.iniciar_movimento()
+
+            self.relogio.tick(60)
+            self.layout()
+            if self.jogo_iniciado:
+                self.exibir_pontuacao()
+                self.verificar_colisao()
+                self.player.input_player()
+                self.bola.atualizar()
+
+            self.mensagem_fim_de_jogo()
+            pygame.display.update()
 
 class Player:
     def __init__(self, jogo, borda):
@@ -223,5 +221,5 @@ class Blocos:
         self.criar_blocos()
 
 if __name__ == "__main__":
-    jogo = Jogo()
+    jogo = TelaInicial()
     jogo.run()
