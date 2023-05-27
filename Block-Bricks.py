@@ -63,9 +63,13 @@ class Jogo:
         if self.mensagem_fim_de_jogo == True:
             self.mesg = f'Pontos: {self.pontos}'
 
+        else:
+            self.pontos = 0
+            self.mesg = f'Pontos: {self.pontos}'
+
     def niveis_count(self):
         self.nivel += 1
-
+        
     def run(self):
         
         while True:
@@ -103,7 +107,7 @@ class Jogo:
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
             self.reset()
-            return
+            
         
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
