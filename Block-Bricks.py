@@ -11,6 +11,7 @@ class Jogo:
         self.largura = 600
         self.altura = 600
         self.pontos = 0
+        self.nivel = 1
         self.mesg = f'Pontos: {self.pontos}'
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
@@ -44,9 +45,10 @@ class Jogo:
         self.tela.blit(texto_formatado, (40,430))
 
     def mensagem_fim_de_jogo(self):
-        if len(self.blocos.blocos) == 0 or self.bola.y + self.bola.raio >= self.altura - 180:
-            texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  
-            self.tela.blit(texto_formatado, (215,225))
+        if len(self.blocos.blocos) == 0:
+            texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
+            self.tela.blit(texto_formatado, (self.altura // 2 - 100, self.largura // 2 - 80))
+            self.niveis()
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
@@ -58,9 +60,11 @@ class Jogo:
         self.mesg = f'Pontos: {self.pontos}'
 
     def reset_pontos(self):
-        if self.jogo_iniciado == True:
-            self.pontos = 0
+        if self.mensagem_fim_de_jogo == True:
             self.mesg = f'Pontos: {self.pontos}'
+
+    def niveis(self):
+        self.nivel += 1
 
     def run(self):
         
@@ -91,6 +95,15 @@ class Jogo:
     def verificar_colisao(self):
         if self.bola.rect.colliderect(self.player.rect):
             self.bola.inverter_direcao()
+
+        if self.bola.y + self.bola.raio >= self.altura - 180:
+            texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  
+            self.tela.blit(texto_formatado, (215,225))
+            pygame.display.flip()
+            pygame.time.delay(3000)
+            self.blocos.resetar_blocos()
+            self.reset()
+            return
         
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
@@ -182,8 +195,8 @@ class Bola:
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_fileiras = 4 #4
-        self.num_blocos_por_fileira = 8 #8
+        self.num_fileiras = 1 #4
+        self.num_blocos_por_fileira = 1 #8
         self.espaco_blocos = 16
         self.largura_bloco = (self.jogo.largura - (self.num_blocos_por_fileira + 1) * self.espaco_blocos) / self.num_blocos_por_fileira
         self.altura_bloco = 20
