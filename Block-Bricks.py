@@ -48,7 +48,7 @@ class Jogo:
         if len(self.blocos.blocos) == 0:
             texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
             self.tela.blit(texto_formatado, (self.altura // 2 - 100, self.largura // 2 - 80))
-            self.niveis()
+            self.niveis_count()
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
@@ -63,7 +63,7 @@ class Jogo:
         if self.mensagem_fim_de_jogo == True:
             self.mesg = f'Pontos: {self.pontos}'
 
-    def niveis(self):
+    def niveis_count(self):
         self.nivel += 1
 
     def run(self):
@@ -195,8 +195,8 @@ class Bola:
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_fileiras = 1 #4
-        self.num_blocos_por_fileira = 1 #8
+        self.num_fileiras = 4 #4
+        self.num_blocos_por_fileira = 8 #8
         self.espaco_blocos = 16
         self.largura_bloco = (self.jogo.largura - (self.num_blocos_por_fileira + 1) * self.espaco_blocos) / self.num_blocos_por_fileira
         self.altura_bloco = 20
