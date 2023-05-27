@@ -82,7 +82,6 @@ class Jogo:
                 if not self.jogo_iniciado:
                     if event.type == KEYDOWN and event.key == K_RETURN:
                         self.jogo_iniciado = True
-                        self.reset_pontos()
                         self.bola.iniciar_movimento()
 
             self.relogio.tick(60)
@@ -107,8 +106,8 @@ class Jogo:
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
             self.reset()
+            self.reset_pontos()
             
-        
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
                 self.atualiza_pontuacao()
