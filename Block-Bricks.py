@@ -89,7 +89,7 @@ class Jogo:
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
                 self.atualiza_pontuacao()
-                self.bola.inverter_direcao()
+                self.bola.inverter_direcaoB()
                 self.som_da_bola_e_bloco()
                 self.blocos.blocos.remove(bloco)
                 break  # Adicionado para sair do loop após a colisão
@@ -100,9 +100,9 @@ class Jogo:
         self.som.play()
 
     def som_de_fim_de_jogo(self):
-       self.som = self.fim_jogo
-       self.som.set_volume(0.30)
-       self.som.play()
+        self.som = self.fim_jogo
+        self.som.set_volume(0.30)
+        self.som.play()
 
     def reset(self):
         self.jogo_iniciado = False
@@ -135,6 +135,56 @@ class TelaInicial(Jogo):
 
             self.mensagem_fim_de_jogo()
             pygame.display.update()
+
+class Bola:
+    def __init__(self, jogo):
+        self.jogo = jogo
+        self.x = 300
+        self.y = 350
+        self.velocidade_x = 0
+        self.velocidade_y = 0
+        self.raio = 5
+        self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 1, self.raio * 1)
+
+    def iniciar_movimento(self):
+        self.velocidade_x = random.randint(-3,3) # random.randint(-5,5) 
+        self.velocidade_y = random.choice([-2,-3,-4]) # random.choice([-3,-4,-5])
+        self.rect.center = (self.x, self.y)
+
+    def atualizar(self):
+        self.x += self.velocidade_x
+        self.y += self.velocidade_y
+        self.rect.center = (self.x, self.y)
+
+        if self.x - self.raio <= 0 or self.x + self.raio >= self.jogo.largura:
+            self.velocidade_x *= -1
+
+        if self.y - self.raio <= 0:
+            self.velocidade_y *= -1      
+
+    def inverter_direcao(self):
+        if pygame.key.get_pressed()[K_a]:
+            self.velocidade_y *= -1
+            self.velocidade_x -= 1
+
+        elif pygame.key.get_pressed()[K_d]:
+            self.velocidade_y *= -1
+            self.velocidade_x += 1
+
+        else:
+            self.velocidade_y *= -1
+            self.velocidade_x *= 1
+
+    def inverter_direcaoB(self):
+        self.velocidade_y *= -1
+        self.velocidade_x *= 1
+
+    def reset(self):
+        self.x = 300
+        self.y = 350
+        self.velocidade_x = 0
+        self.velocidade_y = 0
+        self.rect.center = (self.x, self.y)
 
 class Player:
     def __init__(self, jogo, borda):
@@ -169,43 +219,6 @@ class Player:
     def reset(self):
         self.x = self.jogo.largura // 2 - 40 // 2
         self.rect.x = self.x
-
-class Bola:
-    def __init__(self, jogo):
-        self.jogo = jogo
-        self.x = 300
-        self.y = 350
-        self.velocidade_x = 0
-        self.velocidade_y = 0
-        self.raio = 5
-        self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 1, self.raio * 1)
-
-    def iniciar_movimento(self):
-        self.velocidade_x = 0 # random.randint(-5,5) # random.choice([-1,-2,-3,1,2,3])
-        self.velocidade_y = random.choice([-3,-4,-5]) # random.choice([-3,-4,-5])
-        self.rect.center = (self.x, self.y)
-
-    def atualizar(self):
-        self.x += self.velocidade_x
-        self.y += self.velocidade_y
-        self.rect.center = (self.x, self.y)
-
-        if self.x - self.raio <= 0 or self.x + self.raio >= self.jogo.largura:
-            self.velocidade_x *= -1
-
-        if self.y - self.raio <= 0:
-            self.velocidade_y *= -1      
-
-    def inverter_direcao(self):
-        self.velocidade_y *= -1
-        self.velocidade_x *= 1
-
-    def reset(self):
-        self.x = 300
-        self.y = 350
-        self.velocidade_x = 0
-        self.velocidade_y = 0
-        self.rect.center = (self.x, self.y)
 
 class Blocos:
     def __init__(self, jogo):
