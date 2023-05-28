@@ -11,6 +11,8 @@ class Jogo:
         self.largura = 600
         self.altura = 600
         self.pontos = 0
+        self.fim_jogo = pygame.mixer.Sound('sounds/som_de_fim.wav')
+        self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
         self.nivel = 1
         self.mesg = f'Pontos: {self.pontos}'
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
@@ -77,6 +79,7 @@ class Jogo:
         if self.bola.y + self.bola.raio >= self.altura - 180:
             texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  
             self.tela.blit(texto_formatado, (215,225))
+            self.som_de_fim_de_jogo()
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
@@ -87,8 +90,19 @@ class Jogo:
             if self.bola.rect.colliderect(bloco):
                 self.atualiza_pontuacao()
                 self.bola.inverter_direcao()
+                self.som_da_bola_e_bloco()
                 self.blocos.blocos.remove(bloco)
                 break  # Adicionado para sair do loop após a colisão
+
+    def som_da_bola_e_bloco(self):
+        self.som = self.som_colisao
+        self.som.set_volume(0.30)
+        self.som.play()
+
+    def som_de_fim_de_jogo(self):
+       self.som = self.fim_jogo
+       self.som.set_volume(0.30)
+       self.som.play()
 
     def reset(self):
         self.jogo_iniciado = False
@@ -167,8 +181,8 @@ class Bola:
         self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 1, self.raio * 1)
 
     def iniciar_movimento(self):
-        self.velocidade_x = random.choice([-1,-2,-3,1,2,3])
-        self.velocidade_y = random.choice([-3,-4,-5])
+        self.velocidade_x = 0 # random.randint(-5,5) # random.choice([-1,-2,-3,1,2,3])
+        self.velocidade_y = random.choice([-3,-4,-5]) # random.choice([-3,-4,-5])
         self.rect.center = (self.x, self.y)
 
     def atualizar(self):
@@ -219,6 +233,13 @@ class Blocos:
     def resetar_blocos(self):
         self.blocos.clear()
         self.criar_blocos()
+
+class criacao_niveis(Jogo,Bola,Blocos):
+    def __init__(self):
+        super.__init__()
+
+    def nivel_1(self):
+        pass
 
 if __name__ == "__main__":
     jogo = TelaInicial()
