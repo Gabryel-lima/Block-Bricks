@@ -11,6 +11,7 @@ class Jogo:
         self.largura = 600
         self.altura = 600
         self.pontos = 0
+        self.som_fim_nivel = pygame.mixer.Sound('sounds/som_fim_nivel.wav')
         self.fim_jogo = pygame.mixer.Sound('sounds/som_de_fim.wav')
         self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
         self.nivel = 1
@@ -51,6 +52,7 @@ class Jogo:
             texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
             self.tela.blit(texto_formatado, (self.altura // 2 - 100, self.largura // 2 - 80))
             self.niveis_count()
+            self.som_de_fim_de_nivel()
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
@@ -101,6 +103,11 @@ class Jogo:
 
     def som_de_fim_de_jogo(self):
         self.som = self.fim_jogo
+        self.som.set_volume(0.30)
+        self.som.play()
+
+    def som_de_fim_de_nivel(self):
+        self.som = self.som_fim_nivel
         self.som.set_volume(0.30)
         self.som.play()
 
