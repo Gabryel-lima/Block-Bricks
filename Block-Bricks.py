@@ -15,6 +15,7 @@ class Jogo:
         self.fim_jogo = pygame.mixer.Sound('sounds/som_de_fim.wav')
         self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
         self.nivel = 1
+        self.mesg_nivel = f'Nivel: {self.nivel}'
         self.mesg = f'Pontos: {self.pontos}'
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
@@ -46,6 +47,11 @@ class Jogo:
         mensagem = self.mesg
         texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, (40,430))
+
+    def exibir_nivel(self):
+        mensagem = self.mesg_nivel
+        texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (40,480))
 
     def mensagem_fim_de_jogo(self):
         if len(self.blocos.blocos) == 0:
@@ -135,6 +141,7 @@ class TelaInicial(Jogo):
             self.relogio.tick(60)
             self.layout()
             if self.jogo_iniciado:
+                self.exibir_nivel()
                 self.exibir_pontuacao()
                 self.verificar_colisao()
                 self.player.input_player()
