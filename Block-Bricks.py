@@ -25,6 +25,52 @@ class Jogo:
         self.blocos = Blocos(self)
         self.jogo_iniciado = False
 
+    def verificar_colisao(self):
+        if self.bola.rect.colliderect(self.player.rect):
+            self.bola.inverter_direcao()
+
+        if self.bola.y + self.bola.raio >= self.altura - 180:
+            texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  
+            self.tela.blit(texto_formatado, (215,225))
+            self.som_de_fim_de_jogo()
+            pygame.display.flip()
+            pygame.time.delay(3000)
+            self.blocos.resetar_blocos()
+            self.reset()
+            self.reset_pontos()
+            
+        for bloco in self.blocos.blocos:
+            if self.bola.rect.colliderect(bloco):
+                self.atualiza_pontuacao()
+                self.bola.inverter_direcaoB()
+                self.som_da_bola_e_bloco()
+                self.blocos.blocos.remove(bloco)
+                break  # Adicionado para sair do loop após a colisão
+
+    def som_da_bola_e_bloco(self):
+        self.som = self.som_colisao
+        self.som.set_volume(0.30)
+        self.som.play()
+
+    def som_de_fim_de_jogo(self):
+        self.som = self.fim_jogo
+        self.som.set_volume(0.30)
+        self.som.play()
+
+    def som_de_fim_de_nivel(self):
+        self.som = self.som_fim_nivel
+        self.som.set_volume(0.30)
+        self.som.play()
+
+    def reset(self):
+        self.jogo_iniciado = False
+        self.bola.reset()
+        self.player.reset()
+
+class TelaInicial(Jogo):
+    def __init__(self):
+        super().__init__()
+
     def layout(self):
         self.tela.fill((0,0,0))
         if not self.jogo_iniciado:
@@ -79,52 +125,6 @@ class Jogo:
 
     def niveis_count(self):
         self.nivel += 1
-
-    def verificar_colisao(self):
-        if self.bola.rect.colliderect(self.player.rect):
-            self.bola.inverter_direcao()
-
-        if self.bola.y + self.bola.raio >= self.altura - 180:
-            texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  
-            self.tela.blit(texto_formatado, (215,225))
-            self.som_de_fim_de_jogo()
-            pygame.display.flip()
-            pygame.time.delay(3000)
-            self.blocos.resetar_blocos()
-            self.reset()
-            self.reset_pontos()
-            
-        for bloco in self.blocos.blocos:
-            if self.bola.rect.colliderect(bloco):
-                self.atualiza_pontuacao()
-                self.bola.inverter_direcaoB()
-                self.som_da_bola_e_bloco()
-                self.blocos.blocos.remove(bloco)
-                break  # Adicionado para sair do loop após a colisão
-
-    def som_da_bola_e_bloco(self):
-        self.som = self.som_colisao
-        self.som.set_volume(0.30)
-        self.som.play()
-
-    def som_de_fim_de_jogo(self):
-        self.som = self.fim_jogo
-        self.som.set_volume(0.30)
-        self.som.play()
-
-    def som_de_fim_de_nivel(self):
-        self.som = self.som_fim_nivel
-        self.som.set_volume(0.30)
-        self.som.play()
-
-    def reset(self):
-        self.jogo_iniciado = False
-        self.bola.reset()
-        self.player.reset()
-
-class TelaInicial(Jogo):
-    def __init__(self):
-        super().__init__()
 
     def run(self):
         while True:
