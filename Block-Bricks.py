@@ -213,8 +213,14 @@ class Player:
         if pygame.key.get_pressed()[K_a]:
             novo_x -= 3.5
 
+            if pygame.key.get_pressed()[K_LSHIFT]:
+                novo_x -= 5
+
         if pygame.key.get_pressed()[K_d]:
             novo_x += 3.5
+
+            if pygame.key.get_pressed()[K_LSHIFT]:
+                novo_x += 5
 
         if self.colisao.left <= novo_x <= self.colisao.right - 40:
             self.x = novo_x
