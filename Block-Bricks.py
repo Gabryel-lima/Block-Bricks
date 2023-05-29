@@ -243,16 +243,16 @@ class Player:
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_fileiras = 4 #4
+        self.num_colunas = 4 #4
         self.num_blocos_por_fileira = 8 #8
         self.espaco_blocos = 16
-        self.largura_bloco = (self.jogo.largura - (self.num_blocos_por_fileira + 1) * self.espaco_blocos) / self.num_blocos_por_fileira
+        self.largura_bloco = self.num_blocos_por_fileira + 49 
         self.altura_bloco = 20
         self.blocos = []
         self.criar_blocos()
 
     def criar_blocos(self):
-        for fileira in range(self.num_fileiras):
+        for fileira in range(self.num_colunas):
             for coluna in range(self.num_blocos_por_fileira):
                 x = self.espaco_blocos + coluna * (self.largura_bloco + self.espaco_blocos)
                 y = self.espaco_blocos + fileira * (self.altura_bloco + self.espaco_blocos)
