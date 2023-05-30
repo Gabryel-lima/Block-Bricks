@@ -20,8 +20,8 @@ class Jogo:
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
-        self.player = Player(self, self.borda)
-        self.bola = Bola(self)
+        self.player = Player(self, self.borda, self.tela)
+        self.bola = Bola(self, self.tela)
         self.blocos = Blocos(self)
         self.jogo_iniciado = False
 
@@ -70,19 +70,77 @@ class Jogo:
 class TelaInicial(Jogo):
     def __init__(self):
         super().__init__()
+        self.modo1 = f'Player 1'
+        self.modo2 = f'Player 2'
+        self.largurab = self.largura
+        self.alturab = self.altura
+        self.cor_modo1 = (255,255,255)  
+        self.cor_modo2 = (255,255,255)
+        self.rect1 = pygame.Rect(240,170,100,30)
+        self.rect2 = pygame.Rect(240,220,100,30)
+
+    def desenho_borda(self):
+        pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
+
+    def botoes_tela_inicial(self):
+        pos_mouse = pygame.mouse.get_pos()
+        mod1 = self.modo1
+        mod2 = self.modo2
+        rect_modo1 = self.rect1
+        rect_modo2 = self.rect2
+
+        if rect_modo1.collidepoint(pos_mouse):
+            self.cor_modo1 = (150,150,150) 
+        else:
+            self.cor_modo1 = (255,255,255)  
+
+        if rect_modo2.collidepoint(pos_mouse):
+            self.cor_modo2 = (150,150,150) 
+        else:
+            self.cor_modo2 = (255,255,255)  
+
+        if self.rect1.width > 0 and self.rect2.width > 0:  
+            texto_formatado1 = self.fonte.render(mod1, False, self.cor_modo1)
+            self.tela.blit(texto_formatado1, (240, 170))
+            texto_formatado2 = self.fonte.render(mod2, False, self.cor_modo2)
+            self.tela.blit(texto_formatado2, (240, 220))
+
+    def selecao_de_modos(self):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                os._exit(0)
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == pygame.BUTTON_LEFT:
+                pos_mouse = pygame.mouse.get_pos()
+
+                if not self.jogo_iniciado:
+                    if self.rect1.collidepoint(pos_mouse):
+                        self.rect1 = pygame.Rect(0,0,0,0)
+                        self.jogo_iniciado = True
+                        self.bola.iniciar_movimento()
+
+                    elif self.rect2.collidepoint(pos_mouse):
+                        self.rect2 = pygame.Rect(0,0,0,0)
+                        self.jogo_iniciado = True
+                        self.bola.iniciar_movimento()
+
+                self.exibir_mensagem("Pressione 'Enter' para iniciar o jogo", (self.largura // 2, self.altura // 2))
+                if event.type == KEYDOWN and event.key == K_RETURN:
+                    self.jogo_iniciado = True
+                    self.bola.iniciar_movimento()
 
     def layout(self):
         self.tela.fill((0,0,0))
-        if not self.jogo_iniciado:
-            self.exibir_mensagem("Pressione 'Enter' para iniciar o jogo", (self.largura // 2, self.altura // 2))
+        self.botoes_tela_inicial()
+        self.selecao_de_modos()
 
-        pygame.draw.circle(self.tela, (255,255,255), ((self.bola.x), (self.bola.y)), self.bola.raio)
-        pygame.draw.rect(self.tela, (255,0,0), ((self.player.x), (self.player.y), 40, 5))
-        pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
-        
+        self.bola.desenho_bola()
+        self.player.desenho_player()
+        self.desenho_borda()
         self.blocos.desenhar_blocos()
 
-    def exibir_mensagem(self, texto, posicao):
+    def exibir_mensagem(self, texto, posicao): # Bom exemplo de adaptação de texto no futuro.
         fonte = pygame.font.Font(None, 30)
         mensagem = fonte.render(texto, True, (255,255,255))
         retangulo = mensagem.get_rect()
@@ -128,15 +186,11 @@ class TelaInicial(Jogo):
 
     def run(self):
         while True:
+            
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
                     os._exit(0)
-
-                if not self.jogo_iniciado:
-                    if event.type == KEYDOWN and event.key == K_RETURN:
-                        self.jogo_iniciado = True
-                        self.bola.iniciar_movimento()
 
             self.relogio.tick(60)
             self.layout()
@@ -151,7 +205,8 @@ class TelaInicial(Jogo):
             pygame.display.update()
 
 class Bola:
-    def __init__(self, jogo):
+    def __init__(self, jogo, tela):
+        self.tela = tela
         self.jogo = jogo
         self.x = 300
         self.y = 350
@@ -159,6 +214,9 @@ class Bola:
         self.velocidade_y = 0
         self.raio = 5
         self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 1, self.raio * 1)
+        
+    def desenho_bola(self):
+        pygame.draw.circle(self.tela, (255,255,255), ((self.x), (self.y)), self.raio)
 
     def iniciar_movimento(self):
         self.velocidade_x = random.randint(-3,3) # random.randint(-5,5) 
@@ -184,7 +242,6 @@ class Bola:
         elif pygame.key.get_pressed()[K_d]:
             self.velocidade_y *= -1
             self.velocidade_x += 1
-
         else:
             self.velocidade_y *= -1
             self.velocidade_x *= 1
@@ -201,12 +258,16 @@ class Bola:
         self.rect.center = (self.x, self.y)
 
 class Player:
-    def __init__(self, jogo, borda):
+    def __init__(self, jogo, borda, tela):
+        self.tela = tela
         self.jogo = jogo
         self.colisao = borda
         self.x = self.jogo.largura // 2 - 40 // 2
         self.y = self.jogo.altura // 2 - 5 // 2 + 100
         self.rect = pygame.Rect(self.x, self.y, 40, 5)
+
+    def desenho_player(self):
+        pygame.draw.rect(self.tela, (255,0,0), ((self.x), (self.y), 40, 5))
 
     def input_player(self):
         novo_x = self.x
@@ -239,6 +300,11 @@ class Player:
     def reset(self):
         self.x = self.jogo.largura // 2 - 40 // 2
         self.rect.x = self.x
+
+class PLayer2(Player):
+    def __init__(self):
+        super().__init__()
+        pass
 
 class Blocos:
     def __init__(self, jogo):
