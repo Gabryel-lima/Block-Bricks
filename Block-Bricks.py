@@ -66,6 +66,8 @@ class Jogo:
         self.jogo_iniciado = False
         self.bola.reset()
         self.player.reset()
+        self.rect1 = pygame.Rect(240,170,100,30)
+        self.rect2 = pygame.Rect(240,220,100,30)
 
 class TelaInicial(Jogo):
     def __init__(self):
@@ -103,7 +105,7 @@ class TelaInicial(Jogo):
             texto_formatado1 = self.fonte.render(mod1, False, self.cor_modo1)
             self.tela.blit(texto_formatado1, (240, 170))
             texto_formatado2 = self.fonte.render(mod2, False, self.cor_modo2)
-            self.tela.blit(texto_formatado2, (240, 220))
+            self.tela.blit(texto_formatado2, (240, 230))
 
     def selecao_de_modos(self):
         for event in pygame.event.get():
@@ -115,6 +117,7 @@ class TelaInicial(Jogo):
                 pos_mouse = pygame.mouse.get_pos()
 
                 if not self.jogo_iniciado:
+                    
                     if self.rect1.collidepoint(pos_mouse):
                         self.rect1 = pygame.Rect(0,0,0,0)
                         self.jogo_iniciado = True
@@ -125,27 +128,19 @@ class TelaInicial(Jogo):
                         self.jogo_iniciado = True
                         self.bola.iniciar_movimento()
 
-                self.exibir_mensagem("Pressione 'Enter' para iniciar o jogo", (self.largura // 2, self.altura // 2))
-                if event.type == KEYDOWN and event.key == K_RETURN:
-                    self.jogo_iniciado = True
-                    self.bola.iniciar_movimento()
-
     def layout(self):
         self.tela.fill((0,0,0))
+        self.desenho_borda()
         self.botoes_tela_inicial()
         self.selecao_de_modos()
 
-        self.bola.desenho_bola()
-        self.player.desenho_player()
-        self.desenho_borda()
-        self.blocos.desenhar_blocos()
+        if self.jogo_iniciado == True:
+            self.bola.desenho_bola()
+            self.player.desenho_player()
+            self.blocos.desenhar_blocos()
 
-    def exibir_mensagem(self, texto, posicao): # Bom exemplo de adaptação de texto no futuro.
-        fonte = pygame.font.Font(None, 30)
-        mensagem = fonte.render(texto, True, (255,255,255))
-        retangulo = mensagem.get_rect()
-        retangulo.center = posicao
-        self.tela.blit(mensagem, retangulo)
+    def exibir_mensagem(self): 
+        pass
 
     def exibir_pontuacao(self):
         mensagem = self.mesg
@@ -186,14 +181,10 @@ class TelaInicial(Jogo):
 
     def run(self):
         while True:
-            
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    os._exit(0)
 
             self.relogio.tick(60)
             self.layout()
+
             if self.jogo_iniciado:
                 self.exibir_nivel()
                 self.exibir_pontuacao()
