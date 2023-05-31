@@ -16,7 +16,7 @@ class Jogo:
         self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
         self.nivel = 1
         self.mesg_nivel = f'Nivel: {self.nivel}'
-        self.mesg = f'Pontos: {self.pontos}'
+        self.mesg = f'Pontos: {self.pontos}' 
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
@@ -42,6 +42,7 @@ class Jogo:
             if self.bola.rect.colliderect(bloco):
                 self.bola.inverter_direcaoB()
                 self.som_da_bola_e_bloco()
+                self.atualiza_pontuacao()
                 self.blocos.blocos.remove(bloco)
                 break  # Adicionado para sair do loop após a colisão
 
@@ -66,6 +67,21 @@ class Jogo:
         self.player.reset()
         self.rect1 = pygame.Rect(240,170,100,30)
         self.rect2 = pygame.Rect(240,220,100,30)
+
+    def atualiza_pontuacao(self):
+        self.pontos += 1
+        self.mesg = f'Pontos: {self.pontos}'
+
+    def reset_pontos(self):
+        if self.mensagem_fim_de_jogo == True:
+            self.mesg = f'Pontos: {self.pontos}'
+        else:
+            self.pontos = 0
+            self.mesg = f'Pontos: {self.pontos}'
+
+    def niveis_count(self):
+        self.nivel += 1
+        self.mesg_nivel = f'Nivel: {self.nivel}'
 
 class TelaInicial(Jogo):
     def __init__(self):
@@ -111,20 +127,29 @@ class TelaInicial(Jogo):
                 pygame.quit()
                 os._exit(0)
 
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == pygame.BUTTON_LEFT:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 pos_mouse = pygame.mouse.get_pos()
 
-                if not self.jogo_iniciado:
-                    
-                    if self.rect1.collidepoint(pos_mouse):
-                        self.rect1 = pygame.Rect(0,0,0,0)
-                        self.jogo_iniciado = True
-                        self.bola.iniciar_movimento()
+                if self.rect1.collidepoint(pos_mouse) or self.rect2.collidepoint(pos_mouse):
+                    pygame.display.flip()
+                    self.rect1 = pygame.Rect(0,0,0,0)
+                    self.rect2 = pygame.Rect(0,0,0,0)
+                    pygame.time.delay(2000)
 
-                    elif self.rect2.collidepoint(pos_mouse):
-                        self.rect2 = pygame.Rect(0,0,0,0)
-                        self.jogo_iniciado = True
-                        self.bola.iniciar_movimento()
+                    while True:
+                        
+                        for event in pygame.event.get():
+                            if event.type == QUIT:
+                                pygame.quit()
+                                os._exit(0)
+            
+                            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                                self.jogo_iniciado = True
+                                self.bola.iniciar_movimento()
+                                return
+                            else:
+                                self.exibir_mensagem()
+                                pygame.display.update()
 
     def layout(self):
         self.tela.fill((0,0,0))
@@ -138,7 +163,10 @@ class TelaInicial(Jogo):
             self.blocos.desenhar_blocos()
 
     def exibir_mensagem(self): 
-        pass
+        mensagem = f'Pressione a tecla "Enter" para iniciar'
+        fonte = pygame.font.SysFont('times new roman', 25, True, False)
+        texto_formatado = fonte.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (110,205))
 
     def exibir_pontuacao(self):
         mensagem = self.mesg
@@ -161,24 +189,14 @@ class TelaInicial(Jogo):
             self.blocos.resetar_blocos()
             self.reset()
             return
-            
-    def atualiza_pontuacao(self):
-        self.pontos += 1
-        self.mesg = f'Pontos: {self.pontos}'
-
-    def reset_pontos(self):
-        if self.mensagem_fim_de_jogo == True:
-            self.mesg = f'Pontos: {self.pontos}'
-        else:
-            self.pontos = 0
-            self.mesg = f'Pontos: {self.pontos}'
-
-    def niveis_count(self):
-        self.nivel += 1
-        self.mesg_nivel = f'Nivel {self.nivel}'
 
     def run(self):
         while True:
+
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
 
             self.relogio.tick(60)
             self.layout()
