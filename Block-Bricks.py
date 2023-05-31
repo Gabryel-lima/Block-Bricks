@@ -67,8 +67,8 @@ class Jogo:
         self.jogo_iniciado = False
         self.bola.reset()
         self.player.reset()
-        self.rect1 = pygame.Rect(240,170,100,30)
-        self.rect2 = pygame.Rect(240,220,100,30)
+        self.rect_botao_player1 = pygame.Rect(240,170,100,30)
+        self.rect_botao_player2 = pygame.Rect(240,220,100,30)
 
     def atualiza_pontuacao(self):
         self.pontos += 1
@@ -97,37 +97,54 @@ class TelaInicial(Jogo):
         super().__init__()
         self.modo1 = f'Player 1'
         self.modo2 = f'Player 2'
+        self.back = f'<Voltar/>'
         self.largurab = self.largura
         self.alturab = self.altura
-        self.cor_modo1 = (255,255,255)  
-        self.cor_modo2 = (255,255,255)
-        self.rect1 = pygame.Rect(240,170,100,35)
-        self.rect2 = pygame.Rect(240,230,100,35)
+        self.cor_botao_modo1 = (255,255,255)
+        self.cor_botao_modo2 = (255,255,255)
+        self.cor_botao_voltar = (255,255,255)
+        self.rect_botao_voltar = pygame.Rect(50,300,110,45)  
+        self.rect_botao_player1 = pygame.Rect(240,170,100,35)
+        self.rect_botao_player2 = pygame.Rect(240,230,100,35)
 
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
+
+    def desenho_botao_back(self):
+        pos_mouse = pygame.mouse.get_pos()
+        rect_botao = self.rect_botao_voltar
+        mensagem = self.back
+
+        if rect_botao.collidepoint(pos_mouse):
+            self.cor_botao_voltar = (150,150,150) 
+        else:
+            self.cor_botao_voltar = (255,255,255) 
+
+        if self.rect_botao_voltar.width > 0 and self.rect_botao_voltar.width > 0:  
+            texto_formatado1 = self.fonte.render(mensagem, False, self.cor_botao_voltar)
+            self.tela.blit(texto_formatado1, (40,300))
 
     def botoes_tela_inicial(self):
         pos_mouse = pygame.mouse.get_pos()
         mod1 = self.modo1
         mod2 = self.modo2
-        rect_modo1 = self.rect1
-        rect_modo2 = self.rect2
+        rect_modo1 = self.rect_botao_player1
+        rect_modo2 = self.rect_botao_player2
 
         if rect_modo1.collidepoint(pos_mouse):
-            self.cor_modo1 = (150,150,150) 
+            self.cor_botao_modo1 = (150,150,150) 
         else:
-            self.cor_modo1 = (255,255,255)  
+            self.cor_botao_modo1 = (255,255,255)  
 
         if rect_modo2.collidepoint(pos_mouse):
-            self.cor_modo2 = (150,150,150) 
+            self.cor_botao_modo2 = (150,150,150) 
         else:
-            self.cor_modo2 = (255,255,255)  
+            self.cor_botao_modo2 = (255,255,255)  
 
-        if self.rect1.width > 0 and self.rect2.width > 0:  
-            texto_formatado1 = self.fonte.render(mod1, False, self.cor_modo1)
+        if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0:  
+            texto_formatado1 = self.fonte.render(mod1, False, self.cor_botao_modo1)
             self.tela.blit(texto_formatado1, (240,170))
-            texto_formatado2 = self.fonte.render(mod2, False, self.cor_modo2)
+            texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
             self.tela.blit(texto_formatado2, (240,230))
 
     def selecao_de_modos(self):
@@ -139,10 +156,10 @@ class TelaInicial(Jogo):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos_mouse = pygame.mouse.get_pos()
 
-                if self.rect1.collidepoint(pos_mouse) or self.rect2.collidepoint(pos_mouse):
+                if self.rect_botao_player1.collidepoint(pos_mouse) or self.rect_botao_player2.collidepoint(pos_mouse):
                     pygame.display.flip()
-                    self.rect1 = pygame.Rect(0,0,0,0)
-                    self.rect2 = pygame.Rect(0,0,0,0)
+                    self.rect_botao_player1 = pygame.Rect(0,0,0,0)
+                    self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(1000)
 
                     while True:
@@ -156,16 +173,20 @@ class TelaInicial(Jogo):
                                 self.bola.iniciar_movimento()
                                 return
                             else:
-                                self.tela.fill((0,0,0)) 
-                                self.desenho_borda() 
+                                self.tela.fill((0,0,0))
+                                self.desenho_botao_back()
+                                self.desenho_borda()
+                                self.player.desenho_player()
+                                self.bola.desenho_bola()
+                                self.blocos.desenhar_blocos()
                                 self.exibir_mensagem()
                                 pygame.display.update()
 
     def continuar_prox_nivel(self):
         self.jogo_iniciado = True
         self.bola.iniciar_movimento()
-        self.rect1 = pygame.Rect(0,0,0,0)
-        self.rect2 = pygame.Rect(0,0,0,0)
+        self.rect_botao_player1 = pygame.Rect(0,0,0,0)
+        self.rect_botao_player2 = pygame.Rect(0,0,0,0)
         return
 
     def layout(self):
