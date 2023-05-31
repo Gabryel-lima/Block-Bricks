@@ -37,6 +37,7 @@ class Jogo:
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
             self.reset_pontos()
+            self.reset_nivel()
             self.reset()
             
         for bloco in self.blocos.blocos:
@@ -84,6 +85,13 @@ class Jogo:
         self.nivel += 1
         self.mesg_nivel = f'Nivel: {self.nivel}'
 
+    def reset_nivel(self):
+        if self.mensagem_fim_de_jogo == True:
+            self.mesg_nivel = f'Nivel: {self.nivel}'
+        else:
+            self.nivel = 1
+            self.mesg_nivel = f'Nivel: {self.nivel}'
+
 class TelaInicial(Jogo):
     def __init__(self):
         super().__init__()
@@ -118,9 +126,9 @@ class TelaInicial(Jogo):
 
         if self.rect1.width > 0 and self.rect2.width > 0:  
             texto_formatado1 = self.fonte.render(mod1, False, self.cor_modo1)
-            self.tela.blit(texto_formatado1, (240, 170))
+            self.tela.blit(texto_formatado1, (240,170))
             texto_formatado2 = self.fonte.render(mod2, False, self.cor_modo2)
-            self.tela.blit(texto_formatado2, (240, 230))
+            self.tela.blit(texto_formatado2, (240,230))
 
     def selecao_de_modos(self):
         for event in pygame.event.get():
@@ -325,8 +333,8 @@ class PLayer2(Player):
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_colunas = 1 #4
-        self.num_blocos_por_fileira = 1 #8
+        self.num_colunas = 4 #4
+        self.num_blocos_por_fileira = 8 #8
         self.espaco_blocos = 16
         self.largura_bloco = self.num_blocos_por_fileira + 49 
         self.altura_bloco = 20
