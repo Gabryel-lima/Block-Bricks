@@ -37,11 +37,9 @@ class Jogo:
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
             self.reset()
-            self.reset_pontos()
             
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
-                self.atualiza_pontuacao()
                 self.bola.inverter_direcaoB()
                 self.som_da_bola_e_bloco()
                 self.blocos.blocos.remove(bloco)
@@ -171,13 +169,13 @@ class TelaInicial(Jogo):
     def reset_pontos(self):
         if self.mensagem_fim_de_jogo == True:
             self.mesg = f'Pontos: {self.pontos}'
-
         else:
             self.pontos = 0
             self.mesg = f'Pontos: {self.pontos}'
 
     def niveis_count(self):
         self.nivel += 1
+        self.mesg_nivel = f'Nivel {self.nivel}'
 
     def run(self):
         while True:
@@ -300,8 +298,8 @@ class PLayer2(Player):
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_colunas = 4 #4
-        self.num_blocos_por_fileira = 8 #8
+        self.num_colunas = 1 #4
+        self.num_blocos_por_fileira = 1 #8
         self.espaco_blocos = 16
         self.largura_bloco = self.num_blocos_por_fileira + 49 
         self.altura_bloco = 20
