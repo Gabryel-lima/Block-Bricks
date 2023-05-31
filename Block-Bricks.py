@@ -92,8 +92,8 @@ class TelaInicial(Jogo):
         self.alturab = self.altura
         self.cor_modo1 = (255,255,255)  
         self.cor_modo2 = (255,255,255)
-        self.rect1 = pygame.Rect(240,170,100,30)
-        self.rect2 = pygame.Rect(240,220,100,30)
+        self.rect1 = pygame.Rect(240,170,100,20)
+        self.rect2 = pygame.Rect(240,230,100,20)
 
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
@@ -134,22 +134,26 @@ class TelaInicial(Jogo):
                     pygame.display.flip()
                     self.rect1 = pygame.Rect(0,0,0,0)
                     self.rect2 = pygame.Rect(0,0,0,0)
-                    pygame.time.delay(2000)
+                    pygame.time.delay(1000)
 
                     while True:
-                        
                         for event in pygame.event.get():
                             if event.type == QUIT:
                                 pygame.quit()
                                 os._exit(0)
-            
+
                             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                                 self.jogo_iniciado = True
                                 self.bola.iniciar_movimento()
                                 return
                             else:
+                                self.tela.fill((0,0,0)) 
+                                self.desenho_borda() 
                                 self.exibir_mensagem()
                                 pygame.display.update()
+
+    def continuar_prox_nivel(self):
+        pass
 
     def layout(self):
         self.tela.fill((0,0,0))
@@ -166,7 +170,7 @@ class TelaInicial(Jogo):
         mensagem = f'Pressione a tecla "Enter" para iniciar'
         fonte = pygame.font.SysFont('times new roman', 25, True, False)
         texto_formatado = fonte.render(mensagem, False, (255,255,255))  
-        self.tela.blit(texto_formatado, (110,205))
+        self.tela.blit(texto_formatado, (100,205))
 
     def exibir_pontuacao(self):
         mensagem = self.mesg
@@ -316,8 +320,8 @@ class PLayer2(Player):
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_colunas = 1 #4
-        self.num_blocos_por_fileira = 1 #8
+        self.num_colunas = 4 #4
+        self.num_blocos_por_fileira = 8 #8
         self.espaco_blocos = 16
         self.largura_bloco = self.num_blocos_por_fileira + 49 
         self.altura_bloco = 20
