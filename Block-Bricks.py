@@ -36,6 +36,7 @@ class Jogo:
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
+            self.reset_pontos()
             self.reset()
             
         for bloco in self.blocos.blocos:
@@ -92,8 +93,8 @@ class TelaInicial(Jogo):
         self.alturab = self.altura
         self.cor_modo1 = (255,255,255)  
         self.cor_modo2 = (255,255,255)
-        self.rect1 = pygame.Rect(240,170,100,20)
-        self.rect2 = pygame.Rect(240,230,100,20)
+        self.rect1 = pygame.Rect(240,170,100,35)
+        self.rect2 = pygame.Rect(240,230,100,35)
 
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
@@ -153,7 +154,11 @@ class TelaInicial(Jogo):
                                 pygame.display.update()
 
     def continuar_prox_nivel(self):
-        pass
+        self.jogo_iniciado = True
+        self.bola.iniciar_movimento()
+        self.rect1 = pygame.Rect(0,0,0,0)
+        self.rect2 = pygame.Rect(0,0,0,0)
+        return
 
     def layout(self):
         self.tela.fill((0,0,0))
@@ -192,7 +197,7 @@ class TelaInicial(Jogo):
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
             self.reset()
-            return
+            self.continuar_prox_nivel()
 
     def run(self):
         while True:
@@ -320,8 +325,8 @@ class PLayer2(Player):
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_colunas = 4 #4
-        self.num_blocos_por_fileira = 8 #8
+        self.num_colunas = 1 #4
+        self.num_blocos_por_fileira = 1 #8
         self.espaco_blocos = 16
         self.largura_bloco = self.num_blocos_por_fileira + 49 
         self.altura_bloco = 20
