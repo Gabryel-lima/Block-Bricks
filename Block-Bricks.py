@@ -75,7 +75,7 @@ class Jogo:
         self.mesg = f'Pontos: {self.pontos}'
 
     def reset_pontos(self):
-        if self.mensagem_fim_de_jogo == True:
+        if self.mensagem_fim_de_nivel == True:
             self.mesg = f'Pontos: {self.pontos}'
         else:
             self.pontos = 0
@@ -86,7 +86,7 @@ class Jogo:
         self.mesg_nivel = f'Nivel: {self.nivel}'
 
     def reset_nivel(self):
-        if self.mensagem_fim_de_jogo == True:
+        if self.mensagem_fim_de_nivel == True:
             self.mesg_nivel = f'Nivel: {self.nivel}'
         else:
             self.nivel = 1
@@ -216,7 +216,7 @@ class TelaInicial(Jogo):
         texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, (40,480))
 
-    def mensagem_fim_de_jogo(self):
+    def mensagem_fim_de_nivel(self):
         if len(self.blocos.blocos) == 0:
             texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
             self.tela.blit(texto_formatado, (self.altura // 2 - 100, self.largura // 2 - 80))
@@ -246,7 +246,7 @@ class TelaInicial(Jogo):
                 self.player.input_player()
                 self.bola.atualizar()
 
-            self.mensagem_fim_de_jogo()
+            self.mensagem_fim_de_nivel()
             pygame.display.update()
 
 class Bola:
