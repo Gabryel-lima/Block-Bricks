@@ -101,13 +101,14 @@ class TelaInicial(Jogo):
         super().__init__()
         self.modo1 = f'Player 1'
         self.modo2 = f'Player 2'
-        self.back = f'<Voltar/>'
+        self.back = f'Voltar'
+        self.mesgite = f'Pressione a tecla "Enter" para iniciar' 
         self.largurab = self.largura
         self.alturab = self.altura
         self.cor_botao_modo1 = (255,255,255)
         self.cor_botao_modo2 = (255,255,255)
         self.cor_botao_voltar = (255,255,255)
-        self.rect_botao_voltar = pygame.Rect(50,300,105,30)  
+        self.rect_botao_voltar = pygame.Rect(50,300,80,30)  
         self.rect_botao_player1 = pygame.Rect(240,170,100,35)
         self.rect_botao_player2 = pygame.Rect(240,230,100,35)
 
@@ -194,7 +195,7 @@ class TelaInicial(Jogo):
                     self.player.desenho_player()
                     self.bola.desenho_bola()
                     self.blocos.desenhar_blocos()
-                    self.exibir_mensagem()
+                    self.exibir_mensagem_inte_iniciar()
                     pygame.display.update()
 
     def continuar_prox_nivel(self):
@@ -215,8 +216,8 @@ class TelaInicial(Jogo):
             self.player.desenho_player()
             self.blocos.desenhar_blocos()
 
-    def exibir_mensagem(self): 
-        mensagem = f'Pressione a tecla "Enter" para iniciar'
+    def exibir_mensagem_inte_iniciar(self):
+        mensagem = self.mesgite
         fonte = pygame.font.SysFont('times new roman', 25, True, False)
         texto_formatado = fonte.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, (100,205))
