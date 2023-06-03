@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 import os
 import random
+import json
+
 
 class Jogo:
     def __init__(self):
@@ -16,7 +18,9 @@ class Jogo:
         self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
         self.nivel = 1
         self.mesg_nivel = f'Nivel: {self.nivel}'
-        self.mesg = f'Pontos: {self.pontos}' 
+        self.mesg = f'Pontos: {self.pontos}'
+        self.lp = self.carregar_melhor_pontuacao()
+        self.mesg_bp = f'Melhor pontuação: {self.lp}' 
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
@@ -41,6 +45,7 @@ class Jogo:
                 self.bola.inverter_direcaoB()
                 self.som_da_bola_e_bloco()
                 self.atualiza_pontuacao()
+                self.atualiza_melhor_pontuacao()
                 self.blocos.blocos.remove(bloco)
                 break  # Adicionado para sair do loop após a colisão
 
@@ -48,6 +53,7 @@ class Jogo:
         self.som_de_fim_de_jogo()
         pygame.display.flip()
         pygame.time.delay(3000)
+        self.salvar_melhor_pontuacao()
         self.Tela.selecao_de_modos_estrutura_particao(self)
         self.blocos.resetar_blocos()
         self.bola.reset()
@@ -70,6 +76,29 @@ class Jogo:
         self.som = self.som_fim_nivel
         self.som.set_volume(0.30)
         self.som.play()
+
+    def carregar_melhor_pontuacao(self):
+        try:
+            with open('best_score.json', 'r') as file:
+                data = json.load(file)
+                return data['best_score']
+        except (FileNotFoundError, KeyError):
+            return 0
+
+    def salvar_melhor_pontuacao(self):
+        data = {'best_score': self.lp}
+        with open('best_score.json', 'w') as file:
+            json.dump(data, file)
+
+    def atualiza_melhor_pontuacao(self):
+        if self.pontos > self.lp:
+            self.lp = self.pontos
+            self.salvar_melhor_pontuacao()
+            self.mesg_bp = f'Melhor pontuação: {self.lp}'
+
+    def reset_melhor_pontuacao(self):
+        self.lp = 0
+        self.salvar_melhor_pontuacao()
 
     def atualiza_pontuacao(self):
         self.pontos += 1
@@ -185,6 +214,11 @@ class TelaInicial(Jogo):
         texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, (40,480))
 
+    def exibe_melhor_pontuacao(self):
+        mensagem = self.mesg_bp
+        texo_formatado = self.fonte.render(mensagem, False, (255,255,255))
+        self.tela.blit(texo_formatado, (40,530))
+
     def mensagem_fim_de_nivel(self):
         if len(self.blocos.blocos) == 0:
             texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
@@ -200,6 +234,7 @@ class TelaInicial(Jogo):
     def selecao_de_modos_estrutura(self):
         for event in pygame.event.get():
             if event.type == QUIT:
+                self.reset_melhor_pontuacao()
                 pygame.quit()
                 os._exit(0)
 
@@ -217,6 +252,7 @@ class TelaInicial(Jogo):
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.reset_melhor_pontuacao()
                     pygame.quit()
                     os._exit(0)
 
@@ -252,6 +288,7 @@ class TelaInicial(Jogo):
 
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    self.reset_melhor_pontuacao()
                     pygame.quit()
                     os._exit(0)
                 
@@ -259,6 +296,7 @@ class TelaInicial(Jogo):
             self.layout()
 
             if self.jogo_iniciado:
+                self.exibe_melhor_pontuacao() 
                 self.exibir_nivel()
                 self.exibir_pontuacao()
                 self.verificar_colisao()
