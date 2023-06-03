@@ -33,16 +33,8 @@ class Jogo:
         if self.bola.y + self.bola.raio >= self.altura - 180:
             texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  
             self.tela.blit(texto_formatado, (215,225))
-            self.som_de_fim_de_jogo()
-            pygame.display.flip()
-            pygame.time.delay(3000)
-            self.Tela.selecao_de_modos_particao(self)
-            self.blocos.resetar_blocos()
-            self.bola.reset()
-            self.bola.iniciar_movimento()
-            self.player.reset()
-            self.reset_pontos()
-            self.reset_nivel()
+
+            self.particao_verificar_colisao()
             
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
@@ -51,6 +43,18 @@ class Jogo:
                 self.atualiza_pontuacao()
                 self.blocos.blocos.remove(bloco)
                 break  # Adicionado para sair do loop após a colisão
+
+    def particao_verificar_colisao(self):
+        self.som_de_fim_de_jogo()
+        pygame.display.flip()
+        pygame.time.delay(3000)
+        self.Tela.selecao_de_modos_estrutura_particao(self)
+        self.blocos.resetar_blocos()
+        self.bola.reset()
+        self.bola.iniciar_movimento()
+        self.player.reset()
+        self.reset_pontos()
+        self.reset_nivel()
 
     def som_da_bola_e_bloco(self):
         self.som = self.som_colisao
@@ -66,13 +70,6 @@ class Jogo:
         self.som = self.som_fim_nivel
         self.som.set_volume(0.30)
         self.som.play()
-
-    def reset(self): # Esse metodo retorna o menu.
-        self.jogo_iniciado = False
-        self.bola.reset()
-        self.player.reset()
-        self.rect_botao_player1 = pygame.Rect(240,170,100,30)
-        self.rect_botao_player2 = pygame.Rect(240,220,100,30)
 
     def atualiza_pontuacao(self):
         self.pontos += 1
@@ -95,6 +92,13 @@ class Jogo:
         else:
             self.nivel = 1
             self.mesg_nivel = f'Nivel: {self.nivel}'
+
+    def reset(self): # Esse metodo retorna o menu.
+        self.jogo_iniciado = False
+        self.bola.reset()
+        self.player.reset()
+        self.rect_botao_player1 = pygame.Rect(240,170,100,30)
+        self.rect_botao_player2 = pygame.Rect(240,220,100,30)
 
 class TelaInicial(Jogo):
     def __init__(self):
@@ -129,7 +133,7 @@ class TelaInicial(Jogo):
             texto_formatado1 = self.fonte.render(mensagem, False, self.cor_botao_voltar)
             self.tela.blit(texto_formatado1, (40,300))
 
-    def botoes_tela_inicial(self):
+    def botoes_tela_inicial_modos(self):
         pos_mouse = pygame.mouse.get_pos()
         mod1 = self.modo1
         mod2 = self.modo2
@@ -152,60 +156,11 @@ class TelaInicial(Jogo):
             texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
             self.tela.blit(texto_formatado2, (240,230))
 
-    def selecao_de_modos(self):
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                os._exit(0)
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                pos_mouse = pygame.mouse.get_pos()
-
-                if self.rect_botao_player1.collidepoint(pos_mouse) or self.rect_botao_player2.collidepoint(pos_mouse):
-                    pygame.display.flip()
-                    self.rect_botao_player1 = pygame.Rect(0,0,0,0)
-                    self.rect_botao_player2 = pygame.Rect(0,0,0,0)
-                    pygame.time.delay(1000)
-
-                    self.selecao_de_modos_particao()
-
-    def selecao_de_modos_particao(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    os._exit(0)
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.reset()
-                    return
-
-                if event.type == pygame.KEYDOWN:
-                    self.jogo_iniciado = True
-                    self.bola.iniciar_movimento()
-                    return
-                else:
-                    self.tela.fill((0,0,0))
-                    self.desenho_botao_back()
-                    self.desenho_borda()
-                    self.player.desenho_player()
-                    self.bola.desenho_bola()
-                    self.blocos.desenhar_blocos()
-                    self.exibir_mensagem_inte_iniciar()
-                    pygame.display.update()
-
-    def continuar_prox_nivel(self):
-        self.jogo_iniciado = True
-        self.bola.iniciar_movimento()
-        self.rect_botao_player1 = pygame.Rect(0,0,0,0)
-        self.rect_botao_player2 = pygame.Rect(0,0,0,0)
-        return
-
     def layout(self):
         self.tela.fill((0,0,0))
         self.desenho_borda()
-        self.botoes_tela_inicial()
-        self.selecao_de_modos()
+        self.botoes_tela_inicial_modos()
+        self.selecao_de_modos_estrutura()
 
         if self.jogo_iniciado == True:
             self.bola.desenho_bola()
@@ -240,6 +195,55 @@ class TelaInicial(Jogo):
             self.reset()
             self.continuar_prox_nivel()
 
+    def selecao_de_modos_estrutura(self):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                os._exit(0)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos_mouse = pygame.mouse.get_pos()
+
+                if self.rect_botao_player1.collidepoint(pos_mouse) or self.rect_botao_player2.collidepoint(pos_mouse):
+                    self.rect_botao_player1 = pygame.Rect(0,0,0,0)
+                    self.rect_botao_player2 = pygame.Rect(0,0,0,0)
+                    pygame.time.delay(300)
+
+                    self.selecao_de_modos_estrutura_particao()
+
+    def selecao_de_modos_estrutura_particao(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.reset()
+                    pygame.time.delay(300)
+                    return
+
+                if event.type == pygame.KEYDOWN:
+                    self.jogo_iniciado = True
+                    self.bola.iniciar_movimento()
+                    return
+                else:
+                    self.tela.fill((0,0,0))
+                    self.desenho_botao_back()
+                    self.desenho_borda()
+                    self.player.desenho_player()
+                    self.bola.desenho_bola()
+                    self.blocos.desenhar_blocos()
+                    self.exibir_mensagem_inte_iniciar()
+                    pygame.display.update()
+
+    def continuar_prox_nivel(self):
+        self.jogo_iniciado = True
+        self.bola.iniciar_movimento()
+        self.rect_botao_player1 = pygame.Rect(0,0,0,0)
+        self.rect_botao_player2 = pygame.Rect(0,0,0,0)
+        return
+    
     def run(self):
         while True:
 
