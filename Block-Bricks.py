@@ -129,14 +129,6 @@ class TelaInicial(Jogo):
             texto_formatado1 = self.fonte.render(mensagem, False, self.cor_botao_voltar)
             self.tela.blit(texto_formatado1, (40,300))
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                os._exit(0)
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
-
     def botoes_tela_inicial(self):
         pos_mouse = pygame.mouse.get_pos()
         mod1 = self.modo1
