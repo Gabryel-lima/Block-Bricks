@@ -133,6 +133,8 @@ class TelaInicial(Jogo):
             texto_formatado1 = self.fonte.render(mensagem, False, self.cor_botao_voltar)
             self.tela.blit(texto_formatado1, (40,300))
 
+        return rect_botao
+
     def botoes_tela_inicial_modos(self):
         pos_mouse = pygame.mouse.get_pos()
         mod1 = self.modo1
@@ -218,12 +220,13 @@ class TelaInicial(Jogo):
                     pygame.quit()
                     os._exit(0)
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.reset()
-                    pygame.time.delay(300)
-                    return
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
+                        self.reset()
+                        pygame.time.delay(300)
+                        return
 
-                if event.type == pygame.KEYDOWN:
+                if event.type == KEYDOWN and event.key == K_RETURN:
                     self.jogo_iniciado = True
                     self.bola.iniciar_movimento()
                     return
