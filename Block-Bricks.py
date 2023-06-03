@@ -67,7 +67,7 @@ class Jogo:
         self.som.set_volume(0.30)
         self.som.play()
 
-    def reset(self):
+    def reset(self): # Esse metodo retorna o menu.
         self.jogo_iniciado = False
         self.bola.reset()
         self.player.reset()
@@ -176,7 +176,11 @@ class TelaInicial(Jogo):
                     pygame.quit()
                     os._exit(0)
 
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.reset()
+                    return
+
+                if event.type == pygame.KEYDOWN:
                     self.jogo_iniciado = True
                     self.bola.iniciar_movimento()
                     return
@@ -243,7 +247,7 @@ class TelaInicial(Jogo):
                 if event.type == QUIT:
                     pygame.quit()
                     os._exit(0)
-
+                
             self.relogio.tick(60)
             self.layout()
 
