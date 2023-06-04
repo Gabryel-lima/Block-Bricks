@@ -96,9 +96,10 @@ class Jogo:
             self.salvar_melhor_pontuacao()
             self.mesg_bp = f'Melhor pontuação: {self.lp}'
 
-    def reset_melhor_pontuacao(self):
+    def reset_melhor_pontuacao(self): # Não está sendo utilizado.
         self.lp = 0
         self.salvar_melhor_pontuacao()
+        pass
 
     def atualiza_pontuacao(self):
         self.pontos += 1
@@ -234,7 +235,6 @@ class TelaInicial(Jogo):
     def selecao_de_modos_estrutura(self):
         for event in pygame.event.get():
             if event.type == QUIT:
-                self.reset_melhor_pontuacao()
                 pygame.quit()
                 os._exit(0)
 
@@ -252,7 +252,6 @@ class TelaInicial(Jogo):
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    self.reset_melhor_pontuacao()
                     pygame.quit()
                     os._exit(0)
 
@@ -288,7 +287,6 @@ class TelaInicial(Jogo):
 
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    self.reset_melhor_pontuacao()
                     pygame.quit()
                     os._exit(0)
                 
