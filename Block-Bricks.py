@@ -16,12 +16,14 @@ class Jogo:
         self.som_fim_nivel = pygame.mixer.Sound('sounds/som_fim_nivel.wav')
         self.fim_jogo = pygame.mixer.Sound('sounds/som_de_fim.wav')
         self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
+        self.mesgc = f'"A"<Esquerda, "D">Direita, "LShift"<Aceleração>'
         self.nivel = 1
         self.mesg_nivel = f'Nivel: {self.nivel}'
         self.mesg = f'Pontos: {self.pontos}'
         self.lp = self.carregar_melhor_pontuacao()
         self.mesg_bp = f'Melhor pontuação: {self.lp}' 
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
+        self.fontei = pygame.font.SysFont('Candara', 30, True, False)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
         self.player = Player(self, self.borda, self.tela)
@@ -130,6 +132,43 @@ class Jogo:
         self.rect_botao_player1 = pygame.Rect(240,170,100,30)
         self.rect_botao_player2 = pygame.Rect(240,220,100,30)
 
+    def exibir_mensagem_inte_iniciar(self):
+        mensagem = self.mesgite
+        fonte = pygame.font.SysFont('times new roman', 25, True, False)
+        texto_formatado = fonte.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (100,205))
+        mensagem = self.mesgc
+        fonte = pygame.font.SysFont('colibri', 30, False, False)
+        texto_formatado = fonte.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (60,250))
+
+    def exibir_pontuacao(self):
+        mensagem = self.mesg
+        texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (40,430))
+
+    def exibir_nivel(self):
+        mensagem = self.mesg_nivel
+        texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (40,480))
+
+    def exibe_melhor_pontuacao(self):
+        mensagem = self.mesg_bp
+        texo_formatado = self.fontei.render(mensagem, False, (255,255,255))
+        self.tela.blit(texo_formatado, (40,530))
+
+    def mensagem_fim_de_nivel(self):
+        if len(self.blocos.blocos) == 0:
+            texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
+            self.tela.blit(texto_formatado, (self.altura // 2 - 100, self.largura // 2 - 80))
+            self.niveis_count()
+            self.som_de_fim_de_nivel()
+            pygame.display.flip()
+            pygame.time.delay(3000)
+            self.blocos.resetar_blocos()
+            self.reset()
+            self.continuar_prox_nivel()
+
 class TelaInicial(Jogo):
     def __init__(self):
         super().__init__()
@@ -142,7 +181,7 @@ class TelaInicial(Jogo):
         self.cor_botao_modo1 = (255,255,255)
         self.cor_botao_modo2 = (255,255,255)
         self.cor_botao_voltar = (255,255,255)
-        self.rect_botao_voltar = pygame.Rect(50,300,80,30)  
+        self.rect_botao_voltar = pygame.Rect(50,310,80,30)  
         self.rect_botao_player1 = pygame.Rect(240,170,100,35)
         self.rect_botao_player2 = pygame.Rect(240,230,100,35)
 
@@ -198,39 +237,6 @@ class TelaInicial(Jogo):
             self.bola.desenho_bola()
             self.player.desenho_player()
             self.blocos.desenhar_blocos()
-
-    def exibir_mensagem_inte_iniciar(self):
-        mensagem = self.mesgite
-        fonte = pygame.font.SysFont('times new roman', 25, True, False)
-        texto_formatado = fonte.render(mensagem, False, (255,255,255))  
-        self.tela.blit(texto_formatado, (100,205))
-
-    def exibir_pontuacao(self):
-        mensagem = self.mesg
-        texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
-        self.tela.blit(texto_formatado, (40,430))
-
-    def exibir_nivel(self):
-        mensagem = self.mesg_nivel
-        texto_formatado = self.fonte.render(mensagem, False, (255,255,255))  
-        self.tela.blit(texto_formatado, (40,480))
-
-    def exibe_melhor_pontuacao(self):
-        mensagem = self.mesg_bp
-        texo_formatado = self.fonte.render(mensagem, False, (255,255,255))
-        self.tela.blit(texo_formatado, (40,530))
-
-    def mensagem_fim_de_nivel(self):
-        if len(self.blocos.blocos) == 0:
-            texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
-            self.tela.blit(texto_formatado, (self.altura // 2 - 100, self.largura // 2 - 80))
-            self.niveis_count()
-            self.som_de_fim_de_nivel()
-            pygame.display.flip()
-            pygame.time.delay(3000)
-            self.blocos.resetar_blocos()
-            self.reset()
-            self.continuar_prox_nivel()
 
     def selecao_de_modos_estrutura(self):
         for event in pygame.event.get():
