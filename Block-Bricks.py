@@ -1,14 +1,17 @@
-import pygame
-from pygame.locals import *
+import json
 import os
 import random
-import json
+
+import pygame
+from pygame.locals import *
 
 
 class Jogo:
     def __init__(self):
         pygame.init()
+        self.icon = pygame.image.load('logo.ico')
         pygame.display.set_caption('Block-Bricks')
+        pygame.display.set_icon(self.icon)
         self.relogio = pygame.time.Clock()
         self.largura = 600
         self.altura = 600
@@ -130,7 +133,7 @@ class Jogo:
         self.bola.reset()
         self.player.reset()
         self.rect_botao_player1 = pygame.Rect(240,170,100,30)
-        self.rect_botao_player2 = pygame.Rect(240,220,100,30)
+        self.rect_botao_player2 = pygame.Rect(240,230,100,35)
 
     def exibir_mensagem_inte_iniciar(self):
         mensagem = self.mesgite
@@ -246,13 +249,20 @@ class TelaInicial(Jogo):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos_mouse = pygame.mouse.get_pos()
+                
 
-                if self.rect_botao_player1.collidepoint(pos_mouse) or self.rect_botao_player2.collidepoint(pos_mouse):
+                if self.rect_botao_player1.collidepoint(pos_mouse):
                     self.rect_botao_player1 = pygame.Rect(0,0,0,0)
+                    pygame.time.delay(300)
+
+                    self.selecao_de_modos_estrutura_particao()
+
+                elif self.rect_botao_player2.collidepoint(pos_mouse):
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
 
                     self.selecao_de_modos_estrutura_particao()
+                    PLayer2.desenho_player(self)
 
     def selecao_de_modos_estrutura_particao(self):
         while True:
@@ -290,17 +300,16 @@ class TelaInicial(Jogo):
     
     def run(self):
         while True:
-
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
                     os._exit(0)
-                
+
             self.relogio.tick(60)
             self.layout()
 
             if self.jogo_iniciado:
-                self.exibe_melhor_pontuacao() 
+                self.exibe_melhor_pontuacao()
                 self.exibir_nivel()
                 self.exibir_pontuacao()
                 self.verificar_colisao()
@@ -415,8 +424,8 @@ class PLayer2(Player):
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_colunas = 4 #4
-        self.num_blocos_por_fileira = 8 #8
+        self.num_colunas = 1 #4
+        self.num_blocos_por_fileira = 1 #8
         self.espaco_blocos = 16
         self.largura_bloco = self.num_blocos_por_fileira + 49 
         self.altura_bloco = 20

@@ -52,9 +52,8 @@ setup(
 
 )
 
-
 # Usando auto-py-to-exe
 
 pip install auto-py-to-exe
 
-#No terminal ''auto-py-to-exe''
+#No terminal ''auto-py-to-exe'
