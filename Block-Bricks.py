@@ -1,12 +1,13 @@
 import json
 import os
 import random
+from abc import ABC, abstractmethod
 
 import pygame
 from pygame.locals import *
 
 
-class Jogo:
+class Jogo(ABC):
     def __init__(self):
         pygame.init()
         self.icon = pygame.image.load('logo.ico')
@@ -172,6 +173,31 @@ class Jogo:
             self.reset()
             self.continuar_prox_nivel()
 
+    @abstractmethod
+    def layout(self):
+        pass
+
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
+
+            self.relogio.tick(60)
+            self.layout()
+
+            if self.jogo_iniciado:
+                self.exibe_melhor_pontuacao()
+                self.exibir_nivel()
+                self.exibir_pontuacao()
+                self.verificar_colisao()
+                self.player.input_player()
+                self.bola.atualizar()
+
+            self.mensagem_fim_de_nivel()
+            pygame.display.update()
+
 class TelaInicial(Jogo):
     def __init__(self):
         super().__init__()
@@ -185,8 +211,8 @@ class TelaInicial(Jogo):
         self.cor_botao_modo2 = (255,255,255)
         self.cor_botao_voltar = (255,255,255)
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)  
-        self.rect_botao_player1 = pygame.Rect(240,170,120,35)
-        self.rect_botao_player2 = pygame.Rect(240,230,120,35)
+        self.rect_botao_player1 = pygame.Rect(240,170,120,40)
+        self.rect_botao_player2 = pygame.Rect(240,230,120,40)
 
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
@@ -250,8 +276,13 @@ class TelaInicial(Jogo):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos_mouse = pygame.mouse.get_pos()
                 
-                if self.rect_botao_player1.collidepoint(pos_mouse) or self.rect_botao_player2.collidepoint(pos_mouse):
+                if self.rect_botao_player1.collidepoint(pos_mouse):
                     self.rect_botao_player1 = pygame.Rect(0,0,0,0)
+                    pygame.time.delay(300)
+
+                    self.selecao_de_modos_estrutura_particao()
+
+                elif self.rect_botao_player2.collidepoint(pos_mouse):
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
 
@@ -290,27 +321,6 @@ class TelaInicial(Jogo):
         self.rect_botao_player1 = pygame.Rect(0,0,0,0)
         self.rect_botao_player2 = pygame.Rect(0,0,0,0)
         return
-    
-    def run(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    os._exit(0)
-
-            self.relogio.tick(60)
-            self.layout()
-
-            if self.jogo_iniciado:
-                self.exibe_melhor_pontuacao()
-                self.exibir_nivel()
-                self.exibir_pontuacao()
-                self.verificar_colisao()
-                self.player.input_player()
-                self.bola.atualizar()
-
-            self.mensagem_fim_de_nivel()
-            pygame.display.update()
 
 class Bola:
     def __init__(self, jogo, tela):
@@ -409,10 +419,31 @@ class Player:
         self.x = self.jogo.largura // 2 - 40 // 2
         self.rect.x = self.x
 
-class PLayer2(Player):
-    def __init__(self):
-        super().__init__()
-        pass
+class Player2(Player,Jogo):
+    def __init__(self, jogo, borda, tela):
+        super().__init__(jogo, borda, tela)
+
+    def desenho_player(self):
+        pygame.draw.rect(self.tela, (0,255,0), ((self.x), (self.y), 40, 5))
+
+    def input_player2(self):
+        novo_x = self.x
+        if pygame.key.get_pressed()[K_LEFT]:
+            novo_x -= 3.5
+
+            if pygame.key.get_pressed()[K_RSHIFT]:
+                novo_x -= 5
+
+        if pygame.key.get_pressed()[K_RIGHT]:
+            novo_x += 3.5
+
+            if pygame.key.get_pressed()[K_RSHIFT]:
+                novo_x += 5
+
+        if self.colisao.left <= novo_x <= self.colisao.right - 40:
+            self.x = novo_x
+
+        self.rect.x = self.x
 
 class Blocos:
     def __init__(self, jogo):
