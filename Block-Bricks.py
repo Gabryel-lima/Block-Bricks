@@ -172,42 +172,9 @@ class Jogo:
             self.reset()
             self.continuar_prox_nivel()
 
-    def run(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    os._exit(0)
-
-            self.relogio.tick(60)
-            self.layout()
-
-            if self.jogo_iniciado:
-                self.exibe_melhor_pontuacao()
-                self.exibir_nivel()
-                self.exibir_pontuacao()
-                self.verificar_colisao()
-                self.player.input_player()
-                self.bola.atualizar()
-
-            self.mensagem_fim_de_nivel()
-            pygame.display.update()
-
-    def layout(self):
-        self.tela.fill((0,0,0))
-        self.desenho_borda(self)
-        self.botoes_tela_inicial_modos(self)
-        self.selecao_de_modos_estrutura(self)
-
-        if self.jogo_iniciado == True:
-            self.bola.desenho_bola()
-            self.player.desenho_player()
-            self.blocos.desenhar_blocos()
-
 class TelaInicial(Jogo):
     def __init__(self):
         super().__init__()
-        self.jogo = Jogo
         self.modo1 = f'Player 1'
         self.modo2 = f'Player 2'
         self.back = f'Voltar'
@@ -217,9 +184,9 @@ class TelaInicial(Jogo):
         self.cor_botao_modo1 = (255,255,255)
         self.cor_botao_modo2 = (255,255,255)
         self.cor_botao_voltar = (255,255,255)
-        self.rect_botao_voltar = pygame.Rect(50,310,80,30)  
-        self.rect_botao_player1 = pygame.Rect(240,170,100,35)
-        self.rect_botao_player2 = pygame.Rect(240,230,100,35)
+        self.rect_botao_voltar = pygame.Rect(40,300,85,30)  
+        self.rect_botao_player1 = pygame.Rect(240,170,120,35)
+        self.rect_botao_player2 = pygame.Rect(240,230,120,35)
 
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
@@ -263,6 +230,17 @@ class TelaInicial(Jogo):
             texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
             self.tela.blit(texto_formatado2, (240,230))
 
+    def layout(self):
+        self.tela.fill((0,0,0))
+        self.desenho_borda()
+        self.botoes_tela_inicial_modos()
+        self.selecao_de_modos_estrutura()
+
+        if self.jogo_iniciado == True:
+            self.bola.desenho_bola()
+            self.player.desenho_player()
+            self.blocos.desenhar_blocos()
+
     def selecao_de_modos_estrutura(self):
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -272,21 +250,12 @@ class TelaInicial(Jogo):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos_mouse = pygame.mouse.get_pos()
                 
-                if self.rect_botao_player1.collidepoint(pos_mouse):
+                if self.rect_botao_player1.collidepoint(pos_mouse) or self.rect_botao_player2.collidepoint(pos_mouse):
                     self.rect_botao_player1 = pygame.Rect(0,0,0,0)
-                    pygame.time.delay(300)
-
-                    self.selecao_de_modos_estrutura_particao()
-
-                elif self.rect_botao_player2.collidepoint(pos_mouse):
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
 
                     self.selecao_de_modos_estrutura_particao()
-
-                    player2 = Player2(self.jogo.largura, self.jogo.altura, self.jogo.tela)  # Usar largura e altura da instância do Jogo
-                    player2.desenho_player2()
-                    player2.input_player2()
 
     def selecao_de_modos_estrutura_particao(self):
         while True:
@@ -321,6 +290,27 @@ class TelaInicial(Jogo):
         self.rect_botao_player1 = pygame.Rect(0,0,0,0)
         self.rect_botao_player2 = pygame.Rect(0,0,0,0)
         return
+    
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
+
+            self.relogio.tick(60)
+            self.layout()
+
+            if self.jogo_iniciado:
+                self.exibe_melhor_pontuacao()
+                self.exibir_nivel()
+                self.exibir_pontuacao()
+                self.verificar_colisao()
+                self.player.input_player()
+                self.bola.atualizar()
+
+            self.mensagem_fim_de_nivel()
+            pygame.display.update()
 
 class Bola:
     def __init__(self, jogo, tela):
@@ -419,40 +409,16 @@ class Player:
         self.x = self.jogo.largura // 2 - 40 // 2
         self.rect.x = self.x
 
-class Player2(Player):
-    def __init__(self, jogo, borda, tela):
-        super().__init__(jogo, borda, tela)
-        self.cor = (0,255,0)
-        self.y = self.jogo.altura // 2 - 5 // 2 - 100  
-        self.rect = pygame.Rect(self.x, self.y, 40, 5) 
-
-    def desenho_player2(self):
-        pygame.draw.rect(self.tela, self.cor, (self.x, self.y, 40, 5))
-
-    def input_player2(self):
-        novo_x = self.x
-        if pygame.key.get_pressed()[K_LEFT]:
-            novo_x -= 3.5
-
-            if pygame.key.get_pressed()[K_RSHIFT]:
-                novo_x -= 5
-
-        if pygame.key.get_pressed()[K_RIGHT]:
-            novo_x += 3.5
-
-            if pygame.key.get_pressed()[K_RSHIFT]:
-                novo_x += 5
-
-        if self.colisao.left <= novo_x <= self.colisao.right - 40:
-            self.x = novo_x
-
-        self.rect.x = self.x
+class PLayer2(Player):
+    def __init__(self):
+        super().__init__()
+        pass
 
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_colunas = 1 #4
-        self.num_blocos_por_fileira = 1 #8
+        self.num_colunas = 4 #4
+        self.num_blocos_por_fileira = 8 #8
         self.espaco_blocos = 16
         self.largura_bloco = self.num_blocos_por_fileira + 49 
         self.altura_bloco = 20
@@ -483,5 +449,5 @@ class criacao_niveis(Jogo,Bola,Blocos):
         pass
 
 if __name__ == "__main__":
-    jogo = Jogo()
+    jogo = TelaInicial()
     jogo.run()
