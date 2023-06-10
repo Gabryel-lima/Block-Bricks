@@ -1,2 +1,0 @@
-videoaula = https://www.youtube.com/watch?v=hOnrwaOWSdE
-repositório = https://github.com/jmcabreira-zz/Data_Science_Conteudo_PTBR
