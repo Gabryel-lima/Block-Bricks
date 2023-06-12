@@ -1,14 +1,11 @@
-
-
 import pygame
 from pygame.locals import *
 
-from jogo import Jogo
-from player import Player
+from player_base import PlayerBase
 
-class Player2(Player,Jogo):
-    def __init__(self, jogo, borda, tela):
-        super().__init__(jogo, borda, tela)
+class Player2(PlayerBase):
+    def __init__(self, tela, borda, largura, altura):
+        super().__init__(tela, borda, largura, altura)
 
     def desenho_player(self):
         pygame.draw.rect(self.tela, (0,255,0), ((self.x), (self.y), 40, 5))
@@ -30,4 +27,4 @@ class Player2(Player,Jogo):
         if self.colisao.left <= novo_x <= self.colisao.right - 40:
             self.x = novo_x
 
-        self.rect.x = self.x
+        self.x = novo_x

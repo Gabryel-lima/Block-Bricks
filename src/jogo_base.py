@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 
 from player import Player
+from player2 import Player2
 from bola import Bola
 from blocos import Blocos
 
@@ -16,7 +17,8 @@ class JogoBase:
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
-        self.player = Player(self, self.borda, self.tela)
+        self.player = Player(self.tela, self.borda, self.largura, self.altura)
+        self.player2 = Player2(self.tela, self.borda, self.largura, self.altura)
         self.bola = Bola(self, self.tela)
         self.blocos = Blocos(self)
         self.modo1 = f'Player 1'
@@ -99,6 +101,7 @@ class JogoBase:
                     pygame.time.delay(300)
 
                     self.selecao_de_modos_estrutura_particao()
+                    #self.estrutura_de_decisao_modos() 
 
     def selecao_de_modos_estrutura_particao(self):
         while True:
@@ -109,7 +112,7 @@ class JogoBase:
 
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
                     if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
-                        self.reset()
+                        self.reset() # Metodo Herdado.
                         pygame.time.delay(300)
                         return
 
@@ -126,6 +129,9 @@ class JogoBase:
                     self.blocos.desenhar_blocos()
                     self.exibir_mensagem_inte_iniciar()
                     pygame.display.update()
+
+    def estrutura_de_decisao_modos(self): # Estou com preguiça, depois vou melhorar fazendo algo melhor.
+        pass
 
     def continuar_prox_nivel(self):
         self.jogo_iniciado = True
