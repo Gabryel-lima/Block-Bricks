@@ -11,8 +11,8 @@ class PlayerBase:
         self.colisao = borda
         self.largura = largura
         self.altura = altura
-        self.x = self.largura // 2 - 40 // 2
-        self.y = self.altura // 2 - 5 // 2 + 100
+        self.x = 300
+        self.y = 300
         self.rect = pygame.Rect(self.x, self.y, 40, 5)
 
     def player_colisao(self):

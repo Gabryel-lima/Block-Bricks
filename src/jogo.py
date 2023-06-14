@@ -171,7 +171,8 @@ class Jogo(JogoBase):
                 self.bola.atualizar()
                 self.player.player_colisao()
                 self.player.input_player()
-                #self.player2.input_player2()
+                self.player2.player_colisao()
+                self.player2.input_player2()
 
             self.mensagem_fim_de_nivel()
             pygame.display.update()
@@ -186,7 +187,7 @@ class Jogo(JogoBase):
             self.bola.desenho_bola()
             self.blocos.desenhar_blocos()
             self.player.desenho_player()
-            #self.player2.desenho_player()
+            self.player2.desenho_player()
 
 if __name__ == "__main__":
     jogo = Jogo()

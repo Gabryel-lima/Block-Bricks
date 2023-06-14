@@ -100,8 +100,10 @@ class JogoBase:
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
 
-                    self.selecao_de_modos_estrutura_particao()
-                    #self.estrutura_de_decisao_modos() 
+                    def estrutura_de_decisao():
+        
+                        self.selecao_de_modos_estrutura_particao()
+                    
 
     def selecao_de_modos_estrutura_particao(self):
         while True:
@@ -125,13 +127,11 @@ class JogoBase:
                     self.desenho_botao_back()
                     self.desenho_borda()
                     self.player.desenho_player()
+                    #self.player2.desenho_player()
                     self.bola.desenho_bola()
                     self.blocos.desenhar_blocos()
                     self.exibir_mensagem_inte_iniciar()
                     pygame.display.update()
-
-    def estrutura_de_decisao_modos(self): # Estou com preguiça, depois vou melhorar fazendo algo melhor.
-        pass
 
     def continuar_prox_nivel(self):
         self.jogo_iniciado = True
