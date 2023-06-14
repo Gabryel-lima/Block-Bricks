@@ -94,18 +94,15 @@ class JogoBase:
                     self.rect_botao_player1 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
 
-                    self.selecao_de_modos_estrutura_particao()
+                    self.executar_particao(self.selecao_de_modos_estrutura_particao)
 
                 elif self.rect_botao_player2.collidepoint(pos_mouse):
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
 
-                    def estrutura_de_decisao():
-        
-                        self.selecao_de_modos_estrutura_particao()
-                    
+                    self.executar_particao(self.selecao_de_modos_estrutura_particao2)
 
-    def selecao_de_modos_estrutura_particao(self):
+    def executar_particao(self, particao):
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -114,7 +111,7 @@ class JogoBase:
 
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
                     if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
-                        self.reset() # Metodo Herdado.
+                        self.reset()
                         pygame.time.delay(300)
                         return
 
@@ -126,12 +123,19 @@ class JogoBase:
                     self.tela.fill((0,0,0))
                     self.desenho_botao_back()
                     self.desenho_borda()
-                    self.player.desenho_player()
-                    #self.player2.desenho_player()
                     self.bola.desenho_bola()
                     self.blocos.desenhar_blocos()
                     self.exibir_mensagem_inte_iniciar()
+                    particao()
                     pygame.display.update()
+
+    def selecao_de_modos_estrutura_particao(self):
+        self.player.desenho_player()
+
+    def selecao_de_modos_estrutura_particao2(self):
+        self.player.x = 530 // 2 - 40 // 2
+        self.player2.x = 600 // 2 - 5 // 2 + 20
+        self.player2.desenho_player()
 
     def continuar_prox_nivel(self):
         self.jogo_iniciado = True

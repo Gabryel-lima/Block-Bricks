@@ -5,14 +5,14 @@ from pygame.locals import *
 
 
 class PlayerBase:
-    def __init__(self, tela, borda, largura, altura):
+    def __init__(self, tela, borda, largura, altura, x= 600 // 2 - 40 // 2, y= 600 // 2 - 5 // 2 + 100):
         self.tela = tela
         self.borda = borda
         self.colisao = borda
         self.largura = largura
         self.altura = altura
-        self.x = 300
-        self.y = 300
+        self.x = x
+        self.y = y
         self.rect = pygame.Rect(self.x, self.y, 40, 5)
 
     def player_colisao(self):

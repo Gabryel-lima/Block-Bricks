@@ -8,7 +8,7 @@ class Player2(PlayerBase):
         super().__init__(tela, borda, largura, altura)
 
     def desenho_player(self):
-        pygame.draw.rect(self.tela, (0,255,0), ((self.x), (self.y), 40, 5))
+        pygame.draw.rect(self.tela, (60,255,10), ((self.x), (self.y), 40, 5))
 
     def input_player2(self):
         novo_x = self.x
