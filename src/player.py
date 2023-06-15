@@ -29,5 +29,5 @@ class Player(PlayerBase):
 
         self.x = novo_x
 
-    def reset(self):
+    def resetp1(self):
         self.x = 530 // 2 - 40 // 2

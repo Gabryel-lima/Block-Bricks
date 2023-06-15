@@ -122,9 +122,15 @@ class JogoBase:
                 if event.type == KEYDOWN and event.key == K_RETURN:
                     self.jogo_iniciado = True
                     self.bola.iniciar_movimento()
-                    self.player.reset()
-                    self.player2.reset()
-                    return
+                    if self.modo_jogador == "Player1":
+                        self.player.reset()
+                        self.player2.rect = Rect(0,0,0,0)
+                        return
+                    
+                    elif self.modo_jogador == "Player2":
+                        self.player.resetp1()
+                        self.player2.reset()
+                        return
                 else:
                     self.tela.fill((0,0,0))
                     self.desenho_botao_back()
@@ -133,7 +139,6 @@ class JogoBase:
                     self.blocos.desenhar_blocos()
                     self.exibir_mensagem_inte_iniciar()
                     particao()
-                    self.player2.desenho_player()
                     pygame.display.update()
 
     def selecao_de_modos_estrutura_particao(self):

@@ -29,10 +29,7 @@ class Jogo(JogoBase):
         self.jogo_iniciado = False 
 
     def verificar_colisao(self):
-        if self.bola.rect.colliderect(self.player.rect):
-            self.bola.inverter_direcao()
-
-        if self.bola.rect.colliderect(self.player2.rect):
+        if self.bola.rect.colliderect(self.player.rect) or self.bola.rect.colliderect(self.player2.rect):
             self.bola.inverter_direcao()
 
         if self.bola.y + self.bola.raio >= self.altura - 180:
