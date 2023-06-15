@@ -24,10 +24,10 @@ class Jogo(JogoBase):
         self.lp = self.carregar_melhor_pontuacao()
         self.mesg_bp = f'Melhor pontuação: {self.lp}' 
         self.fontei = pygame.font.SysFont('Candara', 30, True, False)
-        self.jogo_iniciado = False
+        self.jogo_iniciado = False 
 
     def verificar_colisao(self):
-        if self.bola.rect.colliderect(self.player.rect):
+        if self.bola.rect.colliderect(self.player.rect) or self.bola.rect.colliderect(self.player2.rect):
             self.bola.inverter_direcao()
 
         if self.bola.y + self.bola.raio >= self.altura - 180:
@@ -151,7 +151,7 @@ class Jogo(JogoBase):
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
-            self.reset()
+            self.reset(self.modo_jogador)
             self.continuar_prox_nivel()
 
     def run(self):
@@ -170,10 +170,16 @@ class Jogo(JogoBase):
                 self.exibir_pontuacao()
                 self.verificar_colisao()
                 self.bola.atualizar()
-                self.player.player_colisao()
-                self.player.input_player()
-                #self.player2.player_colisao()
-                #self.player2.input_player2()
+
+                if self.modo_jogador == "Player1":
+                    self.player.player_colisao()
+                    self.player.input_player()
+
+                elif self.modo_jogador == "Player2":
+                    self.player.player_colisao()
+                    self.player.input_player()
+                    self.player2.player_colisao()
+                    self.player2.input_player2()
 
             self.mensagem_fim_de_nivel()
             pygame.display.update()
@@ -187,8 +193,13 @@ class Jogo(JogoBase):
         if self.jogo_iniciado == True:
             self.bola.desenho_bola()
             self.blocos.desenhar_blocos()
-            self.player.desenho_player()
-            #self.player2.desenho_player()
+
+            if self.modo_jogador == "Player1":
+                self.player.desenho_player()
+
+            elif self.modo_jogador == "Player2":
+                self.player.desenho_player()
+                self.player2.desenho_player()
 
 if __name__ == "__main__":
     jogo = Jogo()

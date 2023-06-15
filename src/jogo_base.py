@@ -6,6 +6,7 @@ from pygame.locals import *
 
 from player import Player
 from player2 import Player2
+from player_base import PlayerBase
 from bola import Bola
 from blocos import Blocos
 
@@ -27,7 +28,8 @@ class JogoBase:
         self.rect_botao_player2 = pygame.Rect(240,230,120,40)
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
         self.back = f'Voltar'
-        self.mesgite = f'Pressione a tecla "Enter" para iniciar'  
+        self.mesgite = f'Pressione a tecla "Enter" para iniciar'
+        self.modo_jogador = None   
 
     def exibir_mensagem_inte_iniciar(self):
         mensagem = self.mesgite
@@ -93,12 +95,14 @@ class JogoBase:
                 if self.rect_botao_player1.collidepoint(pos_mouse):
                     self.rect_botao_player1 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
+                    self.modo_jogador = "Player1"
 
                     self.executar_particao(self.selecao_de_modos_estrutura_particao)
 
                 elif self.rect_botao_player2.collidepoint(pos_mouse):
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
+                    self.modo_jogador = "Player2"
 
                     self.executar_particao(self.selecao_de_modos_estrutura_particao2)
 
@@ -135,6 +139,7 @@ class JogoBase:
     def selecao_de_modos_estrutura_particao2(self):
         self.player.x = 530 // 2 - 40 // 2
         self.player2.x = 600 // 2 - 5 // 2 + 20
+        self.player.desenho_player()
         self.player2.desenho_player()
 
     def continuar_prox_nivel(self):

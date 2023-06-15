@@ -28,3 +28,5 @@ class Player2(PlayerBase):
             self.x = novo_x
 
         self.x = novo_x
+
+    
