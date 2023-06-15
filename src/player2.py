@@ -16,17 +16,20 @@ class Player2(PlayerBase):
             novo_x -= 3.5
 
             if pygame.key.get_pressed()[K_RSHIFT]:
-                novo_x -= 5
+                novo_x -= 4.5
 
         if pygame.key.get_pressed()[K_RIGHT]:
             novo_x += 3.5
 
             if pygame.key.get_pressed()[K_RSHIFT]:
-                novo_x += 5
+                novo_x += 4.5
 
         if self.colisao.left <= novo_x <= self.colisao.right - 40:
             self.x = novo_x
 
         self.x = novo_x
+
+    def reset(self):
+        self.x = 600 // 2 - 5 // 2 + 20
 
     

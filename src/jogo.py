@@ -1,10 +1,12 @@
 
 import json
 import os
+
 import pygame
 from pygame.locals import *
 
 from jogo_base import JogoBase
+
 
 class Jogo(JogoBase):
     def __init__(self):
@@ -27,7 +29,10 @@ class Jogo(JogoBase):
         self.jogo_iniciado = False 
 
     def verificar_colisao(self):
-        if self.bola.rect.colliderect(self.player.rect) or self.bola.rect.colliderect(self.player2.rect):
+        if self.bola.rect.colliderect(self.player.rect):
+            self.bola.inverter_direcao()
+
+        if self.bola.rect.colliderect(self.player2.rect):
             self.bola.inverter_direcao()
 
         if self.bola.y + self.bola.raio >= self.altura - 180:
@@ -50,14 +55,22 @@ class Jogo(JogoBase):
         pygame.display.flip()
         pygame.time.delay(3000)
         self.salvar_melhor_pontuacao()
-        self.selecao_de_modos_estrutura()
-        self.executar_particao(particao=self.selecao_de_modos_estrutura_particao or self.selecao_de_modos_estrutura_particao2)
-        self.blocos.resetar_blocos()
-        self.bola.reset()
-        self.bola.iniciar_movimento()
-        self.player.reset()
-        self.reset_pontos()
-        self.reset_nivel()
+        modo_selecionado = self.selecao_de_modos_estrutura()
+
+        if modo_selecionado == self.executar_particao(particao=self.selecao_de_modos_estrutura_particao):
+            self.blocos.resetar_blocos()
+            self.bola.reset()
+            self.bola.iniciar_movimento()
+            self.reset_pontos()
+            self.reset_nivel()
+
+        elif modo_selecionado == self.executar_particao(particao=self.selecao_de_modos_estrutura_particao2):
+            self.blocos.resetar_blocos()
+            self.bola.reset()
+            self.bola.iniciar_movimento()
+            self.selecao_de_modos_estrutura()
+            self.reset_pontos()
+            self.reset_nivel()
 
     def som_da_bola_e_bloco(self):
         self.som = self.som_colisao
@@ -124,6 +137,7 @@ class Jogo(JogoBase):
         self.jogo_iniciado = False
         self.bola.reset()
         self.player.reset()
+        self.player2.reset()
         self.rect_botao_player1 = pygame.Rect(240,170,100,30)
         self.rect_botao_player2 = pygame.Rect(240,230,100,35)
 
@@ -151,7 +165,7 @@ class Jogo(JogoBase):
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
-            self.reset(self.modo_jogador)
+            self.reset()
             self.continuar_prox_nivel()
 
     def run(self):
