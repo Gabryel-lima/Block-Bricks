@@ -46,6 +46,18 @@ class Bola:
             self.velocidade_y *= -1
             self.velocidade_x *= 1
 
+    def inverter_direcao2(self):
+        if pygame.key.get_pressed()[K_LEFT]:
+            self.velocidade_y *= -1
+            self.velocidade_x -= 1
+
+        elif pygame.key.get_pressed()[K_RIGHT]:
+            self.velocidade_y *= -1
+            self.velocidade_x += 1
+        else:
+            self.velocidade_y *= -1
+            self.velocidade_x *= 1
+
     def inverter_direcaoB(self):
         self.velocidade_y *= -1
         self.velocidade_x *= 1

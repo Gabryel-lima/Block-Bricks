@@ -29,8 +29,11 @@ class Jogo(JogoBase):
         self.jogo_iniciado = False 
 
     def verificar_colisao(self):
-        if self.bola.rect.colliderect(self.player.rect) or self.bola.rect.colliderect(self.player2.rect):
+        if self.bola.rect.colliderect(self.player.rect):
             self.bola.inverter_direcao()
+
+        elif self.bola.rect.colliderect(self.player2.rect):     
+            self.bola.inverter_direcao2()
 
         if self.bola.y + self.bola.raio >= self.altura - 180:
             texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  

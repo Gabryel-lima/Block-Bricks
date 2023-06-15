@@ -41,8 +41,6 @@ class JogoBase:
         texto_formatado = fonte.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, (60,250))
 
-        self.player2.desenho_player() # Não deveria mas é.
-
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
 
