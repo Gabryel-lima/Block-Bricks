@@ -7,10 +7,10 @@ from pygame.locals import *
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
-        self.num_colunas = 4 #4
-        self.num_blocos_por_fileira = 8 #8
+        self.num_colunas = 4
+        self.num_blocos_por_fileira = 8
         self.espaco_blocos = 16
-        self.largura_bloco = self.num_blocos_por_fileira + 49 
+        self.largura_bloco = 57
         self.altura_bloco = 20
         self.blocos = []
         self.criar_blocos()

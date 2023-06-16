@@ -6,7 +6,6 @@ from pygame.locals import *
 
 from player import Player
 from player2 import Player2
-from player_base import PlayerBase
 from bola import Bola
 from blocos import Blocos
 
