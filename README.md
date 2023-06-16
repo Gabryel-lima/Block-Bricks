@@ -3,7 +3,7 @@ Jogo 2D em Python com Pygame.
 
 # Block-Bricks
 
-![Block-Bricks Banner](link_para_imagem_banner)
+![Block-Bricks Banner](assets/logo.ico)
 
 ## Descrição
 
