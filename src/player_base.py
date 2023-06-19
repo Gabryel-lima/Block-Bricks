@@ -2,6 +2,8 @@
 
 import pygame
 from pygame.locals import *
+import pymunk
+from pymunk import Vec2d
 
 
 class PlayerBase:
@@ -13,7 +15,9 @@ class PlayerBase:
         self.altura = altura
         self.x = x
         self.y = y
+        self.vect = Vec2d(self.x,self.y)
         self.rect = pygame.Rect(self.x, self.y, 40, 5)
+        self.box = pymunk.ContactPoint(self.vect)
 
     def player_colisao(self):
         if self.x < self.borda.left:
