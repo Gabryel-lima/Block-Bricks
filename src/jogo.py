@@ -168,13 +168,15 @@ class Jogo(JogoBase):
             self.continuar_prox_nivel()
 
     def colisao_player(self):
-        if self.player.rect.colliderect(self.player2.rect):
+        if self.player.rect.colliderect(self.player2.rect) and pygame.key.get_pressed()[K_d]:
             self.player.x -= 3.5
-            self.player.x -= 4.5
+            if pygame.key.get_pressed()[K_LSHIFT]:
+                self.player.x -= 4.5
         
-        elif self.player2.rect.colliderect(self.player.rect):
-            self.player.x += 3.5
-            self.player.x += 4.5
+        if self.player2.rect.colliderect(self.player.rect) and pygame.key.get_pressed()[K_LEFT]:
+            self.player2.x += 3.5 
+            if pygame.key.get_pressed()[K_RSHIFT]:
+                self.player2.x += 4.5
 
     def run(self):
         while True:
