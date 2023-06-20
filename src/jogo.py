@@ -167,6 +167,15 @@ class Jogo(JogoBase):
             self.reset()
             self.continuar_prox_nivel()
 
+    def colisao_player(self):
+        if self.player.rect.colliderect(self.player2.rect):
+            self.player.x -= 3.5
+            self.player.x -= 4.5
+        
+        elif self.player2.rect.colliderect(self.player.rect):
+            self.player.x += 3.5
+            self.player.x += 4.5
+
     def run(self):
         while True:
             for event in pygame.event.get():
@@ -182,6 +191,7 @@ class Jogo(JogoBase):
                 self.exibir_nivel()
                 self.exibir_pontuacao()
                 self.verificar_colisao()
+                self.colisao_player()
                 self.bola.atualizar()
 
                 if self.modo_jogador == "Player1":
