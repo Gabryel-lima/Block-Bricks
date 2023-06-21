@@ -167,7 +167,7 @@ class Jogo(JogoBase):
             self.reset()
             self.continuar_prox_nivel()
 
-    def colisao_player(self):
+    def colisao_player(self): # Preciso colocar essa função nas classes corretas.
         if self.player.rect.colliderect(self.player2.rect) and pygame.key.get_pressed()[K_d]:
             self.player.x -= 3.5
             if pygame.key.get_pressed()[K_LSHIFT]:

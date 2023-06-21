@@ -13,7 +13,7 @@ class Bola:
         self.velocidade_x = 0
         self.velocidade_y = 0
         self.raio = 5
-        self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio * 1, self.raio * 1)
+        self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
         
     def desenho_bola(self):
         pygame.draw.circle(self.tela, (255,255,255), ((self.x), (self.y)), self.raio)

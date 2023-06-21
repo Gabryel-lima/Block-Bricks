@@ -13,7 +13,7 @@ class PlayerBase:
         self.altura = altura
         self.x = x
         self.y = y
-        self.rect = pygame.Rect(self.x, self.y, 49.9, 1)
+        self.rect = pygame.Rect(self.x, self.y, 50, 1)
 
     def player_colisao(self):
         if self.x < self.borda.left:
