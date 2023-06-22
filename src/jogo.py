@@ -19,6 +19,7 @@ class Jogo(JogoBase):
         self.fim_jogo = pygame.mixer.Sound('sounds/som_de_fim.wav')
         self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
         self.mesgc = f'"A"<Esquerda, "D">Direita, "LShift"<Aceleração>'
+        self.mesgc2 = f'"<-"<Esquerda, "->">Direita, "RShift"<Aceleração>'
         self.nivel = 1
         self.mesg_nivel = f'Nivel: {self.nivel}'
         self.mesg = f'Pontos: {self.pontos}'
@@ -182,15 +183,13 @@ class Jogo(JogoBase):
     def inverter_direcaoLB(self): # Deixei este metodo no principal pra facilitar a execução.
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
-                if self.bola.rect.left <= bloco.left:
+                if self.bola.rect.left < bloco.left:
                     self.bola.velocidade_y *= -1
                     self.bola.velocidade_x *= -1
-                    print(0)
 
-                if self.bola.rect.right >= bloco.right:
-                    self.bola.velocidade_y *= 1
-                    self.bola.velocidade_x *= +1
-                    print(1)
+                if self.bola.rect.right > bloco.right:
+                    self.bola.velocidade_x *= -1
+                    self.bola.velocidade_y *= -1
 
     def run(self):
         while True:

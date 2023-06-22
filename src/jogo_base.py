@@ -39,6 +39,12 @@ class JogoBase:
         fonte = pygame.font.SysFont('colibri', 30, False, False)
         texto_formatado = fonte.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, (60,250))
+        if self.modo_jogador == 'Player2':
+            mensagem = self.mesgc2
+            fonte = pygame.font.SysFont('colibri', 30, False, False)
+            texto_formatado = fonte.render(mensagem, False, (255,255,255))  
+            self.tela.blit(texto_formatado, (55,280))
+            
 
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
