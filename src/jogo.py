@@ -43,6 +43,7 @@ class Jogo(JogoBase):
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
                 self.bola.inverter_direcaoB()
+                self.inverter_direcaoLB()
                 self.som_da_bola_e_bloco()
                 self.atualiza_pontuacao()
                 self.atualiza_melhor_pontuacao()
@@ -167,7 +168,7 @@ class Jogo(JogoBase):
             self.reset()
             self.continuar_prox_nivel()
 
-    def colisao_player_player2(self): # Deixei esse metodo no principal pra facilitar a execução.
+    def colisao_player_player2(self): # Deixei este metodo no principal pra facilitar a execução.
         if self.player.rect.colliderect(self.player2.rect) and pygame.key.get_pressed()[K_d]:
             self.player.x -= 3.5
             if pygame.key.get_pressed()[K_LSHIFT]:
@@ -177,6 +178,19 @@ class Jogo(JogoBase):
             self.player2.x += 3.5 
             if pygame.key.get_pressed()[K_RSHIFT]:
                 self.player2.x += 4.5
+
+    def inverter_direcaoLB(self): # Deixei este metodo no principal pra facilitar a execução.
+        for bloco in self.blocos.blocos:
+            if self.bola.rect.colliderect(bloco):
+                if self.bola.rect.left <= bloco.left:
+                    self.bola.velocidade_y *= -1
+                    self.bola.velocidade_x *= -1
+                    print(0)
+
+                if self.bola.rect.right >= bloco.right:
+                    self.bola.velocidade_y *= 1
+                    self.bola.velocidade_x *= +1
+                    print(1)
 
     def run(self):
         while True:

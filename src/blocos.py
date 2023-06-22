@@ -34,14 +34,14 @@ class Blocos:
 
     def init_blocos_sequenciais(self):
         self.indice_aleatorio = random.sample(range(len(self.blocos)), self.countr)
-        print(self.indice_aleatorio)
+        #print(self.indice_aleatorio)
 
     def init_rand_dos_blocos(self):
         self.nsort = {}  # Inicializa o dicionário self.nsort.
         for indice in self.indice_aleatorio:
             self.nsort[indice] = random.randint(0,3)  # Atribui um número aleatório para cada índice.
             elemento = self.blocos[indice]
-            print(self.nsort[indice], elemento)  # Imprime o número aleatório e o elemento correspondente.
+            #print(self.nsort[indice], elemento)  # Imprime o número aleatório e o elemento correspondente.
 
     def resistencia_blocos(self):
         pass

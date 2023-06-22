@@ -62,9 +62,6 @@ class Bola:
         self.velocidade_y *= -1
         self.velocidade_x *= 1
 
-    def inverter_direcaoLB(self):
-        pass
-
     def reset(self):
         self.x = 300
         self.y = 350
