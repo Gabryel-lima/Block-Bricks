@@ -29,7 +29,6 @@ class JogoBase:
         self.back = f'Voltar'
         self.mesgite = f'Pressione a tecla "Enter" para iniciar'
         self.modo_jogador = None
-        self.blocos.blocos_sequenciais() # Inicia uma lista aleatória de blocos resistentes.
 
     def exibir_mensagem_inte_iniciar(self):
         mensagem = self.mesgite

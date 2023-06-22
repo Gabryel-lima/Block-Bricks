@@ -14,26 +14,37 @@ class Blocos:
         self.espaco_blocos = 16
         self.largura_bloco = 57
         self.altura_bloco = 20
-        self.nsort = random.randint(0,3)
         self.countr = random.randint(2,18)
         self.blocos = []
         self.criar_blocos()
+        self.init_blocos_sequenciais() # Inicia uma lista aleatória de blocos resistentes.
+        self.init_rand_dos_blocos()
 
     def criar_blocos(self):
         for fileira in range(self.num_colunas):
             for coluna in range(self.num_blocos_por_fileira):
                 x = self.espaco_blocos + coluna * (self.largura_bloco + self.espaco_blocos)
                 y = self.espaco_blocos + fileira * (self.altura_bloco + self.espaco_blocos)
-                bloco = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
-                self.blocos.append(bloco)
+                self.bloco = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
+                self.blocos.append(self.bloco)
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
             pygame.draw.rect(self.jogo.tela, (100,100,100), bloco)
 
-    def blocos_sequenciais(self):
-        indice_aleatorio = random.sample(range(len(self.blocos)), self.countr)
-        print(indice_aleatorio)
+    def init_blocos_sequenciais(self):
+        self.indice_aleatorio = random.sample(range(len(self.blocos)), self.countr)
+        print(self.indice_aleatorio)
+
+    def init_rand_dos_blocos(self):
+        self.nsort = {}  # Inicializa o dicionário self.nsort.
+        for indice in self.indice_aleatorio:
+            self.nsort[indice] = random.randint(0,3)  # Atribui um número aleatório para cada índice.
+            elemento = self.blocos[indice]
+            print(self.nsort[indice], elemento)  # Imprime o número aleatório e o elemento correspondente.
+
+    def resistencia_blocos(self):
+        pass
 
     def resetar_blocos(self):
         self.blocos.clear()
