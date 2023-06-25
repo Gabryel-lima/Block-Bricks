@@ -1,3 +1,4 @@
+
 import json
 import os
 
@@ -48,7 +49,8 @@ class Jogo(JogoBase):
                 self.som_da_bola_e_bloco()
                 self.atualiza_pontuacao()
                 self.atualiza_melhor_pontuacao()
-                self.blocos.blocos.remove(bloco)
+                self.blocos.init_rand_dos_blocos_dict()
+                #self.blocos.blocos.remove(bloco)
                 break  # Adicionado para sair do loop após a colisão
 
     def particao_verificar_colisao(self):
