@@ -17,7 +17,7 @@ class Blocos:
         self.countr = random.randint(2,18)
         self.blocos = []
         self.criar_blocos()
-        self.init_lista_rand_blocos() # Inicia uma lista aleatória de blocos resistentes.
+        #self.init_lista_rand_blocos() # Inicia uma lista aleatória de blocos resistentes.
         #self.init_rand_dos_blocos_dict()
 
     def criar_blocos(self):
@@ -35,6 +35,7 @@ class Blocos:
     def init_lista_rand_blocos(self):
         self.indice_aleatorio = random.sample(range(len(self.blocos)), self.countr)
         print('Init_lista_rand_blocos:', self.indice_aleatorio)
+        pass
         
 
     def init_rand_dos_blocos_dict(self):
@@ -71,6 +72,7 @@ class Blocos:
             print(2)
         else:
             return self.count
+        pass
         
 
     def resistencia_blocos(self):

@@ -134,6 +134,7 @@ class JogoBase:
                     elif self.modo_jogador == "Player2":
                         self.player.resetp1()
                         self.player2.reset()
+                        self.player2.rect = Rect(self.player2.x, self.player2.y, 40, 1)
                         return
                 else:
                     self.tela.fill((0,0,0))

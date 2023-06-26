@@ -31,5 +31,6 @@ class Player2(PlayerBase):
 
     def reset(self):
         self.x = 600 // 2 - 5 // 2 + 20
+        
 
     
