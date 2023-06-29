@@ -49,7 +49,6 @@ class Jogo(JogoBase):
                 self.som_da_bola_e_bloco()
                 self.atualiza_pontuacao()
                 self.atualiza_melhor_pontuacao()
-                #self.blocos.init_rand_dos_blocos_dict()
                 self.blocos.blocos.remove(bloco)
                 break  # Adicionado para sair do loop após a colisão
 
@@ -190,8 +189,8 @@ class Jogo(JogoBase):
                     self.bola.velocidade_x *= -1
 
                 if self.bola.rect.right >= bloco.right:
-                    self.bola.velocidade_x *= 1
-                    self.bola.velocidade_y *= 1
+                    self.bola.velocidade_x *= -1
+                    self.bola.velocidade_y *= -1
 
     def run(self):
         while True:
