@@ -185,13 +185,13 @@ class Jogo(JogoBase):
     def inverter_direcaoLB(self): # Deixei este metodo no principal pra facilitar a execução.
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
-                if self.bola.rect.left < bloco.left:
+                if self.bola.rect.left <= bloco.left:
                     self.bola.velocidade_y *= -1
                     self.bola.velocidade_x *= -1
 
-                if self.bola.rect.right > bloco.right:
-                    self.bola.velocidade_x *= -1
-                    self.bola.velocidade_y *= -1
+                if self.bola.rect.right >= bloco.right:
+                    self.bola.velocidade_x *= 1
+                    self.bola.velocidade_y *= 1
 
     def run(self):
         while True:

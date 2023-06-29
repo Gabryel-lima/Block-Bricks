@@ -37,7 +37,6 @@ class Blocos:
         print('Init_lista_rand_blocos:', self.indice_aleatorio)
         pass
         
-
     def init_rand_dos_blocos_dict(self):
         self.count = 0
         self.nsort = {}  # Inicializa o dicionário self.nsort.
@@ -58,7 +57,6 @@ class Blocos:
         if self.blocos[self.indice] == 0:
             self.blocos.remove(self.blocos[self.bloco])
             self.count += 1
-
             print(0)
 
         elif self.blocos[self.indice] == 1:
@@ -74,7 +72,6 @@ class Blocos:
             return self.count
         pass
         
-
     def resistencia_blocos(self):
         pass
 
