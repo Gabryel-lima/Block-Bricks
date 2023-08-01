@@ -27,7 +27,7 @@ class Jogo(JogoBase):
         self.lp = self.carregar_melhor_pontuacao()
         self.mesg_bp = f'Melhor pontuação: {self.lp}' 
         self.fontei = pygame.font.SysFont('Candara', 30, True, False)
-        self.jogo_iniciado = False 
+        self.jogo_iniciado = False
 
     def verificar_colisao(self):
         if self.bola.rect.colliderect(self.player.rect):
@@ -45,11 +45,13 @@ class Jogo(JogoBase):
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
                 self.bola.inverter_direcaoB()
+                #self.bola.velocidade_vetorial()    ##
                 self.inverter_direcaoLB()
                 self.som_da_bola_e_bloco()
                 self.atualiza_pontuacao()
                 self.atualiza_melhor_pontuacao()
                 self.blocos.blocos.remove(bloco)
+                #self.blocos.remove_blocos()
                 break  # Adicionado para sair do loop após a colisão
 
     def particao_verificar_colisao(self):
@@ -184,11 +186,7 @@ class Jogo(JogoBase):
     def inverter_direcaoLB(self): # Deixei este metodo no principal pra facilitar a execução.
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
-                if self.bola.rect.left <= bloco.left:
-                    self.bola.velocidade_y *= -1
-                    self.bola.velocidade_x *= -1
-
-                if self.bola.rect.right >= bloco.right:
+                if self.bola.rect.left <= bloco.left or self.bola.rect.right >= bloco.right:
                     self.bola.velocidade_x *= -1
                     self.bola.velocidade_y *= -1
 

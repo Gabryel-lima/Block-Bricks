@@ -17,8 +17,7 @@ class Blocos:
         self.countr = random.randint(2,18)
         self.blocos = []
         self.criar_blocos()
-        self.remove_blocos() # Inicia uma lista aleatória de blocos resistentes.
-        #self.rand_dos_blocos_dict()
+        #self.remove_blocos() # Inicia uma lista aleatória de blocos resistentes.
 
     def criar_blocos(self):
         for fileira in range(self.num_colunas):
@@ -39,9 +38,9 @@ class Blocos:
 
         for self.indice in self.indice_aleatorio:
             self.nsort[self.indice] = random.randint(0,2)
-            self.blocos = self.nsort.items()
+            self.blocos[self.indice]
             print('lista_rand_blocos:', self.indice_aleatorio) 
-            print('Lista dos blocos:', self.blocos)
+            print('Lista dos blocos:', self.nsort)
 
     def resetar_blocos(self):
         self.blocos.clear()

@@ -8,18 +8,20 @@ class Bola:
     def __init__(self, jogo, tela):
         self.tela = tela
         self.jogo = jogo
-        self.x = 300
-        self.y = 350
+        self.x = 300   # 300
+        self.y = 350   # 350   
         self.velocidade_x = 0
         self.velocidade_y = 0
         self.raio = 5
         self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
+        self.x_anterior = self.x        ##
+        self.y_anterior = self.y        ##
         
     def desenho_bola(self):
         pygame.draw.circle(self.tela, (255,255,255), ((self.x), (self.y)), self.raio)
 
     def iniciar_movimento(self):
-        self.velocidade_x = random.randint(-3,3) # random.randint(-3,3) 
+        self.velocidade_x = random.randint(-3,3)  # random.randint(-3,3) 
         self.velocidade_y = random.choice([-2,-3,-4]) # random.choice([-2,-3,-4])
         self.rect.center = (self.x, self.y)
 
@@ -32,7 +34,7 @@ class Bola:
             self.velocidade_x *= -1
 
         if self.y - self.raio <= 0:
-            self.velocidade_y *= -1      
+            self.velocidade_y *= -1
 
     def inverter_direcao(self):
         if pygame.key.get_pressed()[K_a]:
@@ -61,6 +63,15 @@ class Bola:
     def inverter_direcaoB(self):
         self.velocidade_y *= -1
         self.velocidade_x *= 1
+
+    def velocidade_vetorial(self):
+        if self.x > self.x_anterior:
+            return 
+        elif self.x < self.x_anterior:
+            return
+        else:
+            return
+        pass
 
     def reset(self):
         self.x = 300
