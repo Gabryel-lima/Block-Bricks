@@ -12,7 +12,7 @@ class Bola:
         self.y = 350   # 350   
         self.velocidade_x = 0
         self.velocidade_y = 0
-        self.raio = 5
+        self.raio = 5.1
         self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
         self.x_anterior = self.x        ##
         self.y_anterior = self.y        ##

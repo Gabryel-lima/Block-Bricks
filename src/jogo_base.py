@@ -1,6 +1,7 @@
 
 import json
 import os
+import webbrowser
 
 import pygame
 from pygame.locals import *
@@ -24,8 +25,8 @@ class JogoBase:
         self.blocos = Blocos(self)
         self.modo1 = f'Player 1'
         self.modo2 = f'Player 2'
-        self.credito = f'Criado por: Gabryel27'
-        self.fonte_impact = pygame.font.SysFont("impact", 30)
+        self.clink_rect = pygame.Rect(40,522,280,30)
+        self.fonte_impact = pygame.font.SysFont("impact", 28)
         self.rect_botao_player1 = pygame.Rect(240,170,120,40)
         self.rect_botao_player2 = pygame.Rect(240,230,120,40)
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
@@ -106,6 +107,7 @@ class JogoBase:
             mod2 = self.modo2
             rect_modo1 = self.rect_botao_player1
             rect_modo2 = self.rect_botao_player2
+            rect_c = self.clink_rect
 
             if rect_modo1.collidepoint(pos_mouse):
                 self.cor_botao_modo1 = (150,150,150) 
@@ -115,14 +117,21 @@ class JogoBase:
             if rect_modo2.collidepoint(pos_mouse):
                 self.cor_botao_modo2 = (150,150,150) 
             else:
-                self.cor_botao_modo2 = (255,255,255)  
+                self.cor_botao_modo2 = (255,255,255)
 
-            if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0:  
+            if rect_c.collidepoint(pos_mouse):
+                self.cor_clink = (150,150,150) 
+            else:
+                self.cor_clink = (255,255,255)  
+
+            if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:  
                 texto_formatado1 = self.fonte.render(mod1, False, self.cor_botao_modo1)
                 self.tela.blit(texto_formatado1, (240,170))
                 texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
                 self.tela.blit(texto_formatado2, (240,230))
-                self.exibir_credito()
+                m = 'Criado por: Gabryel-lima'
+                texto_formatado_c = self.fonte_impact.render(m, False, self.cor_clink)
+                self.tela.blit(texto_formatado_c, (40,520))
 
     def desenho_botao_back(self):
         pos_mouse = pygame.mouse.get_pos()
@@ -164,6 +173,10 @@ class JogoBase:
 
                     self.executar_particao(self.selecao_de_modos_estrutura_particao2)
 
+                elif self.clink_rect.collidepoint(event.pos):
+                        webbrowser.open("https://github.com/Gabryel-lima")
+                        pygame.time.delay(300)
+
     def executar_particao(self, particao):
         while True:
             for event in pygame.event.get():
@@ -176,7 +189,7 @@ class JogoBase:
                         self.reset()
                         pygame.time.delay(300)
                         return
-
+                    
                 if event.type == KEYDOWN and event.key == K_RETURN:
                     self.jogo_iniciado = True
                     self.bola.iniciar_movimento()
