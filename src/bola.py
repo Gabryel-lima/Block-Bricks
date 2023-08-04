@@ -65,8 +65,8 @@ class Bola:
         self.velocidade_x *= 1
 
     def inverter_direcaoP(self):
-        self.velocidade_y *= 1
-        self.velocidade_x *= 1
+        self.velocidade_y *= +1
+        self.velocidade_x *= +1
 
     def velocidade_vetorial(self):
         if self.x > self.x_anterior:

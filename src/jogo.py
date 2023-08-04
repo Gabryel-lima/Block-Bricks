@@ -173,7 +173,7 @@ class Jogo(JogoBase):
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
-            self.reset()
+            #self.reset()
             self.continuar_prox_nivel()
 
     def colisao_player_player2(self): # Deixei este metodo no principal pra facilitar a execução.

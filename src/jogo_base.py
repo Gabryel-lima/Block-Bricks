@@ -24,6 +24,8 @@ class JogoBase:
         self.blocos = Blocos(self)
         self.modo1 = f'Player 1'
         self.modo2 = f'Player 2'
+        self.credito = f'Criado por: Gabryel27'
+        self.fonte_impact = pygame.font.SysFont("impact", 30)
         self.rect_botao_player1 = pygame.Rect(240,170,120,40)
         self.rect_botao_player2 = pygame.Rect(240,230,120,40)
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
@@ -93,6 +95,11 @@ class JogoBase:
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
 
+    def exibir_credito(self):
+        mensagem = self.credito
+        texto_formatado1 = self.fonte_impact.render(mensagem, False, (255,255,255))
+        self.tela.blit(texto_formatado1, (40,520))
+
     def botoes_tela_inicial_modos(self):
             pos_mouse = pygame.mouse.get_pos()
             mod1 = self.modo1
@@ -115,6 +122,7 @@ class JogoBase:
                 self.tela.blit(texto_formatado1, (240,170))
                 texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
                 self.tela.blit(texto_formatado2, (240,230))
+                self.exibir_credito()
 
     def desenho_botao_back(self):
         pos_mouse = pygame.mouse.get_pos()
