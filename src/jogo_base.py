@@ -1,4 +1,5 @@
 
+import json
 import os
 
 import pygame
@@ -28,7 +29,51 @@ class JogoBase:
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
         self.back = f'Voltar'
         self.mesgite = f'Pressione a tecla "Enter" para iniciar'
+        self.pontos2 = 0
+        self.mesg2 = f'Pontos: {self.pontos2}'
+        self.lp2 = self.carregar_melhor_pontuacao2()
+        self.mesg_bp2 = f'Melhor pontuação: {self.lp2}'
         self.modo_jogador = None
+
+    def carregar_melhor_pontuacao2(self):
+        try:
+            with open('src/best_score2.json', 'r') as file:
+                data = json.load(file)
+                return data['best_score2']
+        except (FileNotFoundError, KeyError):
+            return 0
+
+    def salvar_melhor_pontuacao2(self):
+        data = {'best_score2': self.lp2}
+        with open('src/best_score2.json', 'w') as file:
+            json.dump(data, file)
+
+    def atualiza_melhor_pontuacao2(self):
+        if self.pontos2 > self.lp2:
+            self.lp2 = self.pontos2
+            self.salvar_melhor_pontuacao2()
+            self.mesg_bp2 = f'Melhor pontuação: {self.lp2}'
+
+    def exibe_melhor_pontuacao2(self):
+        mensagem = self.mesg_bp2
+        texo_formatado = self.fontei.render(mensagem, False, (255,255,255))
+        self.tela.blit(texo_formatado, (40,530))
+    
+    def exibir_pontuacao2(self):
+        mensagem = self.mesg2
+        texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (40,430))
+
+    def atualiza_pontuacao2(self):
+        self.pontos2 += 1
+        self.mesg2 = f'Pontos: {self.pontos2}'
+
+    def reset_pontos2(self):
+        if self.mensagem_fim_de_nivel == True:
+            self.mesg2 = f'Pontos: {self.pontos2}'
+        else:
+            self.pontos2 = 0
+            self.mesg2 = f'Pontos: {self.pontos2}'
 
     def exibir_mensagem_inte_iniciar(self):
         mensagem = self.mesgite
@@ -107,6 +152,7 @@ class JogoBase:
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.modo_jogador = "Player2"
+                    self.salvar_melhor_pontuacao2()
 
                     self.executar_particao(self.selecao_de_modos_estrutura_particao2)
 

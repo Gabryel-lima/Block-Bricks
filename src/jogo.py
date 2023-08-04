@@ -48,10 +48,14 @@ class Jogo(JogoBase):
                 #self.bola.velocidade_vetorial()    ##
                 self.inverter_direcaoLB()
                 self.som_da_bola_e_bloco()
-                self.atualiza_pontuacao()
-                self.atualiza_melhor_pontuacao()
                 self.blocos.blocos.remove(bloco)
                 #self.blocos.remove_blocos()
+                if self.modo_jogador == "Player1":
+                    self.atualiza_pontuacao()
+                    self.atualiza_melhor_pontuacao()
+                elif self.modo_jogador == "Player2":
+                    self.atualiza_pontuacao2()
+                    self.atualiza_melhor_pontuacao2()
                 break  # Adicionado para sair do loop após a colisão
 
     def particao_verificar_colisao(self):
@@ -150,15 +154,15 @@ class Jogo(JogoBase):
         texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, (40,430))
 
-    def exibir_nivel(self):
-        mensagem = self.mesg_nivel
-        texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
-        self.tela.blit(texto_formatado, (40,480))
-
     def exibe_melhor_pontuacao(self):
         mensagem = self.mesg_bp
         texo_formatado = self.fontei.render(mensagem, False, (255,255,255))
         self.tela.blit(texo_formatado, (40,530))
+
+    def exibir_nivel(self):
+        mensagem = self.mesg_nivel
+        texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
+        self.tela.blit(texto_formatado, (40,480))
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocos.blocos) == 0:
@@ -186,6 +190,8 @@ class Jogo(JogoBase):
     def inverter_direcaoLB(self): # Deixei este metodo no principal pra facilitar a execução.
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
+                if self.bola.rect.bottom and self.bola.rect.top <= bloco.bottom and self.bola.rect.top:
+                    self.bola.inverter_direcaoP()
                 if self.bola.rect.left <= bloco.left or self.bola.rect.right >= bloco.right:
                     self.bola.velocidade_x *= -1
                     self.bola.velocidade_y *= -1
@@ -201,18 +207,21 @@ class Jogo(JogoBase):
             self.layout()
 
             if self.jogo_iniciado:
-                self.exibe_melhor_pontuacao()
-                self.exibir_nivel()
-                self.exibir_pontuacao()
                 self.verificar_colisao()
                 self.colisao_player_player2()
                 self.bola.atualizar()
 
                 if self.modo_jogador == "Player1":
+                    self.exibir_nivel()
+                    self.exibe_melhor_pontuacao()
+                    self.exibir_pontuacao()
                     self.player.player_colisao()
                     self.player.input_player()
 
                 elif self.modo_jogador == "Player2":
+                    self.exibir_nivel()
+                    self.exibe_melhor_pontuacao2()
+                    self.exibir_pontuacao2()
                     self.player.player_colisao()
                     self.player.input_player()
                     self.player2.player_colisao()
