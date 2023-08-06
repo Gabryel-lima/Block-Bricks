@@ -21,8 +21,6 @@ class Jogo(JogoBase):
         self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
         self.mesgc = f'"A"<Esquerda, "D">Direita, "LShift"<Aceleração>'
         self.mesgc2 = f'"<-"<Esquerda, "->">Direita, "RShift"<Aceleração>'
-        self.nivel = 1
-        self.mesg_nivel = f'Nivel: {self.nivel}'
         self.mesg = f'Pontos: {self.pontos}'
         self.lp = self.carregar_melhor_pontuacao()
         self.mesg_bp = f'Melhor pontuação: {self.lp}' 
@@ -136,10 +134,6 @@ class Jogo(JogoBase):
         else:
             self.pontos = 0
             self.mesg = f'Pontos: {self.pontos}'
-
-    def niveis_count(self):
-        self.nivel += 1
-        self.mesg_nivel = f'Nivel: {self.nivel}'
 
     def reset_nivel(self):
         if self.mensagem_fim_de_nivel == True:

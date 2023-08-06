@@ -32,6 +32,8 @@ class JogoBase:
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
         self.back = f'Voltar'
         self.mesgite = f'Pressione a tecla "Enter" para iniciar'
+        self.nivel = 1
+        self.mesg_nivel = f'Nivel: {self.nivel}'
         self.pontos2 = 0
         self.mesg2 = f'Pontos: {self.pontos2}'
         self.lp2 = self.carregar_melhor_pontuacao2()
@@ -215,10 +217,20 @@ class JogoBase:
         self.player2.x = 600 // 2 - 5 // 2 + 20
         self.player.desenho_player()
         self.player2.desenho_player()
-        
+
+    def niveis_count(self):
+        self.nivel += 1
+        self.mesg_nivel = f'Nivel: {self.nivel}'
+                
+    def manipula_nivel(self):
+        while True:
+            self.blocos.configurar_nivel(self.nivel)
+            break
+
     def continuar_prox_nivel(self):
         self.jogo_iniciado = True
         self.bola.iniciar_movimento()
+        self.manipula_nivel()
         self.rect_botao_player1 = pygame.Rect(0,0,0,0)
         self.rect_botao_player2 = pygame.Rect(0,0,0,0)
         return
