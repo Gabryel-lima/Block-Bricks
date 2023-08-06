@@ -71,13 +71,6 @@ class JogoBase:
         self.pontos2 += 1
         self.mesg2 = f'Pontos: {self.pontos2}'
 
-    def reset_pontos2(self):
-        if self.mensagem_fim_de_nivel == True:
-            self.mesg2 = f'Pontos: {self.pontos2}'
-        else:
-            self.pontos2 = 0
-            self.mesg2 = f'Pontos: {self.pontos2}'
-
     def exibir_mensagem_inte_iniciar(self):
         mensagem = self.mesgite
         fonte = pygame.font.SysFont('times new roman', 25, True, False)
@@ -92,6 +85,7 @@ class JogoBase:
             fonte = pygame.font.SysFont('colibri', 30, False, False)
             texto_formatado = fonte.render(mensagem, False, (255,255,255))  
             self.tela.blit(texto_formatado, (55,270))
+            self.player2.desenho_player()
 
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)

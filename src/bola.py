@@ -12,7 +12,7 @@ class Bola:
         self.y = 350   # 350   
         self.velocidade_x = 0
         self.velocidade_y = 0
-        self.raio = 5.1
+        self.raio = 5
         self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
         self.x_anterior = self.x        ##
         self.y_anterior = self.y        ##
@@ -68,18 +68,17 @@ class Bola:
         self.velocidade_y *= +1
         self.velocidade_x *= +1
 
-    def velocidade_vetorial(self):
-        if self.x > self.x_anterior:
-            return 
-        elif self.x < self.x_anterior:
-            return
-        else:
-            return
-        pass
-
     def reset(self):
         self.x = 300
         self.y = 350
         self.velocidade_x = 0
         self.velocidade_y = 0
         self.rect.center = (self.x, self.y)
+
+"""     def velocidade_vetorial(self):
+        if self.x > self.x_anterior:
+            return 
+        elif self.x < self.x_anterior:
+            return
+        else:
+            return """

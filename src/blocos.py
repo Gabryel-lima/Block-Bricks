@@ -1,6 +1,5 @@
 
 
-
 import pygame
 from pygame.locals import *
 
@@ -30,17 +29,6 @@ class Blocos:
     def desenhar_blocos(self):
         for bloco in self.blocos:
             pygame.draw.rect(self.jogo.tela, (100,100,100), bloco)
-        
-    def remove_blocos(self):
-        self.count = 0
-        self.nsort = {}
-        self.indice_aleatorio = random.sample(range(len(self.blocos)), self.countr)
-
-        for self.indice in self.indice_aleatorio:
-            self.nsort[self.indice] = random.randint(0,2)
-            self.blocos[self.indice]
-            print('lista_rand_blocos:', self.indice_aleatorio) 
-            print('Lista dos blocos:', self.nsort)
 
     def resetar_blocos(self):
         self.blocos.clear()

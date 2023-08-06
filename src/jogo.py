@@ -45,11 +45,9 @@ class Jogo(JogoBase):
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
                 self.bola.inverter_direcaoB()
-                #self.bola.velocidade_vetorial()    ##
                 self.inverter_direcaoLB()
                 self.som_da_bola_e_bloco()
                 self.blocos.blocos.remove(bloco)
-                #self.blocos.remove_blocos()
                 if self.modo_jogador == "Player1":
                     self.atualiza_pontuacao()
                     self.atualiza_melhor_pontuacao()
@@ -70,6 +68,7 @@ class Jogo(JogoBase):
             self.bola.reset()
             self.bola.iniciar_movimento()
             self.reset_pontos()
+            self.reset_pontos2()
             self.reset_nivel()
 
         elif modo_selecionado == self.executar_particao(particao=self.selecao_de_modos_estrutura_particao2):
@@ -78,6 +77,7 @@ class Jogo(JogoBase):
             self.bola.iniciar_movimento()
             self.selecao_de_modos_estrutura()
             self.reset_pontos()
+            self.reset_pontos2()
             self.reset_nivel()
 
     def som_da_bola_e_bloco(self):
@@ -113,6 +113,13 @@ class Jogo(JogoBase):
             self.lp = self.pontos
             self.salvar_melhor_pontuacao()
             self.mesg_bp = f'Melhor pontuação: {self.lp}'
+
+    def reset_pontos2(self):
+        if self.mensagem_fim_de_nivel == True:
+            self.mesg2 = f'Pontos: {self.pontos2}'
+        else:
+            self.pontos2 = 0
+            self.mesg2 = f'Pontos: {self.pontos2}'
 
     def reset_melhor_pontuacao(self): # Não está sendo utilizado.
         self.lp = 0
@@ -173,7 +180,7 @@ class Jogo(JogoBase):
             pygame.display.flip()
             pygame.time.delay(3000)
             self.blocos.resetar_blocos()
-            #self.reset()
+            self.bola.reset()
             self.continuar_prox_nivel()
 
     def colisao_player_player2(self): # Deixei este metodo no principal pra facilitar a execução.
