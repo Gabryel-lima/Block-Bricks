@@ -42,8 +42,7 @@ class Jogo(JogoBase):
             
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
-                self.bola.inverter_direcaoB()
-                self.inverter_direcaoLB()
+                self.inverter_direcao_bola()
                 self.som_da_bola_e_bloco()
                 self.blocos.blocos.remove(bloco)
                 if self.modo_jogador == "Player1":
@@ -188,14 +187,18 @@ class Jogo(JogoBase):
             if pygame.key.get_pressed()[K_RSHIFT]:
                 self.player2.x += 4.5
 
-    def inverter_direcaoLB(self): # Deixei este metodo no principal pra facilitar a execução.
+    def inverter_direcao_bola(self): # Deixei este metodo no principal pra facilitar a execução.
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
                 if self.bola.rect.bottom and self.bola.rect.top <= bloco.bottom and self.bola.rect.top:
-                    self.bola.inverter_direcaoP()
+                    self.bola.velocidade_y *= -1
+                    self.bola.velocidade_x *= 1
                 if self.bola.rect.left <= bloco.left or self.bola.rect.right >= bloco.right:
                     self.bola.velocidade_x *= -1
                     self.bola.velocidade_y *= -1
+                    if self.bola.rect.centerx <= bloco.right or self.bola.rect.centery >= bloco.left:
+                        self.bola.velocidade_x *= -1
+                        self.bola.velocidade_y *= -1
 
     def run(self):
         while True:
