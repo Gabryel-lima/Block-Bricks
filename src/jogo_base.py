@@ -224,7 +224,7 @@ class JogoBase:
                 
     def manipula_nivel(self):
         while True:
-            self.blocos.configurar_nivel(self.nivel)
+            self.blocos.configurar_nivel()
             break
 
     def continuar_prox_nivel(self):
