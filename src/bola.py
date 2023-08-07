@@ -21,8 +21,8 @@ class Bola:
         pygame.draw.circle(self.tela, (255,255,255), ((self.x), (self.y)), self.raio)
 
     def iniciar_movimento(self):
-        self.velocidade_x = 2  # random.randint(-3,3) 
-        self.velocidade_y = -3 # random.choice([-2,-3,-4])
+        self.velocidade_x = random.randint(-3,3)  # random.randint(-3,3) 
+        self.velocidade_y = random.choice([-2,-3,-4]) # random.choice([-2,-3,-4])
         self.rect.center = (self.x, self.y)
 
     def atualizar(self):
