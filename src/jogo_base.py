@@ -25,8 +25,13 @@ class JogoBase:
         self.blocos = Blocos(self)
         self.modo1 = f'Player 1'
         self.modo2 = f'Player 2'
-        self.clink_rect = pygame.Rect(40,522,280,30)
         self.fonte_impact = pygame.font.SysFont("impact", 28)
+        self.cor_botao_subl = (250,250,250)
+        self.rect_botao_sublinhar_mod_player = pygame.Rect(240,210,0,5) #(240,210,0,5) #240,170,120,40
+        self.rect_botao_sublinhar_mod_player2 = pygame.Rect(240,270,0,5)
+        self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,5)
+        self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,5) 
+        self.clink_rect = pygame.Rect(40,522,280,30)
         self.rect_botao_player1 = pygame.Rect(240,170,120,40)
         self.rect_botao_player2 = pygame.Rect(240,230,120,40)
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
@@ -97,37 +102,64 @@ class JogoBase:
         texto_formatado1 = self.fonte_impact.render(mensagem, False, (255,255,255))
         self.tela.blit(texto_formatado1, (40,520))
 
+    def animaçao_de_sublinhar_botao_tela_inicial(self):
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player)
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player2)
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_clink)
+
+        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 115)
+        self.rect_botao_sublinhar_mod_player.width = max(self.rect_botao_sublinhar_mod_player.width, 0)
+        self.rect_botao_sublinhar_mod_player2.width = min(self.rect_botao_sublinhar_mod_player2.width, 115)
+        self.rect_botao_sublinhar_mod_player2.width = max(self.rect_botao_sublinhar_mod_player2.width, 0)
+        self.rect_botao_sublinhar_clink.width = min(self.rect_botao_sublinhar_clink.width, 282)
+        self.rect_botao_sublinhar_clink.width = max(self.rect_botao_sublinhar_clink.width, 0)
+
     def botoes_tela_inicial_modos(self):
-            pos_mouse = pygame.mouse.get_pos()
-            mod1 = self.modo1
-            mod2 = self.modo2
-            rect_modo1 = self.rect_botao_player1
-            rect_modo2 = self.rect_botao_player2
-            rect_c = self.clink_rect
+        pos_mouse = pygame.mouse.get_pos()
+        mod1 = self.modo1
+        mod2 = self.modo2
+        rect_modo1 = self.rect_botao_player1
+        rect_modo2 = self.rect_botao_player2
+        rect_c = self.clink_rect
 
-            if rect_modo1.collidepoint(pos_mouse):
-                self.cor_botao_modo1 = (150,150,150) 
-            else:
-                self.cor_botao_modo1 = (255,255,255)  
+        if rect_modo1.collidepoint(pos_mouse):
+            self.cor_botao_modo1 = (170,170,170)
+            self.rect_botao_sublinhar_mod_player.width += 3  
+        else:
+            self.cor_botao_modo1 = (255,255,255)
+            self.rect_botao_sublinhar_mod_player.width -= 2  
 
-            if rect_modo2.collidepoint(pos_mouse):
-                self.cor_botao_modo2 = (150,150,150) 
-            else:
-                self.cor_botao_modo2 = (255,255,255)
+        if rect_modo2.collidepoint(pos_mouse):
+            self.cor_botao_modo2 = (170,170,170)
+            self.rect_botao_sublinhar_mod_player2.width += 3  
+        else:
+            self.cor_botao_modo2 = (255,255,255)
+            self.rect_botao_sublinhar_mod_player2.width -= 2  
 
-            if rect_c.collidepoint(pos_mouse):
-                self.cor_clink = (150,150,150) 
-            else:
-                self.cor_clink = (255,255,255)  
+        if rect_c.collidepoint(pos_mouse):
+            self.cor_clink = (170,170,170)
+            self.rect_botao_sublinhar_clink.width += 5  
+        else:
+            self.cor_clink = (255,255,255)
+            self.rect_botao_sublinhar_clink.width -= 3  
 
-            if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:  
-                texto_formatado1 = self.fonte.render(mod1, False, self.cor_botao_modo1)
-                self.tela.blit(texto_formatado1, (240,170))
-                texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
-                self.tela.blit(texto_formatado2, (240,230))
-                m = 'Criado por: Gabryel-lima'
-                texto_formatado_c = self.fonte_impact.render(m, False, self.cor_clink)
-                self.tela.blit(texto_formatado_c, (40,520))
+        if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:
+            texto_formatado1 = self.fonte.render(mod1, False, self.cor_botao_modo1)
+            self.tela.blit(texto_formatado1, (240,170))
+            texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
+            self.tela.blit(texto_formatado2, (240,230))
+            
+            self.animaçao_de_sublinhar_botao_tela_inicial()
+
+            m = 'Criado por: Gabryel-lima'
+            texto_formatado_c = self.fonte_impact.render(m, False, self.cor_clink)
+            self.tela.blit(texto_formatado_c, (40,520))
+
+    def animaçao_de_sublinhar_botao_voltar(self):
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_voltar)
+
+        self.rect_botao_sublinhar_voltar.width = min(self.rect_botao_sublinhar_voltar.width, 80)
+        self.rect_botao_sublinhar_voltar.width = max(self.rect_botao_sublinhar_voltar.width, 0)
 
     def desenho_botao_back(self):
         pos_mouse = pygame.mouse.get_pos()
@@ -135,13 +167,17 @@ class JogoBase:
         mensagem = self.back
 
         if rect_botao.collidepoint(pos_mouse):
-            self.cor_botao_voltar = (150,150,150) 
+            self.cor_botao_voltar = (150,150,150)
+            self.rect_botao_sublinhar_voltar.width += 3 
         else:
-            self.cor_botao_voltar = (255,255,255) 
+            self.cor_botao_voltar = (255,255,255)
+            self.rect_botao_sublinhar_voltar.width -= 2
 
-        if self.rect_botao_voltar.width > 0 and self.rect_botao_voltar.width > 0:  
+        if self.rect_botao_voltar.width > 0:  
             texto_formatado1 = self.fonte.render(mensagem, False, self.cor_botao_voltar)
             self.tela.blit(texto_formatado1, (40,300))
+
+            self.animaçao_de_sublinhar_botao_voltar()
 
         return rect_botao
 

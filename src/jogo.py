@@ -51,7 +51,7 @@ class Jogo(JogoBase):
                 elif self.modo_jogador == "Player2":
                     self.atualiza_pontuacao2()
                     self.atualiza_melhor_pontuacao2()
-                break  # Adicionado para sair do loop após a colisão
+                break
 
     def particao_verificar_colisao(self):
         self.som_de_fim_de_jogo()
@@ -176,7 +176,7 @@ class Jogo(JogoBase):
             self.bola.reset()
             self.continuar_prox_nivel()
 
-    def colisao_player_player2(self): # Deixei este metodo no principal pra facilitar a execução.
+    def colisao_player_player2(self):
         if self.player.rect.colliderect(self.player2.rect) and pygame.key.get_pressed()[K_d]:
             self.player.x -= 3.5
             if pygame.key.get_pressed()[K_LSHIFT]:
@@ -187,7 +187,7 @@ class Jogo(JogoBase):
             if pygame.key.get_pressed()[K_RSHIFT]:
                 self.player2.x += 4.5
 
-    def inverter_direcao_bola(self): # Deixei este metodo no principal pra facilitar a execução.
+    def inverter_direcao_bola(self):
         for bloco in self.blocos.blocos:
             if self.bola.rect.colliderect(bloco):
                 if self.bola.rect.bottom and self.bola.rect.top <= bloco.bottom and self.bola.rect.top:
