@@ -107,11 +107,11 @@ class JogoBase:
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player2)
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_clink)
 
-        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 115)
+        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 113)
         self.rect_botao_sublinhar_mod_player.width = max(self.rect_botao_sublinhar_mod_player.width, 0)
-        self.rect_botao_sublinhar_mod_player2.width = min(self.rect_botao_sublinhar_mod_player2.width, 115)
+        self.rect_botao_sublinhar_mod_player2.width = min(self.rect_botao_sublinhar_mod_player2.width, 113)
         self.rect_botao_sublinhar_mod_player2.width = max(self.rect_botao_sublinhar_mod_player2.width, 0)
-        self.rect_botao_sublinhar_clink.width = min(self.rect_botao_sublinhar_clink.width, 282)
+        self.rect_botao_sublinhar_clink.width = min(self.rect_botao_sublinhar_clink.width, 278)
         self.rect_botao_sublinhar_clink.width = max(self.rect_botao_sublinhar_clink.width, 0)
 
     def botoes_tela_inicial_modos(self):
