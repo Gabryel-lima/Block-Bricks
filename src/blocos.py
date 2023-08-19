@@ -36,9 +36,9 @@ class Blocos:
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
-            pygame.draw.rect(self.jogo.tela, (150,75,0), bloco, width=0, border_radius= 7)
+            pygame.draw.rect(self.jogo.tela, (150,75,0), bloco, width=0, border_radius= 5)
 
-    def resistencia_blocos(self):
+    def remove_indice(self):
         max_selecionados = min(self.countr, len(self.blocos))
         if max_selecionados >= len(self.blocos):
             max_selecionados = len(self.blocos) - 1
@@ -68,10 +68,13 @@ class Blocos:
             self.blocos = []
             self.nivel_atual += 1
             self.criar_blocos()
-            #self.resistencia_blocos()
+            #self.remove_indice()
+
+    def habilidades(self):
+        pass
 
     def resetar_blocos(self):
         self.blocos.clear()
         self.nivel = 0
         self.criar_blocos()
-        #self.resistencia_blocos()
+        #self.remove_indice()
