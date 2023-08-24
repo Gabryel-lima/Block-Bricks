@@ -1,18 +1,8 @@
-# Ignorar virtual environment
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Ignorar arquivos de compilação e caches
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-__pycache__/
 *.db
 
 # Ignorar arquivos temporários
@@ -28,10 +18,9 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Ignorar arquivos de dependências gerados automaticamente
-node_modules/
-*.lock
-yarn-error.log
+# Ignorar arquivos específicos do projeto
+config.json
+credentials.json
 
 # Ignorar arquivos de ambiente
 .env
@@ -40,6 +29,13 @@ yarn-error.log
 .env.test
 .env.production
 
-# Ignorar outros arquivos específicos do projeto
-config.json
-credentials.json
+# Ignorar dependências JavaScript/Node.js
+node_modules/
+yarn-error.log
+
+# Ignorar diretórios de ambiente Python
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
