@@ -1,5 +1,5 @@
 # Ignorar virtual environment
-venv/
+venv/*
 env/
 
 # Ignorar arquivos de compilação e caches
