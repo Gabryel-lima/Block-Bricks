@@ -1,6 +1,11 @@
 # Ignorar virtual environment
-./venv
+.env
+.venv
 env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # Ignorar arquivos de compilação e caches
 __pycache__/
