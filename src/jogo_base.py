@@ -29,8 +29,8 @@ class JogoBase:
         self.cor_botao_subl = (250,250,250)
         self.rect_botao_sublinhar_mod_player = pygame.Rect(240,210,0,5) #(240,210,0,5) #240,170,120,40
         self.rect_botao_sublinhar_mod_player2 = pygame.Rect(240,270,0,5)
-        self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,5)
-        self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,5) 
+        self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,3)
+        self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3) 
         self.clink_rect = pygame.Rect(40,522,280,30)
         self.rect_botao_player1 = pygame.Rect(240,170,120,40)
         self.rect_botao_player2 = pygame.Rect(240,230,120,40)
