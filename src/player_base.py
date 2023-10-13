@@ -27,3 +27,4 @@ class PlayerBase:
     def reset(self):
         self.x = self.largura // 2 - 40 // 2
         self.rect.x = self.x
+

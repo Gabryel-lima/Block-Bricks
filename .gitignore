@@ -31,3 +31,5 @@ yarn-error.log
 
 # Ignorar diretórios de ambiente Python
 venv/
+src/jogo_base.py
+src/player_base.py

@@ -274,3 +274,4 @@ class JogoBase:
         self.rect_botao_player1 = pygame.Rect(0,0,0,0)
         self.rect_botao_player2 = pygame.Rect(0,0,0,0)
         return
+
