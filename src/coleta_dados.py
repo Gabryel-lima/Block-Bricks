@@ -1,27 +1,31 @@
 
 import json
-from player_base import PlayerBase
+import pygame
+from pygame.locals import K_a, K_d
+from player import Player
 
 class ColetaDados:
-    def __init__(self):
-        self.player = PlayerBase()  # Crie uma instância de PlayerBase aqui
-        self.dict_movimento = {'esquerda': 0, 'direita': 1, 'parado': 2}
+    def __init__(self, tela, borda, largura, altura):
+        self.player = Player(tela, borda, largura, altura)
         self.coletados = []
-        self.verifica_direcao()
-        self.coletar_dados()
-        self.salva_dados()
+        self.coleta_intervalo = 1000 
+        self.coleta_tempo_acumulado = 0
 
-    def verifica_direcao(self, direcao):
-        if direcao in self.dict_movimento:
-            return self.dict_movimento[direcao]
-        return None
-
-    def coletar_dados(self, direcao):
-        acao_numerica = self.verifica_direcao(direcao)
-        if acao_numerica is not None:
-            self.coletados.append(acao_numerica)
+    def verifica_direcao(self):
+        if pygame.key.get_pressed()[K_a]:
+            return 'esquerda'
+        elif pygame.key.get_pressed()[K_d]:
+            return 'direita'
+        else:
+            return 'parado'
+        
+    def coletar_dados(self, pos_x, pos_y):
+        acao = self.verifica_direcao()
+        pos_bola = (pos_x, pos_y)
+        self.coletados.append({'acao': acao, 'pos_bola': pos_bola})
 
     def salva_dados(self):
-        data = {"acoes": self.coletados}
+        data = {'dados': self.coletados}
         with open('src/coletadds.json', 'w') as file:
             json.dump(data, file)
+                

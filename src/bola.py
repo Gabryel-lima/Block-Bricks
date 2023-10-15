@@ -3,11 +3,13 @@ import random
 
 import pygame
 from pygame.locals import *
+from coleta_dados import ColetaDados
 
 class Bola:
-    def __init__(self, jogo, tela):
+    def __init__(self, jogo, tela, borda, largura, altura):
         self.tela = tela
         self.jogo = jogo
+        self.coleta = ColetaDados(tela, borda, largura, altura)
         self.x = 300   # 300
         self.y = 350   # 350   
         self.velocidade_x = 0
@@ -35,6 +37,9 @@ class Bola:
 
         if self.y - self.raio <= 0:
             self.velocidade_y *= -1
+
+        self.coleta.coletar_dados(pos_x=self.x, pos_y=self.y)
+        self.coleta.salva_dados()
 
     def inverter_direcao(self):
         if pygame.key.get_pressed()[K_a]:

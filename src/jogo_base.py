@@ -10,6 +10,7 @@ from player import Player
 from player2 import Player2
 from bola import Bola
 from blocos import Blocos
+from coleta_dados import ColetaDados
 
 class JogoBase:
     def __init__(self):
@@ -21,8 +22,9 @@ class JogoBase:
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.player = Player(self.tela, self.borda, self.largura, self.altura)
         self.player2 = Player2(self.tela, self.borda, self.largura, self.altura)
-        self.bola = Bola(self, self.tela)
+        self.bola = Bola(self, self.tela, self.borda, self.largura, self.altura)
         self.blocos = Blocos(self)
+        self.coleta = ColetaDados(self.tela, self.borda, self.largura, self.altura)
         self.modo1 = f'Player 1'
         self.modo2 = f'Player 2'
         self.fonte_impact = pygame.font.SysFont("impact", 28)
