@@ -1,4 +1,5 @@
-import json
+
+import csv
 import pygame
 from pygame.locals import K_a, K_d
 from player import Player
@@ -20,9 +21,17 @@ class ColetaDados:
         
     def coletar_dados(self, pos_x, pos_y):
         acao = self.verifica_direcao()
-        pos_bola = (pos_x, pos_y)
-        self.coletados['dados'].append({'acao': acao, 'pos_bola': pos_bola})  # Adicione ao dicionário 'dados'
+        pos_bola = {'x': pos_x, 'y': pos_y, 'acao': acao}
+        self.coletados['dados'].append(pos_bola)
 
     def salva_dados(self):
-        with open('src/coletadds.json', 'w') as file:
-            json.dump(self.coletados, file)  # Salve o dicionário completo
+        with open('src/coletadds.csv', 'w', newline='') as file:
+            fieldnames = ['acao', 'x', 'y']
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+            writer.writeheader()
+            for data in self.coletados['dados']:
+                writer.writerow(data)
+
+
+
