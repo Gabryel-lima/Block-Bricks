@@ -1,8 +1,9 @@
-
 import pandas as pd
 from imblearn.over_sampling import SMOTE
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 class ColetaDados:
     def __init__(self, csv_path):
@@ -16,42 +17,39 @@ class ColetaDados:
 
 class Bot:
     def __init__(self):
-        self.dtr = DecisionTreeRegressor(criterion='squared_error', random_state=50)
+        self.dtc = DecisionTreeClassifier(random_state=50)
         self.coleta_dados = ColetaDados('src/coletadds.csv')
-        self.label_encoder = LabelEncoder()
 
     def treinar_bot(self):
         # Coleta os dados
         dados = self.coleta_dados.coletar_dados()
 
-        # Exiba as primeiras linhas do DataFrame
-        print(dados.head())
-
         # Defina as colunas corretamente
         X = dados.drop(['acao'], axis=1)
-        y = self.label_encoder.fit_transform(dados['acao'])
+        y = dados['acao']
 
         smt = SMOTE(random_state=150)
         X_resampled, y_resampled = smt.fit_resample(X, y)
 
-        X_resampled_df = pd.DataFrame(X_resampled, columns=X.columns)
-        y_resampled_df = pd.DataFrame(y_resampled, columns=['acao'])
+        # Dividir os dados em conjuntos de treinamento e teste
+        X_treino, X_teste, y_treino, y_teste = train_test_split(X_resampled, y_resampled, test_size=0.2, random_state=42)
 
-        # Treine seu modelo DecisionTreeRegressor com X_resampled e y_resampled
-        self.dtr.fit(X_resampled_df, y_resampled_df)
+        self.dtc.fit(X_treino, y_treino)
 
-        dados_final = pd.concat([X_resampled_df, y_resampled_df], axis=1)
+        dados_final = pd.concat([X_treino, y_treino], axis=1)
 
-        fi = self.dtr.feature_importances_
+        with pd.option_context('display.max_rows', 1312):
+            print(dados_final.head(1312))
 
-        predito_Arv = self.dtr.predict(X_resampled_df)
+        predito_Arv = self.dtc.predict(X_teste)
 
-        print(fi)
-        print(predito_Arv)
+        # Avaliação do modelo
+        cm = confusion_matrix(y_teste, predito_Arv)
+        print("\nMatriz de Confusão:\n", cm)
 
-        # Exiba todas as linhas do DataFrame
-        with pd.option_context('display.max_rows', None):
-            print(dados_final)
+        acuracia = accuracy_score(y_teste, predito_Arv)
+        print(f"\nAcuracia do modelo: {100 * acuracia:.2f}S%")
+        
 
 if __name__ == "__main__":
     bot = Bot()
