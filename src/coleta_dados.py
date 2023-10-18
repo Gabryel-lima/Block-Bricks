@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import K_a, K_d
 from player import Player
 
+
 class ColetaDados:
     def __init__(self, tela, borda, largura, altura):
         self.player = Player(tela, borda, largura, altura)

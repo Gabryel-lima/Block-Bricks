@@ -1,7 +1,9 @@
+
 import pygame
 from pygame.locals import *
 
 from player_base import PlayerBase
+
 
 class Player(PlayerBase):
     def __init__(self, tela, borda, largura, altura):
@@ -29,5 +31,5 @@ class Player(PlayerBase):
 
         self.x = novo_x
 
-    def resetp1(self):
+    def resetp_1(self):
         self.x = 530 // 2 - 40 // 2

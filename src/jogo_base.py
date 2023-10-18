@@ -12,6 +12,7 @@ from bola import Bola
 from blocos import Blocos
 from coleta_dados import ColetaDados
 
+
 class JogoBase:
     def __init__(self):
         pygame.init()
@@ -237,7 +238,7 @@ class JogoBase:
                         return
                     
                     elif self.modo_jogador == "Player2":
-                        self.player.resetp1()
+                        self.player.resetp_1()
                         self.player2.reset()
                         self.player2.rect = Rect(self.player2.x, self.player2.y, 40, 1)
                         return

@@ -3,7 +3,6 @@
 import pygame
 from pygame.locals import *
 
-
 class PlayerBase:
     def __init__(self, tela, borda, largura, altura, x=600 // 2 - 40 // 2, y=600 // 2 - 5 // 2 + 100):
         self.tela = tela

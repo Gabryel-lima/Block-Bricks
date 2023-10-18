@@ -38,8 +38,8 @@ class Bola:
         if self.y - self.raio <= 0:
             self.velocidade_y *= -1
 
-        self.coleta.coletar_dados(pos_x=self.x, pos_y=self.y)
-        self.coleta.salva_dados()
+        """ self.coleta.coletar_dados(pos_x=self.x, pos_y=self.y)
+        self.coleta.salva_dados() """
 
     def inverter_direcao(self):
         if pygame.key.get_pressed()[K_a]:
