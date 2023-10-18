@@ -60,18 +60,21 @@ class TreinarModelo:
         self.cmx = confusion_matrix(self.y_teste, predito_Arv)
         print("\nMatriz de Confusão:\n", self.cmx)
 
+        #A partir do calculo da matriz de confusão conseguimos inferir outras métricas, como por exemplo a acurária.
         self.acuracia = accuracy_score(self.y_teste, predito_Arv)
         print(f"\nAcuracia do modelo: {100 * self.acuracia:.2f}%\n")
 
+        #Outra métrica importante é a precisão, que calcula quantos foram classificados corretamento como positivos (TP).
         self.precisao = precision_score(self.y_teste, predito_Arv, average=None)
         for classe, p in enumerate(self.precisao):
-            print(f"Precisao da classe {self.precisao} : {100 * p:.2f}%")
+            print(f"Precisao da classe (TP) quantitativo {self.precisao} : {100 * p:.2f}%")
 
         print()
 
+        #Outra métrica importante é a Recall ou revocação ou ainda sensibilidade, que calcula o quão bom o modelo está para classificar corretamente um resultado positivo (TP).
         self.recall = recall_score(self.y_teste, predito_Arv, average=None)
         for classe, i in enumerate(self.recall):
-            print(f"Recall da classe {classe} : {100 * i:.2f}%")
+            print(f"Recall da classe (TP) sensitivo {classe} : {100 * i:.2f}%")
 
 if __name__ == "__main__":
     treino = TreinarModelo('src/coletadds.csv')
