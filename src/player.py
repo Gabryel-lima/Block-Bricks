@@ -9,6 +9,8 @@ class Player(PlayerBase):
     def __init__(self, tela, borda, largura, altura):
         super().__init__(tela, borda, largura, altura)
 
+    #def tester_remove(self): //Possivel inicializador para remover player para teste no futuro.
+
     def desenho_player(self):
         pygame.draw.rect(self.tela, (255,0,0), ((self.x), (self.y), 40, 5))
 

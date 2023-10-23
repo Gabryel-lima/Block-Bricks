@@ -36,6 +36,9 @@ class Jogo(JogoBase):
         elif self.bola.rect.colliderect(self.player2.rect):     
             self.bola.inverter_direcao2()
 
+        #elif self.bola.rect.colliderect(self.bot.rectb):
+            #self.bola.inverter_direcao()
+
         if self.bola.y + self.bola.raio >= self.altura - 180:
             texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  
             self.tela.blit(texto_formatado, (215,225))
@@ -46,6 +49,7 @@ class Jogo(JogoBase):
             if self.bola.rect.colliderect(bloco):
                 self.inverter_direcao_bola()
                 self.som_da_bola_e_bloco()
+                self.blocos.animacao_blocos(index=self.blocos.blocos.index(bloco))
                 self.blocos.blocos.remove(bloco)
                 if self.modo_jogador == "Player1":
                     self.atualiza_pontuacao()
@@ -194,10 +198,10 @@ class Jogo(JogoBase):
             if self.bola.rect.colliderect(bloco):
                 if(self.bola.rect.centerx < bloco.right and
                     self.bola.rect.centerx > bloco.left):
-                    self.bola.velocidade_y *= -1
+                    self.bola.VPos_y *= -1
                 elif(self.bola.rect.centery < bloco.bottom and
                     self.bola.rect.centery > bloco.top):
-                    self.bola.velocidade_x *= -1
+                    self.bola.VPos_x *= -1
 
     def run(self):
         while True:
@@ -230,6 +234,7 @@ class Jogo(JogoBase):
                     self.exibir_pontuacao()
                     self.player.player_colisao()
                     self.player.input_player()
+                    #self.bot.bot_executar_acoes()
 
                 elif self.modo_jogador == "Player2":
                     self.exibir_nivel()
@@ -256,6 +261,7 @@ class Jogo(JogoBase):
 
             if self.modo_jogador == "Player1":
                 self.player.desenho_player()
+                #self.bot.bot_desenho_player()
 
             elif self.modo_jogador == "Player2":
                 self.player.desenho_player()

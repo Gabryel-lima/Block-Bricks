@@ -8,6 +8,7 @@ import random
 class Blocos:
     def __init__(self, jogo):
         self.jogo = jogo
+        self.cor_blocos = (150,75,0)
         self.nivel_atual = 0
         self.nsort = random.randint(0,3)
         self.countr = random.randint(2,12)
@@ -36,7 +37,13 @@ class Blocos:
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
-            pygame.draw.rect(self.jogo.tela, (150,75,0), bloco, width=0, border_radius= 5)
+            pygame.draw.rect(self.jogo.tela, self.cor_blocos, bloco, width=0, border_radius=5)
+
+    def animacao_blocos(self, index):
+        cor = (250,250,250)
+        if 0 <= index <= len(self.blocos):
+            bloco = self.blocos[index]
+            pygame.draw.rect(self.jogo.tela, cor, bloco, width=0, border_radius=5)
 
     def remove_indice(self):
         max_selecionados = min(self.countr, len(self.blocos))

@@ -11,6 +11,7 @@ from player2 import Player2
 from bola import Bola
 from blocos import Blocos
 from coleta_dados import ColetaDados
+from bot_player import BotPlayer
 
 
 class JogoBase:
@@ -22,10 +23,11 @@ class JogoBase:
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.player = Player(self.tela, self.borda, self.largura, self.altura)
+        #self.bot = BotPlayer(self.tela, self.largura, self.player.x, self.player.y)
         self.player2 = Player2(self.tela, self.borda, self.largura, self.altura)
         self.bola = Bola(self, self.tela, self.borda, self.largura, self.altura)
         self.blocos = Blocos(self)
-        self.coleta = ColetaDados(self.tela, self.borda, self.largura, self.altura)
+        self.coleta = ColetaDados()
         self.modo1 = f'Player 1'
         self.modo2 = f'Player 2'
         self.fonte_impact = pygame.font.SysFont("impact", 28)
@@ -233,12 +235,14 @@ class JogoBase:
                     self.jogo_iniciado = True
                     self.bola.iniciar_movimento()
                     if self.modo_jogador == "Player1":
+                        #self.player.rect = Rect(0,0,0,0)
                         self.player.reset()
                         self.player2.rect = Rect(0,0,0,0)
                         return
                     
                     elif self.modo_jogador == "Player2":
                         self.player.resetp_1()
+                        #self.bot.bot_reset_1()
                         self.player2.reset()
                         self.player2.rect = Rect(self.player2.x, self.player2.y, 40, 1)
                         return
@@ -254,6 +258,7 @@ class JogoBase:
 
     def selecao_de_modos_estrutura_particao(self):
         self.player.desenho_player()
+        #self.bot.bot_desenho_player()
 
     def selecao_de_modos_estrutura_particao2(self):
         self.player.x = 530 // 2 - 40 // 2

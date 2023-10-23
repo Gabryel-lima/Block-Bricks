@@ -39,8 +39,10 @@ class TreinarModelo:
     def treinar_bot(self):
         self.dados_df = self.ler_dados()
 
-        self.X = self.dados_df.drop(['acao'], axis=1)
-        self.y = self.dados_df['acao']
+        self.X = self.dados_df.drop(['angle'], axis=1)
+        self.y = self.dados_df['angle']
+
+        print(self.y.shape)
 
         self.smt = SMOTE(random_state=166)
         self.X_resampled, self.y_resampled = self.smt.fit_resample(self.X, self.y)
