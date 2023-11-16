@@ -1,9 +1,10 @@
 
+import matplotlib.pyplot as plt
 import pandas as pd
-from imblearn.over_sampling import SMOTE
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+from sklearn.preprocessing import StandardScaler
+from tensorflow import keras
+
 
 class ColetaDados:
     def __init__(self, csv_path):
@@ -16,7 +17,7 @@ class ColetaDados:
 class TreinarModelo:
     def __init__(self, csv_path):
         self.csv_path = csv_path
-        self.dtc = DecisionTreeClassifier(random_state=50)
+        self.kra = keras
         self.df = None
         self.X = None
         self.X_resampled = None
@@ -39,44 +40,47 @@ class TreinarModelo:
     def treinar_bot(self):
         self.dados_df = self.ler_dados()
 
-        self.X = self.dados_df.drop(['angle'], axis=1)
-        self.y = self.dados_df['angle']
+        self.X = self.dados_df[['x', 'y']].values
+        self.y = self.dados_df['angle'].values
+        
+        self.norm = StandardScaler()
+        self.X_resampled = self.norm.fit_transform(self.X)
 
-        print(self.y.shape)
+        self.X_treino, self.X_teste, self.y_treino, self.y_teste = train_test_split(self.X_resampled, self.y)
 
-        self.smt = SMOTE(random_state=166)
-        self.X_resampled, self.y_resampled = self.smt.fit_resample(self.X, self.y)
+        # Construa o modelo da rede neural
+        model = keras.Sequential([
+            keras.layers.Dense(32, activation='elu', input_shape=(2,)),  # Duas entradas (x, y)
+            keras.layers.Dropout(0.1),
+            keras.layers.Dense(32, activation='elu'),
+            keras.layers.Dropout(0.1),
+            keras.layers.Dense(1)  # Uma saída (ângulo)
+        ])
 
-        self.X_treino, self.X_teste, self.y_treino, self.y_teste = train_test_split(self.X_resampled, self.y_resampled, test_size=0.2, random_state=43)
+        # Compile o modelo
+        model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_absolute_error'])
 
-        self.dtc.fit(self.X_treino, self.y_treino)
+        # Treine o modelo
+        model.fit(self.X_treino, self.y_treino, epochs=100, batch_size=32, validation_split=0.2)
 
-        dados_final = pd.concat([self.X_treino, self.y_treino], axis=1)
+        # Avalie o modelo
 
-        with pd.option_context('display.max_rows', 1312):
-            print(dados_final.head(1312))
+        self.X_teste = self.norm.fit_transform(self.X_teste)
+        loss = model.evaluate(self.X_teste, self.y_teste)
+        print('\nErro Médio Quadrático (MSE): ', loss)
 
-        predito_Arv = self.dtc.predict(self.X_teste)
+        # Faça previsões
+        predictions = model.predict(self.X_teste)
+        print("\nPrevisão: ", predictions)
 
-        # Avaliação do modelo
-        self.cmx = confusion_matrix(self.y_teste, predito_Arv)
-        print("\nMatriz de Confusão:\n", self.cmx)
-
-        #A partir do calculo da matriz de confusão conseguimos inferir outras métricas, como por exemplo a acurária.
-        self.acuracia = accuracy_score(self.y_teste, predito_Arv)
-        print(f"\nAcuracia do modelo: {100 * self.acuracia:.2f}%\n")
-
-        #Outra métrica importante é a precisão, que calcula quantos foram classificados corretamento como positivos (TP).
-        self.precisao = precision_score(self.y_teste, predito_Arv, average=None)
-        for classe, p in enumerate(self.precisao):
-            print(f"Precisao da classe (TP) quantitativo {self.precisao} : {100 * p:.2f}%")
-
-        print()
-
-        #Outra métrica importante é a Recall ou revocação ou ainda sensibilidade, que calcula o quão bom o modelo está para classificar corretamente um resultado positivo (TP).
-        self.recall = recall_score(self.y_teste, predito_Arv, average=None)
-        for classe, i in enumerate(self.recall):
-            print(f"Recall da classe (TP) sensitivo {classe} : {100 * i:.2f}%")
+        plt.figure(figsize=(10, 6))
+        plt.scatter(self.y_teste, predictions, c='r', label='Previsões')
+        plt.plot([self.y_teste.min(), self.y_teste.max()], [self.y_teste.min(), self.y_teste.max()], 'k--', lw=2, label='Linha de 45 graus')
+        plt.xlabel('Valor Real')
+        plt.ylabel('Previsão do Modelo')
+        plt.legend()
+        plt.title('Comparação entre Valores Reais e Previsões')
+        plt.show()
 
 if __name__ == "__main__":
     treino = TreinarModelo('src/coletadds.csv')

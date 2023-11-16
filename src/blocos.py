@@ -37,13 +37,13 @@ class Blocos:
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
-            pygame.draw.rect(self.jogo.tela, self.cor_blocos, bloco, width=0, border_radius=5)
+            pygame.draw.rect(self.jogo.tela, self.cor_blocos, bloco, width=0, border_radius=3)
 
     def animacao_blocos(self, index):
         cor = (250,250,250)
         if 0 <= index <= len(self.blocos):
             bloco = self.blocos[index]
-            pygame.draw.rect(self.jogo.tela, cor, bloco, width=0, border_radius=5)
+            pygame.draw.rect(self.jogo.tela, cor, bloco, width=0, border_radius=3)
 
     def remove_indice(self):
         max_selecionados = min(self.countr, len(self.blocos))

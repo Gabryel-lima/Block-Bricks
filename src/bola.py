@@ -30,8 +30,8 @@ class Bola:
         pygame.draw.circle(self.tela, (255,255,255), (self.x, self.y), self.raio)
 
     def iniciar_movimento(self):
-        self.VPos_x = 0.0   # random.uniform(-3.0,3.0) 
-        self.VPos_y = 3.0 # random.uniform(-3.0,-4.0)
+        self.VPos_x = random.uniform(-3.0,3.0)   # random.uniform(-3.0,3.0) 
+        self.VPos_y = random.uniform(-3.0,-4.0) # random.uniform(-3.0,-4.0)
         self.rect.center = (self.x, self.y)
 
     def atualizar(self):
@@ -45,7 +45,7 @@ class Bola:
         if self.y - self.raio <= 0:
             self.VPos_y *= -1
 
-        self.registrar_dados()
+        #self.registrar_dados()
 
     def inverter_direcao(self):
         if pygame.key.get_pressed()[K_a]:
@@ -60,12 +60,13 @@ class Bola:
 
         self.registrar_dados()
 
-    def registrar_dados(self):
+    """ def registrar_dados(self):
         self.angle = self.vetor.angle_to([self.VPos_x, self.VPos_y])
+        self.angle = round(self.angle, 2)
         self.coleta.coletar_dados(pos_x=self.x, pos_y=self.y, ang=self.angle)
         self.coleta.salva_dados()
         
-        self.coleta.salva_dados()
+        self.coleta.salva_dados() """
 
     def inverter_direcao2(self):
         if pygame.key.get_pressed()[K_LEFT]:
