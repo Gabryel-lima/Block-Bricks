@@ -14,15 +14,15 @@ class Blocos:
         self.countr = random.randint(2,12)
         self.indice_aleatorio = []
         self.niveis = [
-            (8,2),  # nível 1: (num_colunas, num_blocos_por_fileira)
-            (8,3),  # nível 2
+            (8,3),  # nível 1: (num_blocos_por_fileira, num_colunas)
+            (8,4),  # nível 2
             (8,4),  # nível 3
             (8,5),  # nível 4
-            (8,6),  # nível 5
-            (8,7),  # nível 6
-            (8,7),  # nível 7
-            (8,8),  # nível 8
-            (8,8),  # nível 9
+            (8,5),  # nível 5
+            (8,6),  # nível 6
+            (8,6),  # nível 7
+            (8,7),  # nível 8
+            (8,7),  # nível 9
             (8,8)  # nível 10
         ]
         self.configurar_nivel()

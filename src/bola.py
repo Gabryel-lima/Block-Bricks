@@ -58,7 +58,7 @@ class Bola:
             self.VPos_x *= 1
             self.VPos_y *= -1
 
-        self.registrar_dados()
+        #self.registrar_dados()
 
     """ def registrar_dados(self):
         self.angle = self.vetor.angle_to([self.VPos_x, self.VPos_y])
