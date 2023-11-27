@@ -25,29 +25,30 @@ class Jogo(JogoBase):
         self.mesgc2 = f'"<-"<Esquerda, "->">Direita, "RShift"<Aceleração>'
         self.mesg = f'Pontos: {self.pontos}'
         self.lp = self.carregar_melhor_pontuacao()
-        self.mesg_bp = f'Melhor pontuação: {self.lp}' 
+        self.mesg_bp = f'Melhor pontuação: {self.lp}'
+        self.mesg_fj = 'Fim de jogo!'
         self.fontei = pygame.font.SysFont('Candara', 30, True, False)
         self.jogo_iniciado = False
 
     def verificar_colisao(self):
-        if self.bola.rect.colliderect(self.player.rect):
+        if self.bola.bola_Rect.colliderect(self.player.rect):
             self.bola.inverter_direcao()
 
-        elif self.bola.rect.colliderect(self.player2.rect):     
+        elif self.bola.bola_Rect.colliderect(self.player2.rect):     
             self.bola.inverter_direcao2()
 
         #elif self.bola.rect.colliderect(self.bot.rectb):
             #self.bola.inverter_direcao()
 
         if self.bola.y + self.bola.raio >= self.altura - 180:
-            texto_formatado = self.fonte.render(f'Fim de jogo!', False, (255,255,255))  
+            texto_formatado = self.fonte.render(f'{self.mesg_fj}', False, (255,255,255))  
             self.tela.blit(texto_formatado, (215,225))
 
             self.particao_verificar_colisao()
             
         for bloco in self.blocos.blocos:
-            if self.bola.rect.colliderect(bloco):
-                self.inverter_direcao_bola()
+            if self.bola.bola_Rect.colliderect(bloco):
+                self.inverter_direcao_bola_bloco()
                 self.som_da_bola_e_bloco()
                 self.blocos.animacao_blocos(index=self.blocos.blocos.index(bloco))
                 self.blocos.blocos.remove(bloco)
@@ -193,14 +194,14 @@ class Jogo(JogoBase):
             if pygame.key.get_pressed()[K_RSHIFT]:
                 self.player2.x += 4.5
 
-    def inverter_direcao_bola(self):
+    def inverter_direcao_bola_bloco(self):
         for bloco in self.blocos.blocos:
-            if self.bola.rect.colliderect(bloco):
-                if(self.bola.rect.centerx < bloco.right and
-                    self.bola.rect.centerx > bloco.left):
+            if self.bola.bola_Rect.colliderect(bloco):
+                if(self.bola.bola_Rect.centerx < bloco.right and 
+                    self.bola.bola_Rect.centerx > bloco.left):
                     self.bola.VPos_y *= -1
-                elif(self.bola.rect.centery < bloco.bottom and
-                    self.bola.rect.centery > bloco.top):
+                elif(self.bola.bola_Rect.centery < bloco.bottom and
+                    self.bola.bola_Rect.centery > bloco.top):
                     self.bola.VPos_x *= -1
 
     def run(self):
@@ -256,6 +257,7 @@ class Jogo(JogoBase):
         if self.jogo_iniciado == True:
             self.tela.fill((0,0,0))
             self.desenho_borda()
+            self.animacao_borda_bola()
             self.bola.desenho_bola()
             self.blocos.desenhar_blocos()
 

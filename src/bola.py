@@ -24,20 +24,20 @@ class Bola:
         self.VPos_x = 0.0
         self.VPos_y = 0.0
         self.raio = 5
-        self.rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
+        self.bola_Rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
         
     def desenho_bola(self):
         pygame.draw.circle(self.tela, (255,255,255), (self.x, self.y), self.raio)
 
     def iniciar_movimento(self):
         self.VPos_x = random.uniform(-3.0,3.0)   # random.uniform(-3.0,3.0) 
-        self.VPos_y = random.uniform(-3.0,-4.0) # random.uniform(-3.0,-4.0)
-        self.rect.center = (self.x, self.y)
+        self.VPos_y = random.uniform(-2.0,-2.5) # random.uniform(-2.0,-2.5)
+        self.bola_Rect.center = (self.x, self.y)
 
     def atualizar(self):
         self.x += self.VPos_x
         self.y += self.VPos_y
-        self.rect.center = (self.x, self.y)
+        self.bola_Rect.center = (self.x, self.y)
 
         if self.x - self.raio <= 0 or self.x + self.raio >= self.jogo.largura:
             self.VPos_x *= -1
@@ -49,10 +49,10 @@ class Bola:
 
     def inverter_direcao(self):
         if pygame.key.get_pressed()[K_a]:
-            self.VPos_x -= 1
+            self.VPos_x -= 0.7
             self.VPos_y *= -1
         elif pygame.key.get_pressed()[K_d]:
-            self.VPos_x += 1
+            self.VPos_x += 0.7
             self.VPos_y *= -1
         else:
             self.VPos_x *= 1
@@ -70,12 +70,12 @@ class Bola:
 
     def inverter_direcao2(self):
         if pygame.key.get_pressed()[K_LEFT]:
+            self.VPos_x -= 0.7
             self.VPos_y *= -1
-            self.VPos_x -= 1
 
         elif pygame.key.get_pressed()[K_RIGHT]:
+            self.VPos_x += 0.7
             self.VPos_y *= -1
-            self.VPos_x += 1
         else:
             self.VPos_y *= -1
             self.VPos_x *= 1
@@ -85,7 +85,7 @@ class Bola:
         self.y = 350
         self.VPos_x = 0.0
         self.VPos_y = 0.0
-        self.rect.center = (self.x, self.y)
+        self.bola_Rect.center = (self.x, self.y)
 
 """     def velocidade_vetorial(self):
         if self.x > self.x_anterior:

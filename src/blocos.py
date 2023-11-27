@@ -10,6 +10,7 @@ class Blocos:
         self.jogo = jogo
         self.cor_blocos = (150,75,0)
         self.cor_animacao = (250,250,250)
+        self.cor_animacao_none = (150,150,100)
         self.nivel_atual = 0
         self.nsort = random.randint(0,3)
         self.countr = random.randint(2,12)
@@ -33,21 +34,20 @@ class Blocos:
             for coluna in range(self.num_colunas):
                 x = self.espaco_blocos + coluna * (self.largura_bloco + self.espaco_blocos)
                 y = self.espaco_blocos + fileira * (self.altura_bloco + self.espaco_blocos)
-                self.bloco = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
-                self.blocos.append(self.bloco)
+                self.bloco_Rect = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
+                self.blocos.append(self.bloco_Rect)
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
             pygame.draw.rect(self.jogo.tela, self.cor_blocos, bloco, width=0, border_radius=3)
 
     def animacao_blocos(self, index):
-        if 1 <= index <= len(self.blocos):
-            bloco_antigo = self.blocos[index - 1]
+        if index <= len(self.blocos):
+            bloco_antigo = self.blocos[index]
             bloco_novo = bloco_antigo.copy()
-            bloco_novo.move_ip(bloco_antigo.centerx, bloco_antigo.centery)
+            bloco_antigo.scale_by_ip(1.0, 1.3)
             pygame.draw.rect(self.jogo.tela, self.cor_animacao, bloco_antigo, width=0, border_radius=3)
-            pygame.draw.rect(self.jogo.tela, (150,150,100), bloco_novo, width=5, border_radius=3)
-            #pygame.display.update()
+            pygame.draw.rect(self.jogo.tela, self.cor_animacao_none, bloco_novo, width=5, border_radius=2)
 
     def configurar_nivel(self):
         if self.nivel_atual < len(self.niveis):

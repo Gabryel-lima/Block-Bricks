@@ -102,6 +102,9 @@ class JogoBase:
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
 
+    def animacao_borda_bola(self):
+        pass
+
     def exibir_credito(self):
         mensagem = self.credito
         texto_formatado1 = self.fonte_impact.render(mensagem, False, (255,255,255))
