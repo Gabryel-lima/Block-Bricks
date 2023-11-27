@@ -5,6 +5,8 @@ import os
 import cv2
 import pygame
 from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLUT import *
 
 from jogo_base import JogoBase
 
@@ -204,6 +206,16 @@ class Jogo(JogoBase):
                     self.bola.bola_Rect.centery > bloco.top):
                     self.bola.VPos_x *= -1
 
+    def render(self):
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glBegin(GL_QUADS)
+        glVertex2f(0, 0)
+        glVertex2f(0, 100)
+        glVertex2f(100, 100)
+        glVertex2f(100, 0)
+        glEnd()
+        pygame.display.flip()
+
     def run(self):
         while True:
             for event in pygame.event.get():
@@ -250,6 +262,7 @@ class Jogo(JogoBase):
             pygame.display.update()
 
     def layout(self):
+        #self.render()
         self.desenho_borda()
         self.botoes_tela_inicial_modos()
         self.selecao_de_modos_estrutura()

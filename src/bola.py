@@ -24,7 +24,7 @@ class Bola:
         self.VPos_x = 0.0
         self.VPos_y = 0.0
         self.raio = 5
-        self.bola_Rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
+        self.bola_Rect = pygame.Rect(self.raio, self.raio, self.raio, self.raio)
         
     def desenho_bola(self):
         pygame.draw.circle(self.tela, (255,255,255), (self.x, self.y), self.raio)
@@ -50,10 +50,10 @@ class Bola:
     def inverter_direcao(self):
         if pygame.key.get_pressed()[K_a]:
             self.VPos_x -= 0.7
-            self.VPos_y *= -1
+            self.VPos_y /= -1
         elif pygame.key.get_pressed()[K_d]:
             self.VPos_x += 0.7
-            self.VPos_y *= -1
+            self.VPos_y /= -1
         else:
             self.VPos_x *= 1
             self.VPos_y *= -1
@@ -71,14 +71,13 @@ class Bola:
     def inverter_direcao2(self):
         if pygame.key.get_pressed()[K_LEFT]:
             self.VPos_x -= 0.7
-            self.VPos_y *= -1
-
+            self.VPos_y /= -1
         elif pygame.key.get_pressed()[K_RIGHT]:
             self.VPos_x += 0.7
-            self.VPos_y *= -1
+            self.VPos_y /= -1
         else:
-            self.VPos_y *= -1
             self.VPos_x *= 1
+            self.VPos_y *= -1
 
     def reset(self):
         self.x = 300

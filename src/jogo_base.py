@@ -5,6 +5,8 @@ import webbrowser
 
 import pygame
 from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLUT import *
 
 from player import Player
 from player2 import Player2
@@ -19,7 +21,9 @@ class JogoBase:
         pygame.init()
         self.largura = 600
         self.altura = 600
-        self.tela = pygame.display.set_mode((self.largura, self.altura))
+        self.tela = pygame.display.set_mode((self.largura, self.altura))#, DOUBLEBUF | OPENGL)
+        #self.render_op = glOrtho(0, self.largura, self.altura, 0, -1, 1)
+        #self.clear_color_gl = glClearColor(0.1, 0.2, 0.2, 0.1)
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.player = Player(self.tela, self.borda, self.largura, self.altura)

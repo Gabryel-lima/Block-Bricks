@@ -42,12 +42,13 @@ class Blocos:
             pygame.draw.rect(self.jogo.tela, self.cor_blocos, bloco, width=0, border_radius=3)
 
     def animacao_blocos(self, index):
-        if index <= len(self.blocos):
-            bloco_antigo = self.blocos[index]
-            bloco_novo = bloco_antigo.copy()
-            bloco_antigo.scale_by_ip(1.0, 1.3)
-            pygame.draw.rect(self.jogo.tela, self.cor_animacao, bloco_antigo, width=0, border_radius=3)
-            pygame.draw.rect(self.jogo.tela, self.cor_animacao_none, bloco_novo, width=5, border_radius=2)
+        for indice, bloco in enumerate(self.blocos):
+            if indice == index:
+                bloco_antigo = bloco.copy()
+                bloco_novo = bloco_antigo.copy()
+                bloco_antigo.scale_by_ip(1.0, 1.3)
+                pygame.draw.rect(self.jogo.tela, self.cor_animacao, bloco_antigo, width=0, border_radius=3)
+                pygame.draw.rect(self.jogo.tela, self.cor_animacao_none, bloco_novo, width=5, border_radius=2)
 
     def configurar_nivel(self):
         if self.nivel_atual < len(self.niveis):
