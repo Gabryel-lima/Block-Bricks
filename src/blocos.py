@@ -28,6 +28,8 @@ class Blocos:
             (8,8)  # nível 10
         ]
         self.configurar_nivel()
+        #self.bloco_img = pygame.image.load('assets/sprite_0.png')
+        #self.bloco_img = pygame.transform.scale(self.bloco_img, (56, 19))
 
     def criar_blocos(self):
         for fileira in range(self.num_blocos_por_fileira):
@@ -39,7 +41,7 @@ class Blocos:
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
-            pygame.draw.rect(self.jogo.tela, self.cor_blocos, bloco, width=0, border_radius=3)
+            pygame.draw.rect(self.jogo.tela, self.cor_blocos, bloco, width=0, border_radius=3) #self.jogo.tela.blit(self.bloco_img, bloco)
 
     def animacao_blocos(self, index):
         for indice, bloco in enumerate(self.blocos):

@@ -24,7 +24,7 @@ class Bola:
         self.VPos_x = 0.0
         self.VPos_y = 0.0
         self.raio = 5
-        self.bola_Rect = pygame.Rect(self.raio, self.raio, self.raio, self.raio)
+        self.bola_Rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
         
     def desenho_bola(self):
         pygame.draw.circle(self.tela, (255,255,255), (self.x, self.y), self.raio)

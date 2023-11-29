@@ -13,7 +13,7 @@ class Jogo(JogoBase):
     def __init__(self):
         super().__init__()
         self.icon = pygame.image.load('assets/logo.ico')
-        pygame.display.set_caption('Block-Bricks')
+        pygame.display.set_caption('Block-Bricks *1.7')
         pygame.display.set_icon(self.icon)
         self.cap = cv2.VideoCapture('assets/videos/vfundo.mp4')
         self.relogio = pygame.time.Clock()
@@ -197,11 +197,9 @@ class Jogo(JogoBase):
     def inverter_direcao_bola_bloco(self):
         for bloco in self.blocos.blocos:
             if self.bola.bola_Rect.colliderect(bloco):
-                if(self.bola.bola_Rect.centerx < bloco.right and 
-                    self.bola.bola_Rect.centerx > bloco.left):
+                if self.bola.bola_Rect.centerx < bloco.right and self.bola.bola_Rect.centerx > bloco.left:
                     self.bola.VPos_y *= -1
-                elif(self.bola.bola_Rect.centery < bloco.bottom and
-                    self.bola.bola_Rect.centery > bloco.top):
+                elif self.bola.bola_Rect.centery < bloco.bottom and self.bola.bola_Rect.centery > bloco.top:
                     self.bola.VPos_x *= -1
 
     def run(self):
@@ -273,4 +271,5 @@ class Jogo(JogoBase):
 if __name__ == "__main__":
     jogo = Jogo()
     jogo.run()
+
 
