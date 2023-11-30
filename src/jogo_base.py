@@ -123,35 +123,45 @@ class JogoBase:
         self.rect_botao_sublinhar_clink.width = max(self.rect_botao_sublinhar_clink.width, 0)
 
     def botoes_tela_inicial_modos(self):
+        mouse_sobre_modo1 = False
+        mouse_sobre_modo2 = False
+        mouse_sobre_clink = False
+
+        self.cor_botao_modo1 = (255,255,255)
+        self.cor_botao_modo2 = (255,255,255)
+        self.cor_clink = (255,255,255)
+
         pos_mouse = pygame.mouse.get_pos()
+
         mod1 = self.modo1
         mod2 = self.modo2
+
         rect_modo1 = self.rect_botao_player1
         rect_modo2 = self.rect_botao_player2
         rect_c = self.clink_rect
 
-        if rect_modo1.collidepoint(pos_mouse):
+        mouse_sobre_modo1 = rect_modo1.collidepoint(pos_mouse)
+        mouse_sobre_modo2 = rect_modo2.collidepoint(pos_mouse)
+        mouse_sobre_clink = rect_c.collidepoint(pos_mouse)
+
+        if mouse_sobre_modo1:
             self.cor_botao_modo1 = (170,170,170)
             self.rect_botao_sublinhar_mod_player.width += 3  
-        else:
-            self.cor_botao_modo1 = (255,255,255)
-            self.rect_botao_sublinhar_mod_player.width -= 2  
 
-        if rect_modo2.collidepoint(pos_mouse):
+        elif mouse_sobre_modo2:
             self.cor_botao_modo2 = (170,170,170)
             self.rect_botao_sublinhar_mod_player2.width += 3  
-        else:
-            self.cor_botao_modo2 = (255,255,255)
-            self.rect_botao_sublinhar_mod_player2.width -= 2  
 
-        if rect_c.collidepoint(pos_mouse):
+        elif mouse_sobre_clink:
             self.cor_clink = (170,170,170)
             self.cor_botao_subl = (225,225,225)
             self.rect_botao_sublinhar_clink.width += 280  
+
         else:
-            self.cor_clink = (255,255,255)
+            self.rect_botao_sublinhar_mod_player.width -= 2
+            self.rect_botao_sublinhar_mod_player2.width -= 2
             self.cor_botao_subl = (225,225,225)
-            self.rect_botao_sublinhar_clink.width -= 280 
+            self.rect_botao_sublinhar_clink.width -= 280
 
         if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:
             texto_formatado1 = self.fonte.render(mod1, False, self.cor_botao_modo1)
@@ -228,10 +238,11 @@ class JogoBase:
                     pygame.quit()
                     os._exit(0)
 
-                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
                         self.reset()
                         pygame.time.delay(300)
+                        self.tela.fill((0,0,0))
                         return
                     
                 if event.type == KEYDOWN and event.key == K_RETURN:

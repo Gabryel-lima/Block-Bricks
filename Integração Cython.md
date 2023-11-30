@@ -1,3 +1,5 @@
+# Código gerado a partir do Setuptools
+
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
@@ -45,3 +47,41 @@ int main() {
     init_py();
     return 0;
 }
+
+---
+
+# Arquivo setup.py
+
+from setuptools import setup, Extension
+from Cython.Build import cythonize
+
+setup(
+    ext_modules=cythonize([Extension("nome_do_modulo_recompilado.c", ["./src/nome_do_arquivo.pyx"])])
+)
+
+---
+
+# Cv2
+
+#self.cap = cv2.VideoCapture('assets/videos/vfundo.mp4')
+
+def run(self):
+
+#depois do loop
+
+
+    # ret, frame = self.cap.read()
+
+    # if not ret:
+
+    #     self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+
+    #     continue
+
+    # frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    # frame_pygame = pygame.image.fromstring(frame_rgb.tobytes(), frame_rgb.shape[:2], 'RGB')
+
+    # self.tela.blit(frame_pygame, (0,0))
+
+---

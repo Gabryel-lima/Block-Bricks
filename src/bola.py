@@ -31,7 +31,7 @@ class Bola:
 
     def iniciar_movimento(self):
         self.VPos_x = random.uniform(-3.0,3.0)   # random.uniform(-3.0,3.0) 
-        self.VPos_y = random.uniform(-3.0,-3.5) # random.uniform(-2.0,-2.5)
+        self.VPos_y = random.uniform(-2.0,-2.5) # random.uniform(-2.0,-2.5)
         self.bola_Rect.center = (self.x, self.y)
 
     def atualizar(self):

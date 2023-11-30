@@ -30,6 +30,14 @@ class Jogo(JogoBase):
         self.fontei = pygame.font.SysFont('Candara', 30, True, False)
         self.jogo_iniciado = False
 
+    def log_funcao(func):
+        def wrapper(*args, **kwargs):
+            print(f'\nChamando {func.__name__} com argumentos: {args}, {kwargs}')
+            resultado = func(*args, **kwargs)
+            print(f'{func.__name__} retornou: {resultado}')
+            return resultado
+        return wrapper
+
     def verificar_colisao(self):
         if self.bola.bola_Rect.colliderect(self.player.rect):
             self.bola.inverter_direcao()
@@ -201,6 +209,9 @@ class Jogo(JogoBase):
                     self.bola.VPos_y *= -1
                 elif self.bola.bola_Rect.centery < bloco.bottom and bloco.top < self.bola.bola_Rect.centery:
                     self.bola.VPos_x *= -1
+                else:
+                    self.bola.VPos_y *= -1
+                    self.bola.VPos_x *= 1
 
     def run(self):
         while True:
@@ -209,15 +220,15 @@ class Jogo(JogoBase):
                     pygame.quit()
                     os._exit(0)
 
-            ret, frame = self.cap.read()
+            # ret, frame = self.cap.read()
 
-            if not ret:
-                self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-                continue
+            # if not ret:
+            #     self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            #     continue
 
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame_pygame = pygame.image.fromstring(frame_rgb.tobytes(), frame_rgb.shape[:2], 'RGB')
-            self.tela.blit(frame_pygame, (0,0))
+            # frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # frame_pygame = pygame.image.fromstring(frame_rgb.tobytes(), frame_rgb.shape[:2], 'RGB')
+            # self.tela.blit(frame_pygame, (0,0))
 
             self.relogio.tick(60)
             self.layout()
@@ -248,7 +259,6 @@ class Jogo(JogoBase):
             pygame.display.update()
 
     def layout(self):
-        #self.render()
         self.desenho_borda()
         self.botoes_tela_inicial_modos()
         self.selecao_de_modos_estrutura()
