@@ -63,9 +63,6 @@ class Blocos:
             self.nivel_atual += 1
             self.criar_blocos()
 
-    def habilidades(self):
-        pass
-
     def resetar_blocos(self):
         self.blocos.clear()
         self.nivel = 0

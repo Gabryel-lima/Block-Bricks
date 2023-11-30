@@ -57,3 +57,18 @@ setup(
 pip install auto-py-to-exe
 
 #No terminal ''auto-py-to-exe'
+
+---
+
+# Crie um arquivo `setup.py` para compilar a extensão Cython:
+
+## setup.py
+
+from setuptools import setup
+from Cython.Build import cythonize
+
+setup(
+    ext_modules=cythonize("nome_do_arquivo.pyx"),
+)
+
+---
