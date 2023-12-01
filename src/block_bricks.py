@@ -2,7 +2,6 @@
 import json
 import os
 
-import cv2
 import pygame
 from pygame.locals import *
 
@@ -15,7 +14,6 @@ class Jogo(JogoBase):
         self.icon = pygame.image.load('assets/logo.ico')
         pygame.display.set_caption('Block-Bricks *1.7')
         pygame.display.set_icon(self.icon)
-        self.cap = cv2.VideoCapture('assets/videos/vfundo.mp4')
         self.relogio = pygame.time.Clock()
         self.pontos = 0
         self.som_fim_nivel = pygame.mixer.Sound('sounds/som_fim_nivel.wav')
@@ -220,16 +218,6 @@ class Jogo(JogoBase):
                     pygame.quit()
                     os._exit(0)
 
-            # ret, frame = self.cap.read()
-
-            # if not ret:
-            #     self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-            #     continue
-
-            # frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # frame_pygame = pygame.image.fromstring(frame_rgb.tobytes(), frame_rgb.shape[:2], 'RGB')
-            # self.tela.blit(frame_pygame, (0,0))
-
             self.relogio.tick(60)
             self.layout()
 
@@ -259,12 +247,12 @@ class Jogo(JogoBase):
             pygame.display.update()
 
     def layout(self):
+        self.tela.fill((0,0,0)) # Se tu tirar daqui vai ferrar a animação!!!
         self.desenho_borda()
         self.botoes_tela_inicial_modos()
         self.selecao_de_modos_estrutura()
 
         if self.jogo_iniciado == True:
-            self.tela.fill((0,0,0))
             self.desenho_borda()
             self.animacao_borda_bola()
             self.bola.desenho_bola()
