@@ -208,7 +208,7 @@ class Jogo(JogoBase):
                 elif self.bola.bola_Rect.centery < bloco.bottom and bloco.top < self.bola.bola_Rect.centery:
                     self.bola.VPos_x *= -1
                 else:
-                    self.bola.VPos_y *= -1
+                    self.bola.VPos_y *= -1 
                     self.bola.VPos_x *= 1
 
     def run(self):

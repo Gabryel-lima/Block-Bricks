@@ -8,9 +8,9 @@ from pygame import Vector2
 from coleta_dados import ColetaDados
 
 class Bola:
-    def __init__(self, jogo, tela, borda, largura, altura):
+    def __init__(self, jogo_base, tela, borda, largura, altura):
         self.tela = tela
-        self.jogo = jogo
+        self.jogo_base = jogo_base
         self.borda = borda
         self.largura = largura
         self.altura = altura
@@ -39,7 +39,7 @@ class Bola:
         self.y += self.VPos_y
         self.bola_Rect.center = (self.x, self.y)
 
-        if self.x - self.raio <= 0 or self.x + self.raio >= self.jogo.largura:
+        if self.x - self.raio <= 0 or self.x + self.raio >= self.jogo_base.largura:
             self.VPos_x *= -1
 
         if self.y - self.raio <= 0:

@@ -10,6 +10,7 @@ from player import Player
 from player2 import Player2
 from bola import Bola
 from blocos import Blocos
+from config_button import ConfigButton
 from coleta_dados import ColetaDados
 from bot_player import BotPlayer
 
@@ -21,17 +22,6 @@ class JogoBase:
         self.altura = 600
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
-        self.fonte = pygame.font.SysFont('arial', 30, True, False)
-        self.player = Player(self.tela, self.borda, self.largura, self.altura)
-        #self.bot = BotPlayer(self.tela, self.largura, self.player.x, self.player.y)
-        self.player2 = Player2(self.tela, self.borda, self.largura, self.altura)
-        self.bola = Bola(self, self.tela, self.borda, self.largura, self.altura)
-        self.blocos = Blocos(self)
-        self.coleta = ColetaDados()
-        self.modo1 = f'Player 1'
-        self.modo2 = f'Player 2'
-        self.fonte_impact = pygame.font.SysFont("impact", 28)
-        self.cor_botao_subl = (250,250,250)
         self.rect_botao_sublinhar_mod_player = pygame.Rect(240,210,0,5) #(240,210,0,5) #240,170,120,40
         self.rect_botao_sublinhar_mod_player2 = pygame.Rect(240,270,0,5)
         self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,3)
@@ -40,6 +30,19 @@ class JogoBase:
         self.rect_botao_player1 = pygame.Rect(240,170,120,40)
         self.rect_botao_player2 = pygame.Rect(240,230,120,40)
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
+        self.rect_botao_config = pygame.Rect(50,50,50,50)
+        self.fonte = pygame.font.SysFont('arial', 30, True, False)
+        self.player = Player(self.tela, self.borda, self.largura, self.altura)
+        self.player2 = Player2(self.tela, self.borda, self.largura, self.altura)
+        self.bola = Bola(self, self.tela, self.borda, self.largura, self.altura)
+        self.blocos = Blocos(self)
+        self.config_button = ConfigButton(self, self.rect_botao_player1)
+        #self.bot = BotPlayer(self.tela, self.largura, self.player.x, self.player.y)
+        self.coleta = ColetaDados()
+        self.modo1 = f'Player 1'
+        self.modo2 = f'Player 2'
+        self.fonte_impact = pygame.font.SysFont("impact", 28)
+        self.cor_botao_subl = (250,250,250)
         self.back = f'Voltar'
         self.mesgite = f'Pressione a tecla "Enter" para iniciar'
         self.nivel = 1
@@ -159,6 +162,7 @@ class JogoBase:
             texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
             self.tela.blit(texto_formatado2, (240,230))
             
+            self.config_button.botao_config()
             self.animaçao_de_sublinhar_botao_tela_inicial()
 
             m = 'Criado por: Gabryel-lima'
@@ -199,17 +203,15 @@ class JogoBase:
                 pygame.quit()
                 os._exit(0)
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                pos_mouse = pygame.mouse.get_pos()
-                
-                if self.rect_botao_player1.collidepoint(pos_mouse):
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if self.rect_botao_player1.collidepoint(pygame.mouse.get_pos()):
                     self.rect_botao_player1 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.modo_jogador = "Player1"
 
                     self.executar_particao(self.selecao_de_modos_estrutura_particao)
 
-                elif self.rect_botao_player2.collidepoint(pos_mouse):
+                elif self.rect_botao_player2.collidepoint(pygame.mouse.get_pos()):
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.modo_jogador = "Player2"
@@ -217,9 +219,20 @@ class JogoBase:
 
                     self.executar_particao(self.selecao_de_modos_estrutura_particao2)
 
-                elif self.clink_rect.collidepoint(event.pos):
+                elif self.clink_rect.collidepoint(pygame.mouse.get_pos()):
                         webbrowser.open("https://github.com/Gabryel-lima")
                         pygame.time.delay(300)
+                
+                elif self.config_button.desenho_botao_config().collidepoint(pygame.mouse.get_pos()):
+                    self.rect_botao_player1 = Rect(0,0,0,0)
+                    self.rect_botao_player2 = Rect(0,0,0,0)
+                    self.clink_rect = Rect(0,0,0,0)
+                    self.rect_botao_config = Rect(0,0,0,0)
+                    self.config_button.img_xy = (0,0)
+                    self.config_button.img_config = pygame.Surface(self.config_button.img_config.get_size())
+                    pygame.time.delay(300)
+
+                    self.executar_particao(self.selecao_de_modos_config)
 
     def executar_particao(self, particao):
         while True:
@@ -234,7 +247,7 @@ class JogoBase:
                         pygame.time.delay(300)
                         self.tela.fill((0,0,0))
                         return
-                    
+
                 if event.type == KEYDOWN and event.key == K_RETURN:
                     self.jogo_iniciado = True
                     self.bola.iniciar_movimento()
@@ -269,6 +282,9 @@ class JogoBase:
         self.player2.x = 600 // 2 - 5 // 2 + 20
         self.player.desenho_player()
         self.player2.desenho_player()
+
+    def selecao_de_modos_config(self):
+        pass
 
     def niveis_count(self):
         self.nivel += 1
