@@ -196,6 +196,23 @@ class JogoBase:
             self.animaçao_de_sublinhar_botao_voltar()
 
         return rect_botao
+    
+    def alterna_tela_inicial(self, limpar=True):
+        if limpar:
+            self.rect_botao_player1 = Rect(0,0,0,0)
+            self.rect_botao_player2 = Rect(0,0,0,0)
+            self.clink_rect = Rect(0,0,0,0)
+            self.rect_botao_config = Rect(0,0,0,0)
+            self.config_button.img_xy = (0,0)
+            self.config_button.img_config_load = pygame.Surface(self.config_button.img_config.get_size())
+        else:
+            self.rect_botao_player1 = pygame.Rect(240,170,120,40)
+            self.rect_botao_player2 = pygame.Rect(240,230,120,40) 
+            self.clink_rect = pygame.Rect(40,522,280,30)
+            self.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
+            self.config_button.img_xy = (475,495)
+            self.config_button.img_config_load = pygame.image.load('assets/gear_config.png')
+            #self.config_button.img_config = pygame.transform.scale(self.img_config, (50,50))
 
     def selecao_de_modos_estrutura(self):
         for event in pygame.event.get():
@@ -224,15 +241,30 @@ class JogoBase:
                         pygame.time.delay(300)
                 
                 elif self.config_button.desenho_botao_config().collidepoint(pygame.mouse.get_pos()):
-                    self.rect_botao_player1 = Rect(0,0,0,0)
-                    self.rect_botao_player2 = Rect(0,0,0,0)
-                    self.clink_rect = Rect(0,0,0,0)
-                    self.rect_botao_config = Rect(0,0,0,0)
-                    self.config_button.img_xy = (0,0)
-                    self.config_button.img_config = pygame.Surface(self.config_button.img_config.get_size())
+                    self.alterna_tela_inicial(limpar=True)
                     pygame.time.delay(300)
 
-                    self.executar_particao(self.selecao_de_modos_config)
+                    self.executar_particao_config()
+                    self.alterna_tela_inicial(limpar=False)
+
+    def executar_particao_config(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
+
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
+                        self.reset()
+                        pygame.time.delay(300)
+                        self.tela.fill((0,0,0))
+                        return 
+                else:
+                    self.tela.fill((0,0,0))
+                    self.desenho_botao_back()
+                    self.desenho_borda()
+                    pygame.display.update()
 
     def executar_particao(self, particao):
         while True:
@@ -282,9 +314,6 @@ class JogoBase:
         self.player2.x = 600 // 2 - 5 // 2 + 20
         self.player.desenho_player()
         self.player2.desenho_player()
-
-    def selecao_de_modos_config(self):
-        pass
 
     def niveis_count(self):
         self.nivel += 1

@@ -1,4 +1,5 @@
 
+import os
 
 import pygame
 from pygame.locals import *
@@ -9,8 +10,8 @@ class ConfigButton:
     def __init__(self, jogo_base, rect_botao_player):
         self.jogo_base = jogo_base
         self.rect_botao_player = rect_botao_player
-        self.img_config = pygame.image.load('assets/gear_config.png')
-        self.img_config = pygame.transform.scale(self.img_config, (50,50))
+        self.img_config_load = pygame.image.load('assets/gear_config.png')
+        self.img_config = pygame.transform.scale(self.img_config_load, (50,50))
         self.img_xy = (475,495)
         self.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
         self.copy_surface = pygame.SurfaceType
@@ -30,7 +31,4 @@ class ConfigButton:
             scaled_copy = pygame.transform.scale_by(self.img_config, (1.1,1.1))
             self.jogo_base.tela.blit(scaled_copy, self.img_xy)
 
-    def opcao_resolucao(self):
-        pass
-        
 

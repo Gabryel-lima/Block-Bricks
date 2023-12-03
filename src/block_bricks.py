@@ -252,7 +252,7 @@ class Jogo(JogoBase):
         self.botoes_tela_inicial_modos()
         self.selecao_de_modos_estrutura()
 
-        if self.jogo_iniciado == True:
+        if self.jogo_iniciado:
             self.desenho_borda()
             self.animacao_borda_bola()
             self.bola.desenho_bola()
