@@ -22,8 +22,8 @@ class JogoBase:
         self.altura = 600
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect(0, 0, self.largura, self.altura)
-        self.rect_botao_sublinhar_mod_player = pygame.Rect(240,210,0,5) #(240,210,0,5) #240,170,120,40
-        self.rect_botao_sublinhar_mod_player2 = pygame.Rect(240,270,0,5)
+        self.rect_botao_sublinhar_mod_player = pygame.Rect(245,210,0,5) #(240,210,0,5) #240,170,120,40
+        self.rect_botao_sublinhar_mod_player2 = pygame.Rect(245,270,0,5)
         self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,3)
         self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3) 
         self.clink_rect = pygame.Rect(40,522,280,30)
@@ -36,7 +36,7 @@ class JogoBase:
         self.player2 = Player2(self.tela, self.borda, self.largura, self.altura)
         self.bola = Bola(self, self.tela, self.borda, self.largura, self.altura)
         self.blocos = Blocos(self)
-        self.config_button = ConfigButton(self, self.rect_botao_player1)
+        self.config_button = ConfigButton(self.tela)
         #self.bot = BotPlayer(self.tela, self.largura, self.player.x, self.player.y)
         self.coleta = ColetaDados()
         self.modo1 = f'Player 1'
@@ -118,7 +118,7 @@ class JogoBase:
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player2)
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_clink)
 
-        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 113)
+        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 110)
         self.rect_botao_sublinhar_mod_player.width = max(self.rect_botao_sublinhar_mod_player.width, 0)
         self.rect_botao_sublinhar_mod_player2.width = min(self.rect_botao_sublinhar_mod_player2.width, 113)
         self.rect_botao_sublinhar_mod_player2.width = max(self.rect_botao_sublinhar_mod_player2.width, 0)
@@ -158,15 +158,15 @@ class JogoBase:
 
         if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:
             texto_formatado1 = self.fonte.render(mod1, False, self.cor_botao_modo1)
-            self.tela.blit(texto_formatado1, (240,170))
+            self.tela.blit(texto_formatado1, (245,170))
             texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
-            self.tela.blit(texto_formatado2, (240,230))
+            self.tela.blit(texto_formatado2, (245,230))
             
             self.config_button.botao_config()
             self.animaçao_de_sublinhar_botao_tela_inicial()
 
-            m = 'Criado por: Gabryel-lima'
-            texto_formatado_c = self.fonte_impact.render(m, False, self.cor_clink)
+            texto_clink = 'Criado por: Gabryel-lima'
+            texto_formatado_c = self.fonte_impact.render(texto_clink, False, self.cor_clink)
             self.tela.blit(texto_formatado_c, (40,520))
 
     def animaçao_de_sublinhar_botao_voltar(self):
@@ -196,23 +196,6 @@ class JogoBase:
             self.animaçao_de_sublinhar_botao_voltar()
 
         return rect_botao
-    
-    def alterna_tela_inicial(self, limpar=True):
-        if limpar:
-            self.rect_botao_player1 = Rect(0,0,0,0)
-            self.rect_botao_player2 = Rect(0,0,0,0)
-            self.clink_rect = Rect(0,0,0,0)
-            self.rect_botao_config = Rect(0,0,0,0)
-            self.config_button.img_xy = (0,0)
-            self.config_button.img_config_load = pygame.Surface(self.config_button.img_config.get_size())
-        else:
-            self.rect_botao_player1 = pygame.Rect(240,170,120,40)
-            self.rect_botao_player2 = pygame.Rect(240,230,120,40) 
-            self.clink_rect = pygame.Rect(40,522,280,30)
-            self.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
-            self.config_button.img_xy = (475,495)
-            self.config_button.img_config_load = pygame.image.load('assets/gear_config.png')
-            #self.config_button.img_config = pygame.transform.scale(self.img_config, (50,50))
 
     def selecao_de_modos_estrutura(self):
         for event in pygame.event.get():
@@ -241,11 +224,10 @@ class JogoBase:
                         pygame.time.delay(300)
                 
                 elif self.config_button.desenho_botao_config().collidepoint(pygame.mouse.get_pos()):
-                    self.alterna_tela_inicial(limpar=True)
                     pygame.time.delay(300)
-
+                    self.config_button.alterna_tela_inicial(limpar=True)
                     self.executar_particao_config()
-                    self.alterna_tela_inicial(limpar=False)
+                    self.config_button.alterna_tela_inicial(limpar=False)
 
     def executar_particao_config(self):
         while True:
@@ -260,10 +242,13 @@ class JogoBase:
                         pygame.time.delay(300)
                         self.tela.fill((0,0,0))
                         return 
+                    else:
+                        self.config_button.executar_particao_desenho_botoes_resolucao()
                 else:
                     self.tela.fill((0,0,0))
                     self.desenho_botao_back()
                     self.desenho_borda()
+                    self.config_button.particao_desenho_botoes_resolucao()
                     pygame.display.update()
 
     def executar_particao(self, particao):
