@@ -1,4 +1,5 @@
 
+import os
 
 import pygame
 from pygame.locals import *
@@ -6,8 +7,13 @@ from pygame.locals import *
 
 
 class ConfigButton:
-    def __init__(self, tela):
-        self.tela = tela
+    def __init__(self, jogo_base):
+        self.jogo_base = jogo_base
+        self.resolucao_atual = (600,600)
+        self.largura = 600
+        self.altura = 600
+        self.tela = pygame.display.set_mode((self.largura, self.altura))
+        self.borda = pygame.Rect(0, 0, self.largura, self.altura)
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.img_config_load = pygame.image.load('assets/gear_config.png')
         self.img_config = pygame.transform.scale(self.img_config_load, (50,50))
@@ -51,8 +57,36 @@ class ConfigButton:
             self.img_xy = (475,495)
             self.img_config_load = pygame.image.load('assets/gear_config.png')
 
-    def aplicar_resolucao(self, r1=Rect, r2=Rect, r3=Rect):
-        pass
+    def aplicar_resolucao(self, largura, altura):
+        if (largura, altura) != self.resolucao_atual:
+            self.tela = pygame.display.set_mode((largura, altura))
+            self.resolucao_atual = (largura, altura)
+            if (largura, altura) == (600,600):
+                self.tela = pygame.display.set_mode((largura, altura))
+                self.resolucao_atual = (largura, altura)
+                self.borda = pygame.Rect((0,0), (600,600))
+                self.blit_xy_mod1 = (245,170)
+                self.blit_xy_mod2 = (245,230)
+                self.rect_botao_player1 = pygame.Rect(240,170,120,40)
+                self.rect_botao_player2 = pygame.Rect(240,230,120,40)
+                self.rect_botao_voltar = pygame.Rect(40,300,85,30)
+                self.rect_botao_sublinhar_mod_player = pygame.Rect(245,210,0,5) #(240,210,0,5) #240,170,120,40
+                self.rect_botao_sublinhar_mod_player2 = pygame.Rect(245,270,0,5)
+                self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,3)
+                self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3) 
+                self.clink_rect = pygame.Rect(40,522,280,30)
+                self.rect_botao_config = pygame.Rect(50,50,50,50)
+
+            elif (largura, altura) == (800,800):
+                self.tela = pygame.display.set_mode((largura, altura))
+                self.resolucao_atual = (largura, altura)
+                self.borda = pygame.Rect((0,0), (800,800))
+                
+
+            else:
+                #self.aplicar_resolucao(*pygame.display.list_modes()[0])
+                self.borda = pygame.Rect((0,0), (largura, altura))
+                
 
     def particao_desenho_botoes_resolucao(self):
         pos_mouse = pygame.mouse.get_pos()
@@ -77,10 +111,27 @@ class ConfigButton:
         return rect1, rect2, rect3
 
     def executar_particao_desenho_botoes_resolucao(self):
-        rect1, rect2, rect3 = self.particao_desenho_botoes_resolucao()
-        if rect1.collidepoint(pygame.mouse.get_pos()):
-            self.aplicar_resolucao(r1=rect1)
-        elif rect2.collidepoint(pygame.mouse.get_pos()):
-            self.aplicar_resolucao(r2=rect2)
-        elif rect3.collidepoint(pygame.mouse.get_pos()):
-            self.aplicar_resolucao(r3=rect3)
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
+
+                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                    rect1, rect2, rect3 = self.particao_desenho_botoes_resolucao()
+
+                    if rect1.collidepoint(pygame.mouse.get_pos()):
+                        self.aplicar_resolucao(600,600)
+                        return
+                    elif rect2.collidepoint(pygame.mouse.get_pos()):
+                        self.aplicar_resolucao(800,800)
+                        return
+                    elif rect3.collidepoint(pygame.mouse.get_pos()):
+                        self.aplicar_resolucao(*pygame.display.list_modes()[0])  # Obtém a maior resolução suportada
+                        return
+                else:
+                    self.tela.fill((0,0,0))
+                    self.jogo_base.desenho_botao_back()
+                    self.jogo_base.desenho_borda()
+                    self.particao_desenho_botoes_resolucao()
+                    pygame.display.update()

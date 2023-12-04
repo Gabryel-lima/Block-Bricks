@@ -6,8 +6,8 @@ from pygame.locals import *
 import random
 
 class Blocos:
-    def __init__(self, jogo_base):
-        self.jogo_base = jogo_base
+    def __init__(self, config_button):
+        self.config_button = config_button
         self.cor_blocos = (150,75,0)
         self.cor_animacao = (250,250,250)
         self.cor_animacao_none = (150,150,100)
@@ -41,7 +41,7 @@ class Blocos:
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
-            pygame.draw.rect(self.jogo_base.tela, self.cor_blocos, bloco, width=0, border_radius=3) #self.jogo_base.tela.blit(self.bloco_img, bloco)
+            pygame.draw.rect(self.config_button.tela, self.cor_blocos, bloco, width=0, border_radius=3) #self.config_button.tela.blit(self.bloco_img, bloco)
 
     def animacao_blocos(self, index):
         for indice, bloco in enumerate(self.blocos):
@@ -49,8 +49,8 @@ class Blocos:
                 bloco_antigo = bloco.copy()
                 bloco_novo = bloco_antigo.copy()
                 bloco_antigo.scale_by_ip(1.0, 1.3)
-                pygame.draw.rect(self.jogo_base.tela, self.cor_animacao, bloco_antigo, width=0, border_radius=3)
-                pygame.draw.rect(self.jogo_base.tela, self.cor_animacao_none, bloco_novo, width=5, border_radius=2)
+                pygame.draw.rect(self.config_button.tela, self.cor_animacao, bloco_antigo, width=0, border_radius=3)
+                pygame.draw.rect(self.config_button.tela, self.cor_animacao_none, bloco_novo, width=5, border_radius=2)
 
     def configurar_nivel(self):
         if self.nivel_atual < len(self.niveis):

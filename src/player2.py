@@ -4,11 +4,11 @@ from pygame.locals import *
 from player_base import PlayerBase
 
 class Player2(PlayerBase):
-    def __init__(self, tela, borda, largura, altura):
-        super().__init__(tela, borda, largura, altura)
+    def __init__(self, config_button):
+        super().__init__(config_button)
 
     def desenho_player(self):
-        pygame.draw.rect(self.tela, (255,150,60), ((self.x), (self.y), 40, 5))
+        pygame.draw.rect(self.config_button.tela, (255,150,60), ((self.x), (self.y), 40, 5))
 
     def input_player2(self):
         novo_x = self.x
@@ -24,8 +24,8 @@ class Player2(PlayerBase):
             if pygame.key.get_pressed()[K_RSHIFT]:
                 novo_x += 4.5
 
-        if self.colisao.left <= novo_x <= self.colisao.right - 40:
-            self.x = novo_x
+        # if self.colisao.left <= novo_x <= self.colisao.right - 40:
+        #     self.x = novo_x
 
         self.x = novo_x
 

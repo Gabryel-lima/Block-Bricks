@@ -46,9 +46,9 @@ class Jogo(JogoBase):
         #elif self.bola.rect.colliderect(self.bot.rectb):
             #self.bola.inverter_direcao()
 
-        if self.bola.y + self.bola.raio >= self.altura - 180:
+        if self.bola.y + self.bola.raio >= self.config_button.altura - 180:
             texto_formatado = self.fonte.render(f'{self.mesg_fj}', False, (255,255,255))  
-            self.tela.blit(texto_formatado, (215,225))
+            self.config_button.tela.blit(texto_formatado, (215,225))
 
             self.particao_verificar_colisao()
             
@@ -165,22 +165,22 @@ class Jogo(JogoBase):
     def exibir_pontuacao(self):
         mensagem = self.mesg
         texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
-        self.tela.blit(texto_formatado, (40,430))
+        self.config_button.tela.blit(texto_formatado, (40,430))
 
     def exibe_melhor_pontuacao(self):
         mensagem = self.mesg_bp
         texo_formatado = self.fontei.render(mensagem, False, (255,255,255))
-        self.tela.blit(texo_formatado, (40,530))
+        self.config_button.tela.blit(texo_formatado, (40,530))
 
     def exibir_nivel(self):
         mensagem = self.mesg_nivel
         texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
-        self.tela.blit(texto_formatado, (40,480))
+        self.config_button.tela.blit(texto_formatado, (40,480))
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocos.blocos) == 0:
             texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
-            self.tela.blit(texto_formatado, (self.altura // 2 - 100, self.largura // 2 - 80))
+            self.config_button.tela.blit(texto_formatado, self.blit_xy_nivel)
             self.niveis_count()
             self.som_de_fim_de_nivel()
             pygame.display.flip()
@@ -247,14 +247,14 @@ class Jogo(JogoBase):
             pygame.display.update()
 
     def layout(self):
-        self.tela.fill((0,0,0)) # Se tu tirar daqui vai ferrar a animação!!!
+        self.config_button.tela.fill((0,0,0)) # Se tu tirar daqui vai ferrar a animação!!!
         self.desenho_borda()
         self.botoes_tela_inicial_modos()
         self.selecao_de_modos_estrutura()
 
         if self.jogo_iniciado:
             self.desenho_borda()
-            self.animacao_borda_bola()
+            #self.bola.animacao_borda_bola()
             self.bola.desenho_bola()
             self.blocos.desenhar_blocos()
 

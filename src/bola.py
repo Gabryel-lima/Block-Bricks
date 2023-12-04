@@ -8,12 +8,8 @@ from pygame import Vector2
 from coleta_dados import ColetaDados
 
 class Bola:
-    def __init__(self, jogo_base, tela, borda, largura, altura):
-        self.tela = tela
-        self.jogo_base = jogo_base
-        self.borda = borda
-        self.largura = largura
-        self.altura = altura
+    def __init__(self, config_button):
+        self.config_button = config_button
         self.coleta = ColetaDados()
         self.vetor = Vector2()
         self.angle = 0.0
@@ -27,7 +23,10 @@ class Bola:
         self.bola_Rect = pygame.Rect(self.x - self.raio, self.y - self.raio, self.raio, self.raio)
         
     def desenho_bola(self):
-        pygame.draw.circle(self.tela, (255,255,255), (self.x, self.y), self.raio)
+        pygame.draw.circle(self.config_button.tela, (255,255,255), (self.x, self.y), self.raio)
+
+    def animacao_borda_bola(self):
+        pass
 
     def iniciar_movimento(self):
         self.VPos_x = random.uniform(-3.0,3.0)   # random.uniform(-3.0,3.0) 
@@ -39,7 +38,7 @@ class Bola:
         self.y += self.VPos_y
         self.bola_Rect.center = (self.x, self.y)
 
-        if self.x - self.raio <= 0 or self.x + self.raio >= self.jogo_base.largura:
+        if self.x - self.raio <= 0 or self.x + self.raio >= self.config_button.largura:
             self.VPos_x *= -1
 
         if self.y - self.raio <= 0:
