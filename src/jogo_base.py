@@ -18,44 +18,102 @@ from bot_player import BotPlayer
 class JogoBase:
     def __init__(self):
         pygame.init()
-
+        self.aplicar_resolucao(self,self)
+        self.largura = 600
+        self.altura = 600
+        self.tela = pygame.display.set_mode((self.largura, self.altura))
+        self.borda = pygame.Rect(0, 0, self.largura, self.altura)
+        self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.rect_botao_player1 = pygame.Rect(240,170,120,40)
         self.rect_botao_player2 = pygame.Rect(240,230,120,40)
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
-        self.rect_botao_sublinhar_mod_player = pygame.Rect(245,210,0,5) #(240,210,0,5) #240,170,120,40
+        self.rect_botao_sublinhar_mod_player = pygame.Rect(245,210,0,5)
         self.rect_botao_sublinhar_mod_player2 = pygame.Rect(245,270,0,5)
         self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,3)
-        self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3) 
+        self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3)
         self.clink_rect = pygame.Rect(40,522,280,30)
-        self.rect_botao_config = pygame.Rect(50,50,50,50)
         self.fonte = pygame.font.SysFont('arial', 30, True, False)
         self.config_button = ConfigButton(self)
-        self.player = Player(self.config_button)
-        self.player2 = Player2(self.config_button)
-        self.bola = Bola(self.config_button)
-        self.blocos = Blocos(self.config_button)
-        #self.bot = BotPlayer(self.config_button.tela, self.config_button.largura, self.player.x, self.player.y)
+        self.player = Player(self)
+        self.player2 = Player2(self)
+        self.bola = Bola(self)
+        self.blocos = Blocos(self)
+        #self.bot = BotPlayer(self.tela, self.config_button.largura, self.player.x, self.player.y)
         self.coleta = ColetaDados()
-        self.modo1 = f'Player 1'
-        self.modo2 = f'Player 2'
-        self.blit_xy_mod1 = (245,170)
-        self.blit_xy_mod2 = (245,230)
+        self.modo_player1 = f'Player 1'
+        self.modo_player2 = f'Player 2'
+        self.blit_xy_player1 = (245,170)
+        self.blit_xy_player2 = (245,230)
         self.fonte_impact = pygame.font.SysFont("impact", 28)
         self.cor_botao_subl = (250,250,250)
         self.back = f'Voltar'
-        self.blit_xy_back = (40,300)
-        self.mesgite = f'Pressione a tecla "Enter" para iniciar'
-        self.blit_xy_iniciar = (100,205)
+        self.blit_xy_voltar = (40,300)
+        self.mesgite_iniciar = f'Pressione a tecla "Enter" para iniciar'
+        self.blit_xy_iniciar1 = (100,205)
+        self.blit_xy_iniciar2 = (55,270)
         self.nivel = 1
+        self.blit_xy_exibe_nivel = (40,480)
         self.mesg_nivel = f'Nivel: {self.nivel}'
         self.blit_xy_nivel = (200,220)
         self.pontos2 = 0
-        self.mesg2 = f'Pontos: {self.pontos2}'
+        self.blit_xy_mesg1_pontos = (40,430)
+        self.blit_xy_mesg_bp1 = (40,530)
         self.blit_xy_mesg2_pontos = (40,430)
+        self.mesg2 = f'Pontos: {self.pontos2}'
+        self.blit_xy_mesg_bp2 = (40,530)
         self.lp2 = self.carregar_melhor_pontuacao2()
         self.mesg_bp2 = f'Melhor pontuação: {self.lp2}'
-        self.blit_xy_mesg_bp2 = (40,530)
+        self.blit_xy_clink = (40,520)
         self.modo_jogador = None
+
+    def aplicar_resolucao(self, largura, altura):
+        if (largura, altura) == (600,600):
+            self.tela = pygame.display.set_mode((600,600))
+            self.borda = pygame.Rect((0,0), (600,600))
+            self.config_button.img_xy = (475,495)
+            self.blit_xy_player1 = (245,170)
+            self.blit_xy_player2 = (245,230)
+            self.rect_botao_player1 = pygame.Rect(240,170,120,40)
+            self.rect_botao_player2 = pygame.Rect(240,230,120,40)
+            self.rect_botao_sublinhar_mod_player = pygame.Rect(245,210,0,5) 
+            self.rect_botao_sublinhar_mod_player2 = pygame.Rect(245,270,0,5)
+            self.rect_botao_voltar = pygame.Rect(40,300,85,30)
+            self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3)
+            self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,3)
+            self.clink_rect = pygame.Rect(40,522,280,30)
+            self.config_button.rect_botao_config
+            self.blit_xy_voltar = (40,300)
+            self.blit_xy_clink = (40,520)
+            self.blit_xy_mesg1_pontos = (40,430)
+            self.blit_xy_mesg_bp1 = (40,530)   
+            self.blit_xy_exibe_nivel = (40,480)     
+            self.blit_xy_mesg2_pontos = (40,430)
+            self.blit_xy_mesg_bp2 = (40,530)
+
+        elif (largura,altura) == (800,800):
+            self.tela = pygame.display.set_mode((800,800))
+            self.borda = pygame.Rect((0,0), (800,800))
+            self.blit_xy_player1 = (345,227)
+            self.blit_xy_player2 = (345,303)
+            self.rect_botao_player1 = pygame.Rect(320,227,160,53)
+            self.rect_botao_player2 = pygame.Rect(320,307,160,53)
+            self.rect_botao_sublinhar_mod_player = pygame.Rect(345,265,0,5)
+            self.rect_botao_sublinhar_mod_player2 = pygame.Rect(345,345,0,5)
+            self.rect_botao_voltar = pygame.Rect(40,400,85,30)
+            self.blit_xy_voltar = (54,400)
+            self.rect_botao_sublinhar_voltar = pygame.Rect(53,440,0,3)
+            self.clink_rect = pygame.Rect(55,710,280,30)
+            self.blit_xy_clink = (55,710)
+            self.blit_xy_mesg1_pontos = (40,600)
+            self.blit_xy_mesg_bp1 = (40,650)
+            self.blit_xy_exibe_nivel = (40,550)
+            self.blit_xy_mesg2_pontos = (40,600)
+            self.blit_xy_mesg_bp2 = (40,650)
+            self.config_button.img_xy = (675,695)
+            self.rect_botao_sublinhar_clink = pygame.Rect(55,750,0,5)
+            self.config_button.rect_botao_config = pygame.Rect(674.5,694.0,53.0,53.0)
+
+        #elif (largura,altura) == (FULLSCREEN): FUTURA RESOLUÇÃO DE TELA CHEIA.
 
     def carregar_melhor_pontuacao2(self):
         try:
@@ -79,45 +137,40 @@ class JogoBase:
     def exibe_melhor_pontuacao2(self):
         mensagem = self.mesg_bp2
         texo_formatado = self.fontei.render(mensagem, False, (255,255,255))
-        self.config_button.tela.blit(texo_formatado, self.blit_xy_mesg_bp2)
+        self.tela.blit(texo_formatado, self.blit_xy_mesg_bp2)
     
     def exibir_pontuacao2(self):
         mensagem = self.mesg2
         texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
-        self.config_button.tela.blit(texto_formatado, self.blit_xy_mesg2_pontos)
+        self.tela.blit(texto_formatado, self.blit_xy_mesg2_pontos)
 
     def atualiza_pontuacao2(self):
         self.pontos2 += 1
         self.mesg2 = f'Pontos: {self.pontos2}'
 
     def exibir_mensagem_inte_iniciar(self):
-        mensagem = self.mesgite
+        mensagem = self.mesgite_iniciar
         fonte = pygame.font.SysFont('times new roman', 25, True, False)
         texto_formatado = fonte.render(mensagem, False, (255,255,255))  
-        self.config_button.tela.blit(texto_formatado, self.blit_xy_iniciar)
+        self.tela.blit(texto_formatado, self.blit_xy_iniciar1)
         mensagem = self.mesgc
         fonte = pygame.font.SysFont('colibri', 30, False, False)
         texto_formatado = fonte.render(mensagem, False, (255,255,255))  
-        self.config_button.tela.blit(texto_formatado, (60,240))
+        self.tela.blit(texto_formatado, (60,240))
         if self.modo_jogador == 'Player2':
             mensagem = self.mesgc2
             fonte = pygame.font.SysFont('colibri', 30, False, False)
             texto_formatado = fonte.render(mensagem, False, (255,255,255))  
-            self.config_button.tela.blit(texto_formatado, (55,270))
+            self.tela.blit(texto_formatado, self.blit_xy_iniciar2)
             self.player2.desenho_player()
 
     def desenho_borda(self):
-        pygame.draw.rect(self.config_button.tela, (115,115,115), self.config_button.borda, 3)
-
-    def exibir_credito(self):
-        mensagem = self.credito
-        texto_formatado1 = self.fonte_impact.render(mensagem, False, (255,255,255))
-        self.config_button.tela.blit(texto_formatado1, (40,520))
+        pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
 
     def animaçao_de_sublinhar_botao_tela_inicial(self):
-        pygame.draw.rect(self.config_button.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player)
-        pygame.draw.rect(self.config_button.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player2)
-        pygame.draw.rect(self.config_button.tela, self.cor_botao_subl, self.rect_botao_sublinhar_clink)
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player)
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player2)
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_clink)
 
         self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 110)
         self.rect_botao_sublinhar_mod_player.width = max(self.rect_botao_sublinhar_mod_player.width, 0)
@@ -128,8 +181,8 @@ class JogoBase:
 
     def botoes_tela_inicial_modos(self): # As condições aqui nunca param de rodar, melhoria futura...
         pos_mouse = pygame.mouse.get_pos()
-        mod1 = self.modo1
-        mod2 = self.modo2
+        mod1 = self.modo_player1
+        mod2 = self.modo_player2
         rect_modo1 = self.rect_botao_player1
         rect_modo2 = self.rect_botao_player2
         rect_c = self.clink_rect
@@ -159,19 +212,19 @@ class JogoBase:
 
         if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:
             texto_formatado1 = self.fonte.render(mod1, False, self.cor_botao_modo1)
-            self.config_button.tela.blit(texto_formatado1, self.blit_xy_mod1)
+            self.tela.blit(texto_formatado1, self.blit_xy_player1)
             texto_formatado2 = self.fonte.render(mod2, False, self.cor_botao_modo2)
-            self.config_button.tela.blit(texto_formatado2, self.blit_xy_mod2)
+            self.tela.blit(texto_formatado2, self.blit_xy_player2)
             
             self.config_button.botao_config()
             self.animaçao_de_sublinhar_botao_tela_inicial()
 
             texto_clink = 'Criado por: Gabryel-lima'
             texto_formatado_c = self.fonte_impact.render(texto_clink, False, self.cor_clink)
-            self.config_button.tela.blit(texto_formatado_c, (40,520))
+            self.tela.blit(texto_formatado_c, self.blit_xy_clink)
 
     def animaçao_de_sublinhar_botao_voltar(self):
-        pygame.draw.rect(self.config_button.tela, self.cor_botao_subl, self.rect_botao_sublinhar_voltar)
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_voltar)
 
         self.rect_botao_sublinhar_voltar.width = min(self.rect_botao_sublinhar_voltar.width, 6)
         self.rect_botao_sublinhar_voltar.width = max(self.rect_botao_sublinhar_voltar.width, 0)
@@ -192,11 +245,52 @@ class JogoBase:
 
         if self.rect_botao_voltar.width > 0:  
             texto_formatado1 = self.fonte.render(mensagem, False, self.cor_botao_voltar)
-            self.config_button.tela.blit(texto_formatado1, self.blit_xy_back)
+            self.tela.blit(texto_formatado1, self.blit_xy_voltar)
 
             self.animaçao_de_sublinhar_botao_voltar()
 
         return rect_botao
+    
+    def executar_particao_desenho_botoes_resolucao(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
+
+                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                    rect1, rect2, rect3 = self.config_button.particao_desenho_botoes_resolucao()
+
+                    if rect1.collidepoint(pygame.mouse.get_pos()):
+                        self.aplicar_resolucao(600,600)
+                        return
+                    elif rect2.collidepoint(pygame.mouse.get_pos()):
+                        self.aplicar_resolucao(800,800)
+                        return
+                    elif rect3.collidepoint(pygame.mouse.get_pos()):
+                        self.aplicar_resolucao(*pygame.display.list_modes()[0])  # Obtém a maior resolução suportada
+                        return
+                else:
+                    self.tela.fill((0,0,0))
+                    self.desenho_borda()
+                    self.config_button.particao_desenho_botoes_resolucao()
+                    pygame.display.update()
+
+    def executar_particao_config(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    os._exit(0)
+
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if self.config_button.particao_desenho_botoes_resolucao():
+                        return
+                else:
+                    self.tela.fill((0,0,0))
+                    self.desenho_borda()
+                    self.config_button.particao_desenho_botoes_resolucao()
+                    pygame.display.update()
 
     def selecao_de_modos_estrutura(self):
         for event in pygame.event.get():
@@ -229,28 +323,7 @@ class JogoBase:
                     self.config_button.alterna_tela_inicial(limpar=True)
                     self.executar_particao_config()
                     self.config_button.alterna_tela_inicial(limpar=False)
-
-    def executar_particao_config(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    pygame.quit()
-                    os._exit(0)
-
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
-                        self.reset()
-                        pygame.time.delay(300)
-                        self.config_button.tela.fill((0,0,0))
-                        return 
-                    else:
-                        self.config_button.executar_particao_desenho_botoes_resolucao()
-                else:
-                    self.config_button.tela.fill((0,0,0))
-                    self.desenho_botao_back()
-                    self.desenho_borda()
-                    self.config_button.particao_desenho_botoes_resolucao()
-                    pygame.display.update()
+                    self.executar_particao_desenho_botoes_resolucao()
 
     def executar_particao(self, particao):
         while True:
@@ -262,9 +335,9 @@ class JogoBase:
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
                         self.reset()
+                        self.tela.fill((0,0,0))
                         pygame.time.delay(300)
-                        self.config_button.tela.fill((0,0,0))
-                        return
+                        return 
 
                 if event.type == KEYDOWN and event.key == K_RETURN:
                     self.jogo_iniciado = True
@@ -273,6 +346,7 @@ class JogoBase:
                         #self.player.rect = Rect(0,0,0,0)
                         self.player.reset()
                         self.player2.rect = Rect(0,0,0,0)
+                        self.tela.fill((0,0,0))
                         return
                     
                     elif self.modo_jogador == "Player2":
@@ -280,9 +354,10 @@ class JogoBase:
                         #self.bot.bot_reset_1()
                         self.player2.reset()
                         self.player2.rect = Rect(self.player2.x, self.player2.y, 40, 1)
+                        self.tela.fill((0,0,0))
                         return
                 else:
-                    self.config_button.tela.fill((0,0,0))
+                    self.tela.fill((0,0,0))
                     self.desenho_botao_back()
                     self.desenho_borda()
                     self.bola.desenho_bola()

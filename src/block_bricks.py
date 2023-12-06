@@ -46,9 +46,9 @@ class Jogo(JogoBase):
         #elif self.bola.rect.colliderect(self.bot.rectb):
             #self.bola.inverter_direcao()
 
-        if self.bola.y + self.bola.raio >= self.config_button.altura - 180:
+        if self.bola.y + self.bola.raio >= self.altura - 180:
             texto_formatado = self.fonte.render(f'{self.mesg_fj}', False, (255,255,255))  
-            self.config_button.tela.blit(texto_formatado, (215,225))
+            self.tela.blit(texto_formatado, (215,225))
 
             self.particao_verificar_colisao()
             
@@ -155,32 +155,42 @@ class Jogo(JogoBase):
             self.mesg_nivel = f'Nivel: {self.nivel}'
 
     def reset(self): # Esse metodo retorna o menu.
-        self.jogo_iniciado = False
-        self.bola.reset()
-        self.player.reset()
-        self.player2.reset()
-        self.rect_botao_player1 = pygame.Rect(240,170,100,30)
-        self.rect_botao_player2 = pygame.Rect(240,230,100,35)
+        if self.tela.get_height() == (600):
+            self.jogo_iniciado = False
+            self.bola.reset()
+            self.player.reset()
+            self.player2.reset()
+            self.rect_botao_player1 = pygame.Rect(240,170,100,30)
+            self.rect_botao_player2 = pygame.Rect(240,230,100,35)
+            #self.blit_xy_exibe_nivel = (40,480)
+            #pygame.display.update()
+
+        elif self.tela.get_height() == (800):
+            self.jogo_iniciado = False
+            self.rect_botao_player1 = pygame.Rect(320,227,160,53)
+            self.rect_botao_player2 = pygame.Rect(320,307,160,53)
+            #self.blit_xy_exibe_nivel = (40,650)
+            #pygame.display.update()
 
     def exibir_pontuacao(self):
         mensagem = self.mesg
         texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
-        self.config_button.tela.blit(texto_formatado, (40,430))
+        self.tela.blit(texto_formatado,  self.blit_xy_mesg1_pontos)
 
     def exibe_melhor_pontuacao(self):
         mensagem = self.mesg_bp
         texo_formatado = self.fontei.render(mensagem, False, (255,255,255))
-        self.config_button.tela.blit(texo_formatado, (40,530))
+        self.tela.blit(texo_formatado, self.blit_xy_mesg_bp1)
 
     def exibir_nivel(self):
         mensagem = self.mesg_nivel
         texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
-        self.config_button.tela.blit(texto_formatado, (40,480))
+        self.tela.blit(texto_formatado, self.blit_xy_exibe_nivel)
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocos.blocos) == 0:
             texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
-            self.config_button.tela.blit(texto_formatado, self.blit_xy_nivel)
+            self.tela.blit(texto_formatado, self.blit_xy_nivel)
             self.niveis_count()
             self.som_de_fim_de_nivel()
             pygame.display.flip()
@@ -245,9 +255,9 @@ class Jogo(JogoBase):
 
             self.mensagem_fim_de_nivel()
             pygame.display.update()
-
+            
     def layout(self):
-        self.config_button.tela.fill((0,0,0)) # Se tu tirar daqui vai ferrar a animação!!!
+        self.tela.fill((0,0,0)) # Se tu tirar daqui vai ferrar a animação!!!
         self.desenho_borda()
         self.botoes_tela_inicial_modos()
         self.selecao_de_modos_estrutura()

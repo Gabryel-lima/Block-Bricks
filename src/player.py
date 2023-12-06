@@ -6,13 +6,13 @@ from player_base import PlayerBase
 
 
 class Player(PlayerBase):
-    def __init__(self, config_button):
-        super().__init__(config_button)
+    def __init__(self, jogo_base):
+        super().__init__(jogo_base)
 
     #def tester_remove(self): //Possivel inicializador para remover player para teste no futuro.
 
     def desenho_player(self):
-        pygame.draw.rect(self.config_button.tela, (255,0,0), ((self.x), (self.y), 40, 5))
+        pygame.draw.rect(self.jogo_base.tela, (255,0,0), ((self.x), (self.y), 40, 5))
 
     def input_player(self):
         novo_x = self.x
