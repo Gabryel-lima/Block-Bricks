@@ -35,7 +35,8 @@ src/jogo_base.py
 src/player_base.py
 src/bot_ia.py
 src/habilidade_players.py
-Integração Cython.md
+Integraçõa Cython.md
+cpython
 Anotação.md
 DecisionTreeClassifier.md
 opengl-notes-readthedocs-io-en-latest.pdf

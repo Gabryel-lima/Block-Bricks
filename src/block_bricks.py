@@ -36,6 +36,13 @@ class Jogo(JogoBase):
             return resultado
         return wrapper
 
+    def verifica_altura_bola(self):
+        if self.bola.y + self.bola.raio >= self.altura - self.altura_relativa_bola:
+            texto_formatado = self.fonte.render(f'{self.mesg_fj}', False, (255,255,255))  
+            self.tela.blit(texto_formatado, (215,225))
+
+            self.particao_verificar_colisao()
+
     def verificar_colisao(self):
         if self.bola.bola_Rect.colliderect(self.player.rect):
             self.bola.inverter_direcao()
@@ -46,11 +53,7 @@ class Jogo(JogoBase):
         #elif self.bola.rect.colliderect(self.bot.rectb):
             #self.bola.inverter_direcao()
 
-        if self.bola.y + self.bola.raio >= self.altura - 180:
-            texto_formatado = self.fonte.render(f'{self.mesg_fj}', False, (255,255,255))  
-            self.tela.blit(texto_formatado, (215,225))
-
-            self.particao_verificar_colisao()
+        self.verifica_altura_bola()
             
         for bloco in self.blocos.blocos:
             if self.bola.bola_Rect.colliderect(bloco):
@@ -162,15 +165,11 @@ class Jogo(JogoBase):
             self.player2.reset()
             self.rect_botao_player1 = pygame.Rect(240,170,100,30)
             self.rect_botao_player2 = pygame.Rect(240,230,100,35)
-            #self.blit_xy_exibe_nivel = (40,480)
-            #pygame.display.update()
 
         elif self.tela.get_height() == (800):
             self.jogo_iniciado = False
             self.rect_botao_player1 = pygame.Rect(320,227,160,53)
             self.rect_botao_player2 = pygame.Rect(320,307,160,53)
-            #self.blit_xy_exibe_nivel = (40,650)
-            #pygame.display.update()
 
     def exibir_pontuacao(self):
         mensagem = self.mesg
@@ -218,7 +217,7 @@ class Jogo(JogoBase):
                 elif self.bola.bola_Rect.centery < bloco.bottom and bloco.top < self.bola.bola_Rect.centery:
                     self.bola.VPos_x *= -1
                 else:
-                    self.bola.VPos_y *= -1 
+                    self.bola.VPos_y *= 1 
                     self.bola.VPos_x *= 1
 
     def run(self):

@@ -15,9 +15,9 @@ class ConfigButton:
         self.resolucao_texto1 = f'600x600'
         self.resolucao_texto2 = f'800x800'
         self.resolucao_texto3 = f'Fullscreen'
-        self.rect_resolucao_texto1 = Rect(240,170,120,40)
-        self.rect_resolucao_texto2 = Rect(240,230,120,40)
-        self.rect_resolucao_texto3 = Rect(240,290,120,40)
+        self.rect_resolucao_texto1 = pygame.Rect(240,170,120,40)
+        self.rect_resolucao_texto2 = pygame.Rect(240,230,120,40)
+        self.rect_resolucao_texto3 = pygame.Rect(240,290,120,40)
         self.copy_surface = pygame.SurfaceType
         self.list_rect_resolucao_texto = [self.rect_resolucao_texto1,
                                             self.rect_resolucao_texto2,
@@ -41,21 +41,21 @@ class ConfigButton:
             self.jogo_base.tela.blit(scaled_copy, self.img_xy)
             return self.rect_botao_config
 
-    def alterna_tela_inicial(self, limpar=bool):
-        if limpar:
-            self.rect_botao_player1 = Rect(0,0,0,0)
-            self.rect_botao_player2 = Rect(0,0,0,0)
-            self.clink_rect = Rect(0,0,0,0)
-            self.rect_botao_config = Rect(0,0,0,0)
-            self.img_xy = (0,0)
-            self.img_config_load = pygame.Surface(self.img_config.get_size())
-        else:
-            self.rect_botao_player1 = pygame.Rect(240,170,120,40)
-            self.rect_botao_player2 = pygame.Rect(240,230,120,40) 
-            self.clink_rect = pygame.Rect(40,522,280,30)
-            self.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
-            self.img_xy = (475,495)
-            self.img_config_load = pygame.image.load('assets/gear_config.png')
+    # def alterna_tela_inicial(self, limpar=bool):
+    #     if limpar:
+    #         self.rect_botao_player1 = Rect(0,0,0,0)
+    #         self.rect_botao_player2 = Rect(0,0,0,0)
+    #         self.clink_rect = Rect(0,0,0,0)
+    #         self.rect_botao_config = Rect(0,0,0,0)
+    #         self.img_xy = (0,0)
+    #         self.img_config_load = pygame.Surface(self.img_config.get_size())
+    #     else:
+    #         self.rect_botao_player1 = pygame.Rect(240,170,120,40)
+    #         self.rect_botao_player2 = pygame.Rect(240,230,120,40) 
+    #         self.clink_rect = pygame.Rect(40,522,280,30)
+    #         self.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
+    #         self.img_xy = (475,495)
+    #         self.img_config_load = pygame.image.load('assets/gear_config.png')
 
     def particao_desenho_botoes_resolucao(self):
         pos_mouse = pygame.mouse.get_pos()
