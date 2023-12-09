@@ -44,6 +44,7 @@ class JogoBase:
         self.modo_player2 = f'Player 2'
         self.blit_xy_player1 = (245,170)
         self.blit_xy_player2 = (245,230)
+        self.mesgc_blit_xy = (60,240)
         self.fonte_impact = pygame.font.SysFont("impact", 28)
         self.cor_botao_subl = (250,250,250)
         self.back = f'Voltar'
@@ -51,6 +52,7 @@ class JogoBase:
         self.mesgite_iniciar = f'Pressione a tecla "Enter" para iniciar'
         self.blit_xy_iniciar1 = (100,205)
         self.blit_xy_iniciar2 = (55,270)
+        self.mesg_fj_blit_xy = (215,225)
         self.nivel = 1
         self.blit_xy_exibe_nivel = (40,480)
         self.mesg_nivel = f'Nivel: {self.nivel}'
@@ -76,6 +78,8 @@ class JogoBase:
             self.config_button.img_xy = (475,495)
             self.blit_xy_player1 = (245,170)
             self.blit_xy_player2 = (245,230)
+            self.mesgc_blit_xy = (60,240)
+            self.mesg_fj_blit_xy = (215,225)
             self.rect_botao_player1 = pygame.Rect(240,170,120,40)
             self.rect_botao_player2 = pygame.Rect(240,230,120,40)
             self.rect_botao_sublinhar_mod_player = pygame.Rect(245,210,0,5) 
@@ -97,6 +101,8 @@ class JogoBase:
             self.blit_xy_exibe_nivel = (40,480)     
             self.blit_xy_mesg2_pontos = (40,430)
             self.blit_xy_mesg_bp2 = (40,530)
+            self.blit_xy_iniciar1 = (100,205)
+            self.blit_xy_iniciar2 = (55,270)
             self.config_button.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
             #self.blocos.configurar_nivel()
 
@@ -108,6 +114,10 @@ class JogoBase:
             self.borda = pygame.Rect((0,0), (self.largura, self.altura))
             self.blit_xy_player1 = (345,227)
             self.blit_xy_player2 = (345,303)
+            self.blit_xy_iniciar1 = (200,205)
+            self.blit_xy_iniciar2 = (150,270)
+            self.mesgc_blit_xy = (160,240)
+            self.mesg_fj_blit_xy = (315,325)
             self.rect_botao_player1 = pygame.Rect(320,227,160,53)
             self.rect_botao_player2 = pygame.Rect(320,307,160,53)
             self.rect_botao_sublinhar_mod_player = pygame.Rect(345,265,0,5)
@@ -131,7 +141,7 @@ class JogoBase:
             self.config_button.img_xy = (675,695)
             self.rect_botao_sublinhar_clink = pygame.Rect(55,750,0,5)
             self.config_button.rect_botao_config = pygame.Rect(674.5,694.0,53.0,53.0)
-            self.blocos.configurar_nivel(16,57,20)
+            self.blocos.configurar_nivel(18,67,30)
 
         #elif (largura,altura) == (FULLSCREEN): FUTURA RESOLUÇÃO DE TELA CHEIA.
 
@@ -176,7 +186,7 @@ class JogoBase:
         mensagem = self.mesgc
         fonte = pygame.font.SysFont('colibri', 30, False, False)
         texto_formatado = fonte.render(mensagem, False, (255,255,255))  
-        self.tela.blit(texto_formatado, (60,240))
+        self.tela.blit(texto_formatado, self.mesgc_blit_xy)
         if self.modo_jogador == 'Player2':
             mensagem = self.mesgc2
             fonte = pygame.font.SysFont('colibri', 30, False, False)
@@ -403,7 +413,7 @@ class JogoBase:
                 
     def manipula_nivel(self):
         while True:
-            self.blocos.configurar_nivel()
+            self.blocos.configurar_nivel(espaco_bloco=16, largura_bloco=57, altura_bloco=20)
             break
 
     def continuar_prox_nivel(self):

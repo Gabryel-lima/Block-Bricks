@@ -39,7 +39,7 @@ class Jogo(JogoBase):
     def verifica_altura_bola(self):
         if self.bola.y + self.bola.raio >= self.altura - self.altura_relativa_bola:
             texto_formatado = self.fonte.render(f'{self.mesg_fj}', False, (255,255,255))  
-            self.tela.blit(texto_formatado, (215,225))
+            self.tela.blit(texto_formatado, self.mesg_fj_blit_xy)
 
             self.particao_verificar_colisao()
 

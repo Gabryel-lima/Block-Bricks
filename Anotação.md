@@ -72,3 +72,9 @@ setup(
 )
 
 ---
+
+**o git pull puxa, traz as alterações de um repositório remoto para o local.**  **Já push é empurrar, então o git push empurra, leva as alterações do repositório local para o remoto** .
+
+---
+
+---

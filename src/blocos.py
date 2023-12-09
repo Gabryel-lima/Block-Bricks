@@ -16,16 +16,16 @@ class Blocos:
         #self.countr = random.randint(2,12)
         #self.indice_aleatorio = []
         self.niveis = [
-            (10,3),  # nível 1: (num_blocos_por_fileira, num_colunas)
-            (8,4),  # nível 2
-            (8,4),  # nível 3
-            (8,5),  # nível 4
-            (8,5),  # nível 5
-            (8,6),  # nível 6
-            (8,6),  # nível 7
-            (8,7),  # nível 8
-            (8,7),  # nível 9
-            (8,8)  # nível 10
+            (8,3),  # (x,y)
+            (8,3), 
+            (8,4), 
+            (8,5), 
+            (8,5), 
+            (8,6), 
+            (8,6), 
+            (8,7), 
+            (8,7), 
+            (8,8)   
         ]
         self.configurar_nivel(espaco_bloco=16, largura_bloco=57, altura_bloco=20)
         #self.bloco_img = pygame.image.load('assets/sprite_0.png')
@@ -38,6 +38,7 @@ class Blocos:
                 y = self.espaco_blocos + fileira * (self.altura_bloco + self.espaco_blocos)
                 self.bloco_Rect = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
                 self.blocos.append(self.bloco_Rect)
+                print("x:",x, "|" "y:",y)
 
     def desenhar_blocos(self):
         for bloco in self.blocos:
@@ -52,7 +53,7 @@ class Blocos:
                 pygame.draw.rect(self.jogo_base.tela, self.cor_animacao, bloco_antigo, width=0, border_radius=3)
                 pygame.draw.rect(self.jogo_base.tela, self.cor_animacao_none, bloco_novo, width=5, border_radius=2)
 
-    def configurar_nivel(self, espaco_bloco, largura_bloco, altura_bloco):
+    def configurar_nivel(self, espaco_bloco=int, largura_bloco=int, altura_bloco=int):
         if self.nivel_atual < len(self.niveis):
             self.num_colunas, self.num_blocos_por_fileira = self.niveis[self.nivel_atual]
             self.espaco_blocos = espaco_bloco
