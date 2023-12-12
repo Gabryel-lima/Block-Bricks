@@ -28,14 +28,6 @@ class Jogo(JogoBase):
         self.fontei = pygame.font.SysFont('Candara', 30, True, False)
         self.jogo_iniciado = False
 
-    def log_funcao(func):
-        def wrapper(*args, **kwargs):
-            print(f'\nChamando {func.__name__} com argumentos: {args}, {kwargs}')
-            resultado = func(*args, **kwargs)
-            print(f'{func.__name__} retornou: {resultado}')
-            return resultado
-        return wrapper
-
     def verifica_altura_bola(self):
         if self.bola.y + self.bola.raio >= self.altura - self.altura_relativa_bola:
             texto_formatado = self.fonte.render(f'{self.mesg_fj}', False, (255,255,255))  
@@ -158,7 +150,7 @@ class Jogo(JogoBase):
             self.mesg_nivel = f'Nivel: {self.nivel}'
 
     def reset(self): # Esse metodo retorna o menu.
-        if self.tela.get_height() == (600):
+        if self.largura == 600:
             self.jogo_iniciado = False
             self.bola.reset()
             self.player.reset()
@@ -166,7 +158,7 @@ class Jogo(JogoBase):
             self.rect_botao_player1 = pygame.Rect(240,170,100,30)
             self.rect_botao_player2 = pygame.Rect(240,230,100,35)
 
-        elif self.tela.get_height() == (800):
+        elif self.largura == 800:
             self.jogo_iniciado = False
             self.rect_botao_player1 = pygame.Rect(320,227,160,53)
             self.rect_botao_player2 = pygame.Rect(320,307,160,53)

@@ -34,4 +34,4 @@ class Player(PlayerBase):
         self.x = novo_x
 
     def resetp_1(self):
-        self.x = 530 // 2 - 40 // 2
+        self.x = self.jogo_base.largura // 2 - 70
