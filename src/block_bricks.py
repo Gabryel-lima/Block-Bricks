@@ -155,13 +155,13 @@ class Jogo(JogoBase):
             self.bola.reset()
             self.player.reset()
             self.player2.reset()
-            self.rect_botao_player1 = pygame.Rect(240,170,100,30)
-            self.rect_botao_player2 = pygame.Rect(240,230,100,35)
+            self.rect_botao_player1 = self.list_tela_inicial[0]
+            self.rect_botao_player2 = self.list_tela_inicial[1]
 
-        elif self.largura == 800:
+        elif self.largura > 600:
             self.jogo_iniciado = False
-            self.rect_botao_player1 = pygame.Rect(320,227,160,53)
-            self.rect_botao_player2 = pygame.Rect(320,307,160,53)
+            self.rect_botao_player1 = self.list_tela_inicial[self]
+            self.rect_botao_player2 = self.list_tela_inicial[self]
 
     def exibir_pontuacao(self):
         mensagem = self.mesg

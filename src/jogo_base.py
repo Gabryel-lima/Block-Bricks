@@ -19,7 +19,8 @@ class JogoBase:
     def __init__(self):
         self.vars_dimenssoes_tela()
         self.vars_tela_inicial()
-
+        self.vars_tela_config()
+        self.vars_pre_start()
         self.config_button = ConfigButton(self)
         self.player = Player(self)
         self.player2 = Player2(self)
@@ -29,90 +30,153 @@ class JogoBase:
         self.coleta = ColetaDados()
         self.modo_player1 = f'Player 1'
         self.modo_player2 = f'Player 2'
-        self.blit_xy_player1 = (245,170)
-        self.blit_xy_player2 = (245,230)
-        self.mesgc_blit_xy = (60,240)
         self.fonte_impact = pygame.font.SysFont("impact", 28)
         self.cor_botao_subl = (250,250,250)
         self.back = f'Voltar'
-        self.blit_xy_voltar = (40,300)
         self.mesgite_iniciar = f'Pressione a tecla "Enter" para iniciar'
-        self.blit_xy_iniciar1 = (100,205)
-        self.blit_xy_iniciar2 = (55,270)
-        self.mesg_fj_blit_xy = (215,225)
         self.nivel = 1
-        self.blit_xy_exibe_nivel = (40,480)
         self.mesg_nivel = f'Nivel: {self.nivel}'
-        self.blit_xy_nivel = (200,220)
         self.pontos2 = 0
-        self.blit_xy_mesg1_pontos = (40,430)
-        self.blit_xy_mesg_bp1 = (40,530)
-        self.blit_xy_mesg2_pontos = (40,430)
         self.mesg2 = f'Pontos: {self.pontos2}'
-        self.blit_xy_mesg_bp2 = (40,530)
         self.lp2 = self.carregar_melhor_pontuacao2()
         self.mesg_bp2 = f'Melhor pontuação: {self.lp2}'
-        self.blit_xy_clink = (40,520)
         self.modo_jogador = None
-        
-
-    def vars_dimenssoes_tela(self) -> object:
+    
+    def vars_dimenssoes_tela(self):
         pygame.init()
         self.largura = 600
         self.altura = 600
         self.altura_relativa_bola = 180
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect((0,0), (self.largura, self.altura))
-        self.fonte = pygame.font.SysFont('arial', 30, True, False)
+        self.fonte = pygame.font.SysFont('arial', 32, True, False)
+        self.list_dimenssoes_tela = [self.borda]
         return self
 
-    def vars_tela_inicial(self) -> object:
-        self.blit_xy_player1 = (245,170)
-        self.blit_xy_player2 = (245,230)
+    def vars_tela_inicial(self):
+        self.blit_xy_player1 = pygame.Rect(245,170, 170, 0)
+        self.blit_xy_player2 = pygame.Rect(245,230, 230, 0)
         self.rect_botao_player1 = pygame.Rect(240,170,120,40)
         self.rect_botao_player2 = pygame.Rect(240,230,120,40)
         self.rect_botao_sublinhar_mod_player = pygame.Rect(245,210,0,5) 
         self.rect_botao_sublinhar_mod_player2 = pygame.Rect(245,270,0,5)
-        self.blit_xy_clink = (40,520)
+        self.blit_xy_clink = pygame.Rect(40,520, 0, 0)
         self.clink_rect = pygame.Rect(40,522,280,30)
         self.rect_botao_sublinhar_clink = pygame.Rect(40,558,0,3)
         self.list_tela_inicial = [self.rect_botao_player1,
                                     self.rect_botao_player2,
+                                    self.blit_xy_player1,
+                                    self.blit_xy_player2,
                                     self.rect_botao_sublinhar_mod_player,
                                     self.rect_botao_sublinhar_mod_player2,
+                                    self.blit_xy_clink,
                                     self.clink_rect,
                                     self.rect_botao_sublinhar_clink]
         return self
     
-    def vars_pre_start(self) -> object:
+    def vars_pre_start(self):
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
         self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3)
-        self.mesgc_blit_xy = (60,240)
-        self.mesg_fj_blit_xy = (215,225)
-        self.blit_xy_voltar = (40,300)
-        self.blit_xy_mesg1_pontos = (40,430)
-        self.blit_xy_mesg_bp1 = (40,530)   
-        self.blit_xy_exibe_nivel = (40,480)     
-        self.blit_xy_mesg2_pontos = (40,430)
-        self.blit_xy_mesg_bp2 = (40,530)
-        self.blit_xy_iniciar1 = (100,205)
-        self.blit_xy_iniciar2 = (55,270)
+        self.mesgc_blit_xy = pygame.Rect(60,240, 0, 0)
+        self.mesg_fj_blit_xy = pygame.Rect(215,225, 0, 0)
+        self.blit_xy_voltar = pygame.Rect(40,300, 0, 0)
+        self.blit_xy_mesg1_pontos = pygame.Rect(40,430, 0, 0)
+        self.blit_xy_mesg_bp1 = pygame.Rect(40,530, 0, 0)   
+        self.blit_xy_exibe_nivel = pygame.Rect(40,480, 0, 0)     
+        self.blit_xy_mesg2_pontos = pygame.Rect(40,430, 0, 0)
+        self.blit_xy_mesg_bp2 = pygame.Rect(40,530, 0, 0)
+        self.blit_xy_iniciar1 = pygame.Rect(100,205, 0, 0)
+        self.blit_xy_iniciar2 = pygame.Rect(55,270, 0, 0)
+        self.list_pre_start = [self.rect_botao_voltar,
+                                self.rect_botao_sublinhar_voltar,
+                                self.mesgc_blit_xy,
+                                self.mesg_fj_blit_xy,
+                                self.blit_xy_voltar,
+                                self.blit_xy_mesg1_pontos,
+                                self.blit_xy_mesg_bp1,
+                                self.blit_xy_exibe_nivel,
+                                self.blit_xy_mesg2_pontos,
+                                self.blit_xy_mesg_bp2,
+                                self.blit_xy_iniciar1,
+                                self.blit_xy_iniciar2]
         return self
 
-    def vars_tela_config(self) -> object:
-        self.img_xy = (475,495)
-        self.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
+    def vars_tela_config(self):
         self.rect_resolucao_texto1 = pygame.Rect(240,170,120,40)
         self.rect_resolucao_texto2 = pygame.Rect(240,230,120,40)
         self.rect_resolucao_texto3 = pygame.Rect(240,290,120,40)
-        self.list_rect_resolucao_texto = [self.rect_resolucao_texto1,
-                                                        self.rect_resolucao_texto2,
-                                                        self.rect_resolucao_texto3]
+        self.img_xy = pygame.Rect(475,495, 0, 0)
+        self.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
+        self.blit_xy_resolucao_texto1 = pygame.Rect(245,170, 0, 0)
+        self.blit_xy_resolucao_texto2 = pygame.Rect(245,230, 0, 0)
+        self.blit_xy_resolucao_texto3 = pygame.Rect(230,290, 0, 0)
+        self.list_tela_config = [self.rect_resolucao_texto1,
+                                    self.rect_resolucao_texto2,
+                                    self.rect_resolucao_texto3,
+                                    self.blit_xy_resolucao_texto1,
+                                    self.blit_xy_resolucao_texto2,
+                                    self.blit_xy_resolucao_texto3,
+                                    self.img_xy, 
+                                    self.rect_botao_config]
+                                    
         return self
-    
+
+    def for_dimenssoes_tela(self, nova_res=tuple, res_original=tuple): 
+        nova = nova_res
+        original = res_original
+        for borda in self.list_dimenssoes_tela:
+            borda_copy = borda.copy()
+            x_ratio = nova[0] / original[0] 
+            y_ratio = nova[1] / original[1]
+            borda.x = borda_copy.x * x_ratio 
+            borda.y = borda_copy.y * y_ratio
+            borda.width = borda_copy.width * x_ratio
+            borda.height = borda_copy.height * y_ratio
+            self.tela = pygame.display.set_mode((borda.width, borda.height))
+        return
+
+    def for_tela_inicial(self, nova_res=tuple, res_original=tuple):
+        nova = nova_res
+        original = res_original
+        for tela in self.list_tela_inicial:
+            tela_copy = tela.copy()
+            x_ratio = nova[0] / original[0] 
+            y_ratio = nova[1] / original[1]
+            tela.x = tela_copy.x * x_ratio
+            tela.y = tela_copy.y * y_ratio
+            tela.width = tela_copy.width
+            tela.height = tela_copy.height
+        return
+
+    def for_pre_start(self, nova_res=tuple, res_original=tuple):
+        nova = nova_res
+        original = res_original
+        for start in self.list_pre_start:
+            start_copy = start.copy()
+            x_ratio = nova[0] / original[0] 
+            y_ratio = nova[1] / original[1]
+            start.x = start_copy.x * x_ratio ##
+            start.y = start_copy.y * y_ratio ##
+            start.width = start_copy.width ##
+            start.height = start_copy.height ##
+        return
+
+    def for_tela_config(self, nova_res=tuple, res_original=tuple):
+        nova = nova_res
+        original = res_original
+        for config in self.list_tela_config:
+            config_copy = config.copy()
+            x_ratio = nova[0] / original[0] 
+            y_ratio = nova[1] / original[1]
+            config.x = config_copy.x * x_ratio ##
+            config.y = config_copy.y * y_ratio ##
+            config.width = config_copy.width * x_ratio
+            config.height = config_copy.height * y_ratio
+        return
+
     def calculo_obter_proporcao(self, nova_resolucao=tuple):
         nova_res = nova_resolucao
-        res_original = (600,600)
+        res_original = (self.largura, self.altura)
 
         if nova_res == res_original:
             self.vars_dimenssoes_tela()
@@ -120,18 +184,12 @@ class JogoBase:
             self.vars_tela_config()
             self.vars_pre_start()
         else:
-            if not hasattr(self, "else_executado"):
-                for objeto in self.list_tela_inicial:
-                    objeto_copy = objeto.copy()
-                    x_ratio = nova_res[0] / res_original[0] 
-                    y_ratio = nova_res[1] / res_original[1]
-                    objeto.x = objeto_copy.x * x_ratio
-                    objeto.y = objeto_copy.y * y_ratio
-                    objeto.width = objeto_copy.width
-                    objeto.height = objeto_copy.height
-                
-                self.else_executado = True
-
+            self.for_dimenssoes_tela(nova_res=nova_res, res_original=res_original)
+            self.for_tela_inicial(nova_res=nova_res, res_original=res_original)
+            self.for_pre_start(nova_res=nova_res, res_original=res_original)
+            self.for_tela_config(nova_res=nova_res, res_original=res_original)
+            self.list_tela_config[1] = pygame.Rect(0,0,0,0)
+            
     def carregar_melhor_pontuacao2(self):
         try:
             with open('src/best_score2.json', 'r') as file:
@@ -189,9 +247,9 @@ class JogoBase:
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player2)
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_clink)
 
-        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 110)
+        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 118)
         self.rect_botao_sublinhar_mod_player.width = max(self.rect_botao_sublinhar_mod_player.width, 0)
-        self.rect_botao_sublinhar_mod_player2.width = min(self.rect_botao_sublinhar_mod_player2.width, 113)
+        self.rect_botao_sublinhar_mod_player2.width = min(self.rect_botao_sublinhar_mod_player2.width, 120)
         self.rect_botao_sublinhar_mod_player2.width = max(self.rect_botao_sublinhar_mod_player2.width, 0)
         self.rect_botao_sublinhar_clink.width = min(self.rect_botao_sublinhar_clink.width, 3)
         self.rect_botao_sublinhar_clink.width = max(self.rect_botao_sublinhar_clink.width, 0)
@@ -286,9 +344,9 @@ class JogoBase:
                         self.calculo_obter_proporcao((800,720))
                         self.config_button.copy_surface.fill((0,0,0))
                         return
-                    elif rect3.collidepoint(pygame.mouse.get_pos()):
-                        self.calculo_obter_proporcao(*pygame.display.list_modes()[0])  # Obtém a maior resolução suportada
-                        return
+                    # elif rect3.collidepoint(pygame.mouse.get_pos()):
+                    #     self.calculo_obter_proporcao(*pygame.display.list_modes()[0])  # Obtém a maior resolução suportada
+                    #     return
                 else:
                     self.tela.fill((0,0,0))
                     self.desenho_borda()
@@ -318,14 +376,11 @@ class JogoBase:
                     self.executar_particao(self.selecao_de_modos_estrutura_particao2)
 
                 elif self.clink_rect.collidepoint(pygame.mouse.get_pos()):
-                        webbrowser.open("https://github.com/Gabryel-lima")
-                        pygame.time.delay(300)
+                    webbrowser.open("https://github.com/Gabryel-lima")
+                    pygame.time.delay(300)
                 
                 elif self.config_button.desenho_botao_config().collidepoint(pygame.mouse.get_pos()):
                     pygame.time.delay(300)
-                    #self.config_button.alterna_tela_inicial(limpar=True)
-                    #self.executar_particao_config()
-                    #self.config_button.alterna_tela_inicial(limpar=False)
                     self.executar_particao_desenho_botoes_resolucao()
 
     def executar_particao(self, particao=None):
