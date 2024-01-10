@@ -109,7 +109,7 @@ class JogoBase:
         self.rect_botao_config = pygame.Rect(474.5,494.0,53.0,53.0)
         self.blit_xy_resolucao_texto1 = pygame.Rect(245,170, 0, 0)
         self.blit_xy_resolucao_texto2 = pygame.Rect(245,230, 0, 0)
-        self.blit_xy_resolucao_texto3 = pygame.Rect(230,290, 0, 0)
+        self.blit_xy_resolucao_texto3 = pygame.Rect(232,290, 0, 0)
         self.list_tela_config = [self.rect_resolucao_texto1,
                                     self.rect_resolucao_texto2,
                                     self.rect_resolucao_texto3,
@@ -247,9 +247,9 @@ class JogoBase:
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player2)
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_clink)
 
-        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 118)
+        self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 120)
         self.rect_botao_sublinhar_mod_player.width = max(self.rect_botao_sublinhar_mod_player.width, 0)
-        self.rect_botao_sublinhar_mod_player2.width = min(self.rect_botao_sublinhar_mod_player2.width, 120)
+        self.rect_botao_sublinhar_mod_player2.width = min(self.rect_botao_sublinhar_mod_player2.width, 122)
         self.rect_botao_sublinhar_mod_player2.width = max(self.rect_botao_sublinhar_mod_player2.width, 0)
         self.rect_botao_sublinhar_clink.width = min(self.rect_botao_sublinhar_clink.width, 3)
         self.rect_botao_sublinhar_clink.width = max(self.rect_botao_sublinhar_clink.width, 0)
@@ -312,11 +312,11 @@ class JogoBase:
         if rect_botao.collidepoint(pos_mouse):
             self.cor_botao_voltar = (150,150,150)
             self.cor_botao_subl = (200,200,200)
-            self.rect_botao_sublinhar_voltar.width += 80 
+            self.rect_botao_sublinhar_voltar.width += 86 
         else:
             self.cor_botao_voltar = (255,255,255)
             self.cor_botao_subl = (200,200,200)
-            self.rect_botao_sublinhar_voltar.width -= 80
+            self.rect_botao_sublinhar_voltar.width -= 86
 
         if self.rect_botao_voltar.width > 0:  
             texto_formatado1 = self.fonte.render(mensagem, False, self.cor_botao_voltar)
