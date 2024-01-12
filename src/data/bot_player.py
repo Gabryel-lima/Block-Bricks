@@ -2,7 +2,7 @@
 import pygame
 import pickle
 
-from player import Player
+from core.player import Player
 
 class BotPlayer:
     def __init__(self, tela, borda, largura, altura):

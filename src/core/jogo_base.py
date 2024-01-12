@@ -12,8 +12,8 @@ from bola import Bola
 from blocos import Blocos
 from config_button import ConfigButton
 from redimensionar import Redimensionar
-from coleta_dados import ColetaDados
-from bot_player import BotPlayer
+from data.bot_ia import ColetaDados
+from data.bot_player import BotPlayer
 
 
 class JogoBase:
@@ -29,7 +29,7 @@ class JogoBase:
         self.bola = Bola(self)
         self.blocos = Blocos(self)
         #self.bot = BotPlayer(self.tela, self.config_button.largura, self.player.x, self.player.y)
-        self.coleta = ColetaDados()
+        #self.coleta = ColetaDados()
         self.modo_player1 = f'Player 1'
         self.modo_player2 = f'Player 2'
         self.fonte_impact = pygame.font.SysFont("impact", 28)

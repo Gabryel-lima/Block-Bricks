@@ -3,6 +3,7 @@
 import pygame
 from pygame.locals import *
 
+
 class PlayerBase:
     def __init__(self, jogo_base):
         self.jogo_base = jogo_base

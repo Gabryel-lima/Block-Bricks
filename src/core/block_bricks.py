@@ -1,4 +1,7 @@
 
+import sys
+sys.path.append('C:/Users/gabry/OneDrive/Área de Trabalho/Block-Bricks Pygame/src')
+
 import json
 import os
 
@@ -102,7 +105,7 @@ class Jogo(JogoBase):
 
     def carregar_melhor_pontuacao(self):
         try:
-            with open('src/best_score.json', 'r') as file:
+            with open('src/json/best_score.json', 'r') as file:
                 data = json.load(file)
                 return data['best_score']
         except (FileNotFoundError, KeyError):
@@ -110,7 +113,7 @@ class Jogo(JogoBase):
 
     def salvar_melhor_pontuacao(self):
         data = {'best_score': self.lp}
-        with open('src/best_score.json', 'w') as file:
+        with open('src/json/best_score.json', 'w') as file:
             json.dump(data, file)
 
     def atualiza_melhor_pontuacao(self):

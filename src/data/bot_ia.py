@@ -1,4 +1,5 @@
 
+
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -83,5 +84,5 @@ class TreinarModelo:
         plt.show()
 
 if __name__ == "__main__":
-    treino = TreinarModelo('src/coletadds.csv')
+    treino = TreinarModelo('src/data/coletadds.csv')
     treino.treinar_bot()
