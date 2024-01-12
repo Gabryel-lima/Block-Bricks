@@ -11,6 +11,7 @@ from player2 import Player2
 from bola import Bola
 from blocos import Blocos
 from config_button import ConfigButton
+from redimensionar import Redimensionar
 from coleta_dados import ColetaDados
 from bot_player import BotPlayer
 
@@ -22,6 +23,7 @@ class JogoBase:
         self.vars_tela_config()
         self.vars_pre_start()
         self.config_button = ConfigButton(self)
+        self.redimensionar = Redimensionar(self)
         self.player = Player(self)
         self.player2 = Player2(self)
         self.bola = Bola(self)
@@ -102,7 +104,7 @@ class JogoBase:
         return self
 
     def vars_tela_config(self):
-        self.rect_resolucao_texto1 = pygame.Rect(240,170,120,40)
+        self.rect_resolucao_texto1 = pygame.Rect(0,0,0,0) # 240,170,120,40
         self.rect_resolucao_texto2 = pygame.Rect(240,230,120,40)
         self.rect_resolucao_texto3 = pygame.Rect(240,290,120,40)
         self.img_xy = pygame.Rect(475,495, 0, 0)
@@ -118,78 +120,8 @@ class JogoBase:
                                     self.blit_xy_resolucao_texto3,
                                     self.img_xy, 
                                     self.rect_botao_config]
-                                    
         return self
 
-    def for_dimenssoes_tela(self, nova_res=tuple, res_original=tuple): 
-        nova = nova_res
-        original = res_original
-        for borda in self.list_dimenssoes_tela:
-            borda_copy = borda.copy()
-            x_ratio = nova[0] / original[0] 
-            y_ratio = nova[1] / original[1]
-            borda.x = borda_copy.x * x_ratio 
-            borda.y = borda_copy.y * y_ratio
-            borda.width = borda_copy.width * x_ratio
-            borda.height = borda_copy.height * y_ratio
-            self.tela = pygame.display.set_mode((borda.width, borda.height))
-        return
-
-    def for_tela_inicial(self, nova_res=tuple, res_original=tuple):
-        nova = nova_res
-        original = res_original
-        for tela in self.list_tela_inicial:
-            tela_copy = tela.copy()
-            x_ratio = nova[0] / original[0] 
-            y_ratio = nova[1] / original[1]
-            tela.x = tela_copy.x * x_ratio
-            tela.y = tela_copy.y * y_ratio
-            tela.width = tela_copy.width
-            tela.height = tela_copy.height
-        return
-
-    def for_pre_start(self, nova_res=tuple, res_original=tuple):
-        nova = nova_res
-        original = res_original
-        for start in self.list_pre_start:
-            start_copy = start.copy()
-            x_ratio = nova[0] / original[0] 
-            y_ratio = nova[1] / original[1]
-            start.x = start_copy.x * x_ratio ##
-            start.y = start_copy.y * y_ratio ##
-            start.width = start_copy.width ##
-            start.height = start_copy.height ##
-        return
-
-    def for_tela_config(self, nova_res=tuple, res_original=tuple):
-        nova = nova_res
-        original = res_original
-        for config in self.list_tela_config:
-            config_copy = config.copy()
-            x_ratio = nova[0] / original[0] 
-            y_ratio = nova[1] / original[1]
-            config.x = config_copy.x * x_ratio ##
-            config.y = config_copy.y * y_ratio ##
-            config.width = config_copy.width * x_ratio
-            config.height = config_copy.height * y_ratio
-        return
-
-    def calculo_obter_proporcao(self, nova_resolucao=tuple):
-        nova_res = nova_resolucao
-        res_original = (self.largura, self.altura)
-
-        if nova_res == res_original:
-            self.vars_dimenssoes_tela()
-            self.vars_tela_inicial()
-            self.vars_tela_config()
-            self.vars_pre_start()
-        else:
-            self.for_dimenssoes_tela(nova_res=nova_res, res_original=res_original)
-            self.for_tela_inicial(nova_res=nova_res, res_original=res_original)
-            self.for_pre_start(nova_res=nova_res, res_original=res_original)
-            self.for_tela_config(nova_res=nova_res, res_original=res_original)
-            self.list_tela_config[1] = pygame.Rect(0,0,0,0)
-            
     def carregar_melhor_pontuacao2(self):
         try:
             with open('src/best_score2.json', 'r') as file:
@@ -337,15 +269,16 @@ class JogoBase:
                     rect1, rect2, rect3 = self.config_button.particao_desenho_botoes_resolucao()
 
                     if rect1.collidepoint(pygame.mouse.get_pos()):
-                        self.calculo_obter_proporcao((600,600))
+                        self.redimensionar.calculo_obter_proporcao((600,600))
                         self.config_button.copy_surface.fill((0,0,0))
                         return
                     elif rect2.collidepoint(pygame.mouse.get_pos()):
-                        self.calculo_obter_proporcao((800,720))
+                        self.list_tela_config[0] = pygame.Rect(240,170,120,40)
+                        self.redimensionar.calculo_obter_proporcao((800,720))
                         self.config_button.copy_surface.fill((0,0,0))
                         return
                     # elif rect3.collidepoint(pygame.mouse.get_pos()):
-                    #     self.calculo_obter_proporcao(*pygame.display.list_modes()[0])  # Obtém a maior resolução suportada
+                    #     self.redimensionar.calculo_obter_proporcao(*pygame.display.list_modes()[0])  # Obtém a maior resolução suportada
                     #     return
                 else:
                     self.tela.fill((0,0,0))

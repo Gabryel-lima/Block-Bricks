@@ -12,8 +12,8 @@ class Blocos:
         self.cor_animacao = (250,250,250)
         self.cor_animacao_none = (150,150,100)
         self.nivel_atual = 0
-        self.nsort = random.randint(0,3)
-        self.countr = random.randint(2,12)
+        self.nsort = random.randint(0,3) # Ainda não utilizado.
+        self.countr = random.randint(2,12) # Ainda não utilizado.
         self.indice_aleatorio = []
         self.niveis = [
             (8,3),  # nível 1: (num_blocos_por_fileira, num_colunas)
@@ -67,4 +67,13 @@ class Blocos:
         self.blocos.clear()
         self.nivel = 0
         self.criar_blocos()
+
+    def redimensi_blocos(self, rect_bloco=Rect, list_blocos=list):
+        rect_x = rect_bloco.x
+        rect_y = rect_bloco.y
+        lis_blocos = list_blocos
+
+        
+
+
 
