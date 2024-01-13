@@ -50,12 +50,12 @@ class Jogo(JogoBase):
 
         self.verifica_altura_bola()
             
-        for bloco in self.blocos.blocos:
+        for bloco in self.blocos.lis_blocos:
             if self.bola.bola_Rect.colliderect(bloco):
                 self.inverter_direcao_bola_bloco()
                 self.som_da_bola_e_bloco()
-                self.blocos.animacao_blocos(index=self.blocos.blocos.index(bloco))
-                self.blocos.blocos.remove(bloco)
+                self.blocos.animacao_blocos(index=self.blocos.lis_blocos.index(bloco))
+                self.blocos.lis_blocos.remove(bloco)
                 if self.modo_jogador == "Player1":
                     self.atualiza_pontuacao()
                     self.atualiza_melhor_pontuacao()
@@ -182,7 +182,7 @@ class Jogo(JogoBase):
         self.tela.blit(texto_formatado, self.blit_xy_exibe_nivel)
 
     def mensagem_fim_de_nivel(self):
-        if len(self.blocos.blocos) == 0:
+        if len(self.blocos.lis_blocos) == 0:
             texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
             self.tela.blit(texto_formatado, self.blit_xy_nivel)
             self.niveis_count()
@@ -205,7 +205,7 @@ class Jogo(JogoBase):
                 self.player2.x += 4.5
 
     def inverter_direcao_bola_bloco(self):
-        for bloco in self.blocos.blocos:
+        for bloco in self.blocos.lis_blocos:
             if self.bola.bola_Rect.colliderect(bloco):
                 if self.bola.bola_Rect.centerx < bloco.right and bloco.left < self.bola.bola_Rect.centerx:
                     self.bola.VPos_y *= -1

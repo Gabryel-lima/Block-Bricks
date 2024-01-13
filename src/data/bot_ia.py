@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from tensorflow import keras
+#from tensorflow import keras 
 
-
+"""Problema de compatibilidade com a versão > Tensorflow 2.10!!!"""
 class ColetaDados:
     def __init__(self, csv_path):
         self.csv_path = csv_path
@@ -18,7 +18,7 @@ class ColetaDados:
 class TreinarModelo:
     def __init__(self, csv_path):
         self.csv_path = csv_path
-        self.kra = keras
+        #self.kra = keras
         self.df = None
         self.X = None
         self.X_resampled = None
@@ -50,38 +50,38 @@ class TreinarModelo:
         self.X_treino, self.X_teste, self.y_treino, self.y_teste = train_test_split(self.X_resampled, self.y)
 
         # Construa o modelo da rede neural
-        model = keras.Sequential([
-            keras.layers.Dense(32, activation='elu', input_shape=(2,)),  # Duas entradas (x, y)
-            keras.layers.Dropout(0.1),
-            keras.layers.Dense(32, activation='elu'),
-            keras.layers.Dropout(0.1),
-            keras.layers.Dense(1)  # Uma saída (ângulo)
-        ])
+        # model = keras.Sequential([
+        #     keras.layers.Dense(32, activation='elu', input_shape=(2,)),  # Duas entradas (x, y)
+        #     keras.layers.Dropout(0.1),
+        #     keras.layers.Dense(32, activation='elu'),
+        #     keras.layers.Dropout(0.1),
+        #     keras.layers.Dense(1)  # Uma saída (ângulo)
+        # ])
 
         # Compile o modelo
-        model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_absolute_error'])
+        # model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_absolute_error'])
 
-        # Treine o modelo
-        model.fit(self.X_treino, self.y_treino, epochs=100, batch_size=32, validation_split=0.2)
+        # # Treine o modelo
+        # model.fit(self.X_treino, self.y_treino, epochs=100, batch_size=32, validation_split=0.2)
 
-        # Avalie o modelo
+        # # Avalie o modelo
 
-        self.X_teste = self.norm.fit_transform(self.X_teste)
-        loss = model.evaluate(self.X_teste, self.y_teste)
-        print('\nErro Médio Quadrático (MSE): ', loss)
+        # self.X_teste = self.norm.fit_transform(self.X_teste)
+        # loss = model.evaluate(self.X_teste, self.y_teste)
+        # print('\nErro Médio Quadrático (MSE): ', loss)
 
-        # Faça previsões
-        predictions = model.predict(self.X_teste)
-        print("\nPrevisão: ", predictions)
+        # # Faça previsões
+        # predictions = model.predict(self.X_teste)
+        # print("\nPrevisão: ", predictions)
 
-        plt.figure(figsize=(10, 6))
-        plt.scatter(self.y_teste, predictions, c='r', label='Previsões')
-        plt.plot([self.y_teste.min(), self.y_teste.max()], [self.y_teste.min(), self.y_teste.max()], 'k--', lw=2, label='Linha de 45 graus')
-        plt.xlabel('Valor Real')
-        plt.ylabel('Previsão do Modelo')
-        plt.legend()
-        plt.title('Comparação entre Valores Reais e Previsões')
-        plt.show()
+        # plt.figure(figsize=(10, 6))
+        # plt.scatter(self.y_teste, predictions, c='r', label='Previsões')
+        # plt.plot([self.y_teste.min(), self.y_teste.max()], [self.y_teste.min(), self.y_teste.max()], 'k--', lw=2, label='Linha de 45 graus')
+        # plt.xlabel('Valor Real')
+        # plt.ylabel('Previsão do Modelo')
+        # plt.legend()
+        # plt.title('Comparação entre Valores Reais e Previsões')
+        # plt.show()
 
 if __name__ == "__main__":
     treino = TreinarModelo('src/data/coletadds.csv')

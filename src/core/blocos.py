@@ -37,14 +37,15 @@ class Blocos:
                 x = self.espaco_blocos + coluna * (self.largura_bloco + self.espaco_blocos)
                 y = self.espaco_blocos + fileira * (self.altura_bloco + self.espaco_blocos)
                 self.bloco_Rect = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
-                self.blocos.append(self.bloco_Rect)
+                self.lis_blocos.append(self.bloco_Rect)
+                self.captura_posicoes()
 
     def desenhar_blocos(self):
-        for bloco in self.blocos:
+        for bloco in self.lis_blocos:
             pygame.draw.rect(self.jogo_base.tela, self.cor_blocos, bloco, width=0, border_radius=3) #self.jogo_base.tela.blit(self.bloco_img, bloco)
 
     def animacao_blocos(self, index=int) -> pygame.Rect:
-        for indice, bloco in enumerate(self.blocos):
+        for indice, bloco in enumerate(self.lis_blocos):
             if indice == index:
                 bloco_antigo = bloco.copy()
                 bloco_novo = bloco_antigo.copy()
@@ -59,21 +60,18 @@ class Blocos:
             self.largura_bloco = 57
             self.altura_bloco = 20
             self.countr = random.randint(2,18)
-            self.blocos = []
+            self.lis_blocos = []
             self.nivel_atual += 1
             self.criar_blocos()
+            
+    @property
+    def captura_posicoes(self):
+        for indices in enumerate(self.lis_blocos):
+            print(f"Indices: {indices}")
+        return int
 
     def resetar_blocos(self):
-        self.blocos.clear()
+        self.lis_blocos.clear()
         self.nivel = 0
         self.criar_blocos()
-
-    def redimensi_blocos(self, rect_bloco=Rect, list_blocos=list):
-        rect_x = rect_bloco.x
-        rect_y = rect_bloco.y
-        lis_blocos = list_blocos
-
-        
-
-
 
