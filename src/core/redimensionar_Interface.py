@@ -5,8 +5,9 @@ from pygame.locals import *
 
 
 class Redimensionar_Interface:
-    def __init__(self, jogo_base):
+    def __init__(self, jogo_base=object):
         self.jogo_base = jogo_base
+        self.resolucao_orginal = (self.jogo_base.largura, self.jogo_base.altura)
 
     def for_dimenssoes_tela(self, nova_res=tuple, res_original=tuple): 
         nova = nova_res
@@ -60,27 +61,10 @@ class Redimensionar_Interface:
             config.width = config_copy.width * x_ratio
             config.height = config_copy.height * y_ratio
         return
-
-    def redimensi_blocos(self, nova_res=tuple, res_original=tuple):
-        nova = nova_res
-        original = res_original
-
-        bloco_rect = self.jogo_base.blocos.bloco_Rect
-        lis_blocos = self.jogo_base.blocos.lis_blocos
-
-        for rect in lis_blocos:
-            rect_copy = rect.copy()
-            bloco_rect.x = nova[0] / original[0] 
-            bloco_rect.y = nova[1] / original[1]
-            rect.x = rect_copy.x * bloco_rect.x ##
-            rect.y = rect_copy.y * bloco_rect.y ##
-            rect.width = rect_copy.width * bloco_rect.x
-            rect.height = rect_copy.height * bloco_rect.y
-        return
     
     def calculo_obter_proporcao(self, nova_resolucao=tuple):
         nova_res = nova_resolucao
-        res_original = (self.jogo_base.largura, self.jogo_base.altura)
+        res_original = self.resolucao_orginal
         
         if nova_res == res_original:
             self.jogo_base.vars_dimenssoes_tela()
@@ -92,7 +76,31 @@ class Redimensionar_Interface:
             self.for_tela_inicial(nova_res=nova_res, res_original=res_original)
             self.for_pre_start(nova_res=nova_res, res_original=res_original)
             self.for_tela_config(nova_res=nova_res, res_original=res_original)
-            self.redimensi_blocos(nova_res=nova_res, res_original=res_original)
             self.jogo_base.list_tela_config[1] = pygame.Rect(0,0,0,0)
+
+    def calculo_obter_proporcao_blocos(self, nova_resolucao=tuple):
+        nova_res = nova_resolucao 
+        res_orginal = self.resolucao_orginal
+
+        bloco_rect = self.jogo_base.blocos.bloco_Rect
+        lis_blocos = self.jogo_base.blocos.lis_blocos
+
+        if nova_res != res_orginal:
+            for rect in lis_blocos:
+                rect.width += bloco_rect.width 
+                rect.height += bloco_rect.height 
+            self.jogo_base.blocos.espaco_blocos *= 2
+
+        else:
+            for rect in lis_blocos:
+                rect.width -= bloco_rect.width 
+                rect.height -= bloco_rect.height
+            self.jogo_base.blocos.espaco_blocos /= 2
+        
+        self.jogo_base.blocos.lis_blocos.clear()
+        self.jogo_base.blocos.criar_blocos()
+
+
+
 
 

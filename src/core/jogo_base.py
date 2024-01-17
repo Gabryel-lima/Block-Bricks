@@ -23,15 +23,15 @@ class JogoBase:
         self.vars_tela_config()
         self.vars_pre_start()
         self.config_button = ConfigButton(self)
-        self.redimensionar_interface = Redimensionar_Interface(self)
         self.player = Player(self)
         self.player2 = Player2(self)
         self.bola = Bola(self)
         self.blocos = Blocos(self)
+        self.redimensionar_interface = Redimensionar_Interface(self)
         #self.bot = BotPlayer(self.tela, self.config_button.largura, self.player.x, self.player.y)
         #self.coleta = ColetaDados()
         self._resolucao_base = (600,600)
-        self._resolucao_base2 = (800,720)
+        self._resolucao_base2 = (751,720)
         self.modo_player1 = f'Player 1'
         self.modo_player2 = f'Player 2'
         self.fonte_impact = pygame.font.SysFont("impact", 28)
@@ -272,11 +272,13 @@ class JogoBase:
 
                     if rect1.collidepoint(pygame.mouse.get_pos()):
                         self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base)
+                        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base)
                         self.config_button.copy_surface.fill((0,0,0))
                         return
                     elif rect2.collidepoint(pygame.mouse.get_pos()):
                         self.list_tela_config[0] = pygame.Rect(240,170,120,40)
                         self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base2)
+                        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base2)
                         self.config_button.copy_surface.fill((0,0,0))
                         return
                     # elif rect3.collidepoint(pygame.mouse.get_pos()):

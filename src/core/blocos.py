@@ -4,7 +4,6 @@ import pygame
 from pygame.locals import *
 
 import random
-
 class Blocos:
     def __init__(self, jogo_base):
         self.jogo_base = jogo_base
@@ -12,9 +11,13 @@ class Blocos:
         self.cor_animacao = (250,250,250)
         self.cor_animacao_none = (150,150,100)
         self.nivel_atual = 0
-        self.nsort = random.randint(0,3) # Ainda não utilizado.
-        self.countr = random.randint(2,12) # Ainda não utilizado.
-        self.indice_aleatorio = []
+        self._espaco_blocos = 16
+        self._largura_bloco = 57
+        self._altura_bloco = 20
+        self.lis_blocos = []
+        #self.nsort = random.randint(0,3) # Ainda não utilizado.
+        #self.countr = random.randint(2,12) # Ainda não utilizado.
+        #self.indice_aleatorio = []
         self.niveis = [
             (8,3),  # nível 1: (num_blocos_por_fileira, num_colunas)
             (8,4),  # nível 2
@@ -31,14 +34,23 @@ class Blocos:
         #self.bloco_img = pygame.image.load('assets/sprite_0.png')
         #self.bloco_img = pygame.transform.scale(self.bloco_img, (56, 19))
 
+    @property
+    def espaco_blocos(self) -> int:
+        return self._espaco_blocos
+
+    @espaco_blocos.setter
+    def espaco_blocos(self, novo_valor):
+        self._espaco_blocos = novo_valor
+        self.lis_blocos.clear()
+        self.criar_blocos()  
+
     def criar_blocos(self) -> pygame.Rect:
         for fileira in range(self.num_blocos_por_fileira):
             for coluna in range(self.num_colunas):
-                x = self.espaco_blocos + coluna * (self.largura_bloco + self.espaco_blocos)
-                y = self.espaco_blocos + fileira * (self.altura_bloco + self.espaco_blocos)
-                self.bloco_Rect = pygame.Rect(x, y, self.largura_bloco, self.altura_bloco)
+                x = self._espaco_blocos + coluna * (self._largura_bloco + self._espaco_blocos)
+                y = self._espaco_blocos + fileira * (self._altura_bloco + self._espaco_blocos)
+                self.bloco_Rect = pygame.Rect(x, y, self._largura_bloco, self._altura_bloco)
                 self.lis_blocos.append(self.bloco_Rect)
-                self.captura_posicoes()
 
     def desenhar_blocos(self):
         for bloco in self.lis_blocos:
@@ -56,19 +68,10 @@ class Blocos:
     def configurar_nivel(self):
         if self.nivel_atual < len(self.niveis):
             self.num_colunas, self.num_blocos_por_fileira = self.niveis[self.nivel_atual]
-            self.espaco_blocos = 16
-            self.largura_bloco = 57
-            self.altura_bloco = 20
-            self.countr = random.randint(2,18)
-            self.lis_blocos = []
-            self.nivel_atual += 1
+            #self.countr = random.randint(2,18)
+            #self.nivel_atual += 1
+            self.lis_blocos.clear()
             self.criar_blocos()
-            
-    @property
-    def captura_posicoes(self):
-        for indices in enumerate(self.lis_blocos):
-            print(f"Indices: {indices}")
-        return int
 
     def resetar_blocos(self):
         self.lis_blocos.clear()

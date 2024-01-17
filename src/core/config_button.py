@@ -10,7 +10,7 @@ class ConfigButton:
         self.img_config_load = pygame.image.load('assets/gear_config.png')
         self.img_config = pygame.transform.scale(self.img_config_load, (50,50))
         self.resolucao_texto1 = f'600x600'
-        self.resolucao_texto2 = f'800x720'
+        self.resolucao_texto2 = f'750x720'
         self.resolucao_texto3 = f'Fullscreen'
         self.copy_surface = pygame.SurfaceType((50, 50), pygame.SRCALPHA)
         self.func_vars_tela = self.jogo_base.vars_tela_config() 
