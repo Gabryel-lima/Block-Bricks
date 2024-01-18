@@ -5,7 +5,7 @@ from pygame.locals import *
 
 import random
 class Blocos:
-    def __init__(self, jogo_base):
+    def __init__(self, jogo_base=object):
         self.jogo_base = jogo_base
         self.cor_blocos = (150,75,0)
         self.cor_animacao = (250,250,250)
@@ -37,13 +37,33 @@ class Blocos:
     @property
     def espaco_blocos(self) -> int:
         return self._espaco_blocos
+    
+    @property
+    def largura_bloco(self) -> int:
+        return self._largura_bloco
+    
+    @property
+    def altura_bloco(self) -> int:
+        return self._altura_bloco
 
     @espaco_blocos.setter
-    def espaco_blocos(self, novo_valor):
+    def dimensionamento_espaco_blocos(self, novo_valor):
         self._espaco_blocos = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
 
+    @largura_bloco.setter
+    def dimensionamento_largura_bloco(self, novo_valor):
+        self._largura_bloco = novo_valor
+        self.lis_blocos.clear()
+        self.criar_blocos()  
+    
+    @altura_bloco.setter
+    def dimensionamento_altura_bloco(self, novo_valor):
+        self._altura_bloco = novo_valor
+        self.lis_blocos.clear()
+        self.criar_blocos()  
+    
     def criar_blocos(self) -> pygame.Rect:
         for fileira in range(self.num_blocos_por_fileira):
             for coluna in range(self.num_colunas):
@@ -68,9 +88,7 @@ class Blocos:
     def configurar_nivel(self):
         if self.nivel_atual < len(self.niveis):
             self.num_colunas, self.num_blocos_por_fileira = self.niveis[self.nivel_atual]
-            #self.countr = random.randint(2,18)
-            #self.nivel_atual += 1
-            self.lis_blocos.clear()
+            #self.lis_blocos.clear()
             self.criar_blocos()
 
     def resetar_blocos(self):

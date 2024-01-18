@@ -163,8 +163,8 @@ class Jogo(JogoBase):
 
         elif self.largura > 600:
             self.jogo_iniciado = False
-            self.rect_botao_player1 = self.list_tela_inicial[self]
-            self.rect_botao_player2 = self.list_tela_inicial[self]
+            self.rect_botao_player1 = self.list_tela_inicial[0]
+            self.rect_botao_player2 = self.list_tela_inicial[1]
 
     def exibir_pontuacao(self):
         mensagem = self.mesg

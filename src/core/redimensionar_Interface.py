@@ -12,7 +12,7 @@ class Redimensionar_Interface:
     def for_dimenssoes_tela(self, nova_res=tuple, res_original=tuple): 
         nova = nova_res
         original = res_original
-        for borda in self.jogo_base.list_dimenssoes_tela:
+        for borda in self.jogo_base.list_dimensoes_tela:
             borda_copy = borda.copy()
             x_ratio = nova[0] / original[0] 
             y_ratio = nova[1] / original[1]
@@ -67,7 +67,7 @@ class Redimensionar_Interface:
         res_original = self.resolucao_orginal
         
         if nova_res == res_original:
-            self.jogo_base.vars_dimenssoes_tela()
+            self.jogo_base.vars_dimensoes_tela()
             self.jogo_base.vars_tela_inicial()
             self.jogo_base.vars_tela_config()
             self.jogo_base.vars_pre_start()
@@ -89,13 +89,17 @@ class Redimensionar_Interface:
             for rect in lis_blocos:
                 rect.width += bloco_rect.width 
                 rect.height += bloco_rect.height 
-            self.jogo_base.blocos.espaco_blocos *= 2
+            self.jogo_base.blocos.dimensionamento_espaco_blocos += 9
+            self.jogo_base.blocos.dimensionamento_largura_bloco += 8 # Para alterar e centralizar os valores seria recomnedado mudar o espaço_blocos de multiplicação para adição ou subtração.
+            self.jogo_base.blocos.dimensionamento_altura_bloco += 8 # Para alterar e centralizar os valores seria recomnedado mudar o espaço_blocos de multiplicação para adição ou subtração.
 
         else:
             for rect in lis_blocos:
                 rect.width -= bloco_rect.width 
                 rect.height -= bloco_rect.height
-            self.jogo_base.blocos.espaco_blocos /= 2
+            self.jogo_base.blocos.dimensionamento_espaco_blocos -= 9
+            self.jogo_base.blocos.dimensionamento_largura_bloco -= 8 # Para alterar e centralizar os valores seria recomnedado mudar o espaço_blocos de multiplicação para adição ou subtração.
+            self.jogo_base.blocos.dimensionamento_altura_bloco -= 8 # Para alterar e centralizar os valores seria recomnedado mudar o espaço_blocos de multiplicação para adição ou subtração.
         
         self.jogo_base.blocos.lis_blocos.clear()
         self.jogo_base.blocos.criar_blocos()

@@ -18,7 +18,7 @@ from data.bot_player import BotPlayer
 
 class JogoBase:
     def __init__(self):
-        self.vars_dimenssoes_tela()
+        self.vars_dimensoes_tela()
         self.vars_tela_inicial()
         self.vars_tela_config()
         self.vars_pre_start()
@@ -31,7 +31,7 @@ class JogoBase:
         #self.bot = BotPlayer(self.tela, self.config_button.largura, self.player.x, self.player.y)
         #self.coleta = ColetaDados()
         self._resolucao_base = (600,600)
-        self._resolucao_base2 = (751,720)
+        self._resolucao_base2 = (745,720)
         self.modo_player1 = f'Player 1'
         self.modo_player2 = f'Player 2'
         self.fonte_impact = pygame.font.SysFont("impact", 28)
@@ -44,17 +44,17 @@ class JogoBase:
         self.mesg2 = f'Pontos: {self.pontos2}'
         self.lp2 = self.carregar_melhor_pontuacao2()
         self.mesg_bp2 = f'Melhor pontuação: {self.lp2}'
-        self.modo_jogador = None
-    
-    def vars_dimenssoes_tela(self):
+        self.modo_jogador = None # Objeto importante para futuros modos.
+
+    def vars_dimensoes_tela(self, largura=600, altura=600):
         pygame.init()
-        self.largura = 600
-        self.altura = 600
+        self.largura = largura
+        self.altura = altura
         self.altura_relativa_bola = 180
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect((0,0), (self.largura, self.altura))
         self.fonte = pygame.font.SysFont('arial', 32, True, False)
-        self.list_dimenssoes_tela = [self.borda]
+        self.list_dimensoes_tela = [self.borda]
         return self
 
     def vars_tela_inicial(self):
@@ -260,7 +260,19 @@ class JogoBase:
 
         return rect_botao
     
-    def executar_particao_desenho_botoes_resolucao(self):
+    def executar_particao_proporcao_resolucao(self):
+        self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base)
+        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base)
+        self.config_button.copy_surface.fill((0,0,0))
+
+    def executar_particao_proporcao_resolucao2(self):
+        self.list_tela_config[0] = pygame.Rect(240,170,120,40)
+        self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base2)
+        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base2)
+        self.vars_dimensoes_tela(largura=self._resolucao_base2[0], altura=self._resolucao_base2[1])
+        self.config_button.copy_surface.fill((0,0,0))
+    
+    def executar_particao_desenho_botoes_resolucao(self, particao_config):
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -271,15 +283,10 @@ class JogoBase:
                     rect1, rect2, rect3 = self.config_button.particao_desenho_botoes_resolucao()
 
                     if rect1.collidepoint(pygame.mouse.get_pos()):
-                        self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base)
-                        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base)
-                        self.config_button.copy_surface.fill((0,0,0))
+                        self.executar_particao_proporcao_resolucao()
                         return
                     elif rect2.collidepoint(pygame.mouse.get_pos()):
-                        self.list_tela_config[0] = pygame.Rect(240,170,120,40)
-                        self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base2)
-                        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base2)
-                        self.config_button.copy_surface.fill((0,0,0))
+                        self.executar_particao_proporcao_resolucao2()
                         return
                     # elif rect3.collidepoint(pygame.mouse.get_pos()):
                     #     self.redimensionar_interface.calculo_obter_proporcao(*pygame.display.list_modes()[0])  # Obtém a maior resolução suportada
@@ -287,7 +294,8 @@ class JogoBase:
                 else:
                     self.tela.fill((0,0,0))
                     self.desenho_borda()
-                    self.config_button.particao_desenho_botoes_resolucao()
+                    self.desenho_botao_back()
+                    particao_config()
                     pygame.display.update()
 
     def selecao_de_modos_estrutura(self):
@@ -302,7 +310,7 @@ class JogoBase:
                     pygame.time.delay(300)
                     self.modo_jogador = "Player1"
 
-                    self.executar_particao(self.selecao_de_modos_estrutura_particao)
+                    self.executar_particao(particao=self.selecao_de_modos_estrutura_particao)
 
                 elif self.rect_botao_player2.collidepoint(pygame.mouse.get_pos()):
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
@@ -310,7 +318,7 @@ class JogoBase:
                     self.modo_jogador = "Player2"
                     self.salvar_melhor_pontuacao2()
 
-                    self.executar_particao(self.selecao_de_modos_estrutura_particao2)
+                    self.executar_particao(particao=self.selecao_de_modos_estrutura_particao2)
 
                 elif self.clink_rect.collidepoint(pygame.mouse.get_pos()):
                     webbrowser.open("https://github.com/Gabryel-lima")
@@ -318,7 +326,8 @@ class JogoBase:
                 
                 elif self.config_button.desenho_botao_config().collidepoint(pygame.mouse.get_pos()):
                     pygame.time.delay(300)
-                    self.executar_particao_desenho_botoes_resolucao()
+                    
+                    self.executar_particao_desenho_botoes_resolucao(particao_config=self.config_button.particao_desenho_botoes_resolucao)
 
     def executar_particao(self, particao=None):
         while True:

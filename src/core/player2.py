@@ -8,7 +8,7 @@ from player_base import PlayerBase
 
 
 class Player2(PlayerBase):
-    def __init__(self, jogo_base):
+    def __init__(self, jogo_base=object):
         super().__init__(jogo_base)
 
     def desenho_player(self):
