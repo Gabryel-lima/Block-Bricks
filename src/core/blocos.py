@@ -39,11 +39,11 @@ class Blocos:
         return self._espaco_blocos
     
     @property
-    def largura_bloco(self) -> int:
+    def largura_bloco(self) -> int: # Ainda não utilizado.
         return self._largura_bloco
     
     @property
-    def altura_bloco(self) -> int:
+    def altura_bloco(self) -> int: # Ainda não utilizado.
         return self._altura_bloco
 
     @espaco_blocos.setter
@@ -53,13 +53,13 @@ class Blocos:
         self.criar_blocos()  
 
     @largura_bloco.setter
-    def dimensionamento_largura_bloco(self, novo_valor):
+    def dimensionamento_largura_bloco(self, novo_valor):  # Ainda não utilizado.
         self._largura_bloco = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
     
     @altura_bloco.setter
-    def dimensionamento_altura_bloco(self, novo_valor):
+    def dimensionamento_altura_bloco(self, novo_valor):  # Ainda não utilizado.
         self._altura_bloco = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
@@ -88,7 +88,6 @@ class Blocos:
     def configurar_nivel(self):
         if self.nivel_atual < len(self.niveis):
             self.num_colunas, self.num_blocos_por_fileira = self.niveis[self.nivel_atual]
-            #self.lis_blocos.clear()
             self.criar_blocos()
 
     def resetar_blocos(self):

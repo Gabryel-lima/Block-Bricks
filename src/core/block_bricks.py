@@ -184,7 +184,7 @@ class Jogo(JogoBase):
     def mensagem_fim_de_nivel(self):
         if len(self.blocos.lis_blocos) == 0:
             texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
-            self.tela.blit(texto_formatado, self.blit_xy_nivel)
+            self.tela.blit(texto_formatado, self.mesg_fj_blit_xy)
             self.niveis_count()
             self.som_de_fim_de_nivel()
             pygame.display.flip()

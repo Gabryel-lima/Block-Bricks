@@ -21,7 +21,7 @@ class JogoBase:
         self.vars_dimensoes_tela()
         self.vars_tela_inicial()
         self.vars_tela_config()
-        self.vars_pre_start()
+        self.vars_pre_pos_start()
         self.config_button = ConfigButton(self)
         self.player = Player(self)
         self.player2 = Player2(self)
@@ -51,6 +51,7 @@ class JogoBase:
         self.largura = largura
         self.altura = altura
         self.altura_relativa_bola = 180
+        pygame.display.gl_set_attribute(flag=GL_ACCELERATED_VISUAL, value=1)
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         self.borda = pygame.Rect((0,0), (self.largura, self.altura))
         self.fonte = pygame.font.SysFont('arial', 32, True, False)
@@ -78,11 +79,11 @@ class JogoBase:
                                     self.rect_botao_sublinhar_clink]
         return self
     
-    def vars_pre_start(self):
+    def vars_pre_pos_start(self):
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
         self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3)
-        self.mesgc_blit_xy = pygame.Rect(60,240, 0, 0)
         self.mesg_fj_blit_xy = pygame.Rect(215,225, 0, 0)
+        self.mesgc_blit_xy = pygame.Rect(60,240, 0, 0)
         self.blit_xy_voltar = pygame.Rect(40,300, 0, 0)
         self.blit_xy_mesg1_pontos = pygame.Rect(40,430, 0, 0)
         self.blit_xy_mesg_bp1 = pygame.Rect(40,530, 0, 0)   
@@ -294,7 +295,6 @@ class JogoBase:
                 else:
                     self.tela.fill((0,0,0))
                     self.desenho_borda()
-                    self.desenho_botao_back()
                     particao_config()
                     pygame.display.update()
 

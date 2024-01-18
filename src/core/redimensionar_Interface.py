@@ -36,7 +36,7 @@ class Redimensionar_Interface:
             tela.height = tela_copy.height
         return
 
-    def for_pre_start(self, nova_res=tuple, res_original=tuple):
+    def for_pre_pos_start(self, nova_res=tuple, res_original=tuple):
         nova = nova_res
         original = res_original
         for start in self.jogo_base.list_pre_start:
@@ -70,11 +70,11 @@ class Redimensionar_Interface:
             self.jogo_base.vars_dimensoes_tela()
             self.jogo_base.vars_tela_inicial()
             self.jogo_base.vars_tela_config()
-            self.jogo_base.vars_pre_start()
+            self.jogo_base.vars_pre_pos_start()
         else:
             self.for_dimenssoes_tela(nova_res=nova_res, res_original=res_original)
             self.for_tela_inicial(nova_res=nova_res, res_original=res_original)
-            self.for_pre_start(nova_res=nova_res, res_original=res_original)
+            self.for_pre_pos_start(nova_res=nova_res, res_original=res_original)
             self.for_tela_config(nova_res=nova_res, res_original=res_original)
             self.jogo_base.list_tela_config[1] = pygame.Rect(0,0,0,0)
 

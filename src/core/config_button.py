@@ -16,7 +16,6 @@ class ConfigButton:
         self.func_vars_tela = self.jogo_base.vars_tela_config() 
         self.func_vars_config = self.jogo_base.vars_tela_config() # Duas instancias para legibilidade.
         
-
     def obter_valor_list(self, list_name=list, indice=int):
         return list_name[indice]
 
