@@ -7,6 +7,7 @@ import os
 
 import pygame
 from pygame.locals import *
+from OpenGL.GL import *
 
 from jogo_base import JogoBase
 
@@ -28,12 +29,11 @@ class Jogo(JogoBase):
         self.lp = self.carregar_melhor_pontuacao()
         self.mesg_bp = f'Melhor pontuação: {self.lp}'
         self.mesg_fj = 'Fim de jogo!'
-        self.fontei = pygame.font.SysFont('Candara', 30, True, False)
         self.jogo_iniciado = False
 
     def verifica_altura_bola(self):
         if self.bola.y + self.bola.raio >= self.altura - self.altura_relativa_bola:
-            texto_formatado = self.fonte.render(f'{self.mesg_fj}', False, (255,255,255))  
+            texto_formatado = self.fontes._fonte_arial.render(f'{self.mesg_fj}', False, (255,255,255))  
             self.tela.blit(texto_formatado, self.mesg_fj_blit_xy)
 
             self.particao_verificar_colisao()
@@ -62,7 +62,6 @@ class Jogo(JogoBase):
                 elif self.modo_jogador == "Player2":
                     self.atualiza_pontuacao2()
                     self.atualiza_melhor_pontuacao2()
-                break
 
     def particao_verificar_colisao(self):
         self.som_de_fim_de_jogo()
@@ -83,7 +82,6 @@ class Jogo(JogoBase):
             self.blocos.resetar_blocos()
             self.bola.reset()
             self.bola.iniciar_movimento()
-            self.selecao_de_modos_estrutura()
             self.reset_pontos()
             self.reset_pontos2()
             self.reset_nivel()
@@ -168,22 +166,38 @@ class Jogo(JogoBase):
 
     def exibir_pontuacao(self):
         mensagem = self.mesg
-        texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
+        texto_formatado = self.fontes._fonte_candara.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado,  self.blit_xy_mesg1_pontos)
 
     def exibe_melhor_pontuacao(self):
         mensagem = self.mesg_bp
-        texo_formatado = self.fontei.render(mensagem, False, (255,255,255))
+        texo_formatado = self.fontes._fonte_candara.render(mensagem, False, (255,255,255))
         self.tela.blit(texo_formatado, self.blit_xy_mesg_bp1)
 
     def exibir_nivel(self):
         mensagem = self.mesg_nivel
-        texto_formatado = self.fontei.render(mensagem, False, (255,255,255))  
+        texto_formatado = self.fontes._fonte_candara.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, self.blit_xy_exibe_nivel)
+
+    # def exibir_mensagem_inte_iniciar(self):
+    #     mensagem = self.mesgite_iniciar
+    #     texto_formatado = self.fontes._fonte_times_new_roman.render(mensagem, False, (255,255,255))  
+    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_enter)
+        
+    #     mensagem = self.mesgc
+    #     texto_formatado = self.fontes._fonte_colibri.render(mensagem, False, (255,255,255))  
+    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_controles)
+        
+    #     if self.modo_jogador == 'Player2':
+    #         mensagem = self.mesgc2
+    #         texto_formatado = self.fontes._fonte_colibri.render(mensagem, False, (255,255,255))  
+    #         self.tela.blit(texto_formatado, self.blit_xy_iniciar_controles2)
+            
+    #         self.player2.desenho_player()
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocos.lis_blocos) == 0:
-            texto_formatado = self.fonte.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
+            texto_formatado = self.fontes._fonte_arial.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
             self.tela.blit(texto_formatado, self.mesg_fj_blit_xy)
             self.niveis_count()
             self.som_de_fim_de_nivel()

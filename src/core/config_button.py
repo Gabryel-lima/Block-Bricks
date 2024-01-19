@@ -46,11 +46,11 @@ class ConfigButton:
         cor_rect_resolucao2 = (170,170,170) if rect2.collidepoint(pos_mouse) else (255,255,255)
         cor_rect_resolucao3 = (170,170,170) if rect3.collidepoint(pos_mouse) else (255,255,255)
 
-        texto1 = self.func_vars_tela.fonte.render(resolucao1, False, cor_rect_resolucao1)
+        texto1 = self.func_vars_tela.fonte_config.render(resolucao1, False, cor_rect_resolucao1)
         self.func_vars_tela.tela.blit(texto1, self.func_vars_config.blit_xy_resolucao_texto1)
-        texto2 = self.func_vars_tela.fonte.render(resolucao2, False, cor_rect_resolucao2)
+        texto2 = self.func_vars_tela.fonte_config.render(resolucao2, False, cor_rect_resolucao2)
         self.func_vars_tela.tela.blit(texto2, self.func_vars_config.blit_xy_resolucao_texto2)
-        texto3 = self.func_vars_tela.fonte.render(resolucao3, False, cor_rect_resolucao3)
+        texto3 = self.func_vars_tela.fonte_config.render(resolucao3, False, cor_rect_resolucao3)
         self.func_vars_tela.tela.blit(texto3, self.func_vars_config.blit_xy_resolucao_texto3)
 
         return rect1, rect2, rect3

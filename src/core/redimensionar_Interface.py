@@ -39,14 +39,13 @@ class Redimensionar_Interface:
     def for_pre_pos_start(self, nova_res=tuple, res_original=tuple):
         nova = nova_res
         original = res_original
-        for start in self.jogo_base.list_pre_start:
+        for start in self.jogo_base.list_pre_pos_start:
             start_copy = start.copy()
             x_ratio = nova[0] / original[0] 
             y_ratio = nova[1] / original[1]
             start.x = start_copy.x * x_ratio ##
             start.y = start_copy.y * y_ratio ##
-            start.width = start_copy.width ##
-            start.height = start_copy.height ##
+        #print(self.jogo_base.list_pre_pos_start[9:])
         return
 
     def for_tela_config(self, nova_res=tuple, res_original=tuple):

@@ -47,19 +47,19 @@ class Blocos:
         return self._altura_bloco
 
     @espaco_blocos.setter
-    def dimensionamento_espaco_blocos(self, novo_valor):
+    def dimensionamento_espaco_blocos(self, novo_valor=int):
         self._espaco_blocos = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
 
     @largura_bloco.setter
-    def dimensionamento_largura_bloco(self, novo_valor):  # Ainda não utilizado.
+    def dimensionamento_largura_bloco(self, novo_valor=int):  # Ainda não utilizado.
         self._largura_bloco = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
     
     @altura_bloco.setter
-    def dimensionamento_altura_bloco(self, novo_valor):  # Ainda não utilizado.
+    def dimensionamento_altura_bloco(self, novo_valor=int):  # Ainda não utilizado.
         self._altura_bloco = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
