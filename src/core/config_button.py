@@ -5,7 +5,7 @@ from pygame.locals import *
 
 
 class ConfigButton:
-    def __init__(self, jogo_base):
+    def __init__(self, jogo_base:object):
         self.jogo_base = jogo_base
         self.img_config_load = pygame.image.load('assets/gear_config.png')
         self.img_config = pygame.transform.scale(self.img_config_load, (50,50))
@@ -16,14 +16,6 @@ class ConfigButton:
         self.func_vars_tela = self.jogo_base.vars_tela_config() 
         self.func_vars_config = self.jogo_base.vars_tela_config() # Duas instancias para legibilidade.
         
-    def obter_valor_list(self, list_name=list, indice=int):
-        return list_name[indice]
-
-    def desenho_botao_config(self):
-        self.copy_surface.blit(self.img_config, (0,0))
-        self.func_vars_tela.tela.blit(self.copy_surface, self.func_vars_tela.img_xy)
-        return self.func_vars_tela.rect_botao_config
-
     def botao_config(self):
         self.desenho_botao_config()
         pos_mouse = pygame.mouse.get_pos()
@@ -32,12 +24,22 @@ class ConfigButton:
             scaled_copy = pygame.transform.scale_by(self.img_config, (1.1,1.1))
             self.func_vars_tela.tela.blit(scaled_copy, self.func_vars_tela.img_xy)
             return self.func_vars_tela.rect_botao_config
+        
+    def desenho_botao_config(self, show=True, reset_rect=False):
+        if show:
+            self.copy_surface.blit(self.img_config, (0,0))
+            self.func_vars_tela.tela.blit(self.copy_surface, self.func_vars_tela.img_xy)
+            return self.func_vars_tela.rect_botao_config
+    
+    def obter_valor_list(self, list_name:list, indice:int) -> list[int]:
+        return list_name[indice]
 
-    def particao_desenho_botoes_resolucao(self):
+    def particao_desenho_botoes_resolucao(self) -> pygame.Rect | int | list[int]:
         pos_mouse = pygame.mouse.get_pos()
         resolucao1 = self.resolucao_texto1
         resolucao2 = self.resolucao_texto2
         resolucao3 = self.resolucao_texto3
+        
         rect1 = self.obter_valor_list(list_name=self.func_vars_tela.list_tela_config, indice=0)
         rect2 = self.obter_valor_list(list_name=self.func_vars_tela.list_tela_config, indice=1)
         rect3 = self.obter_valor_list(list_name=self.func_vars_tela.list_tela_config, indice=2)

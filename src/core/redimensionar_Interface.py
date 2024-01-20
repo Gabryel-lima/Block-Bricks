@@ -5,11 +5,11 @@ from pygame.locals import *
 
 
 class Redimensionar_Interface:
-    def __init__(self, jogo_base=object):
+    def __init__(self, jogo_base:object):
         self.jogo_base = jogo_base
         self.resolucao_orginal = (self.jogo_base.largura, self.jogo_base.altura)
 
-    def for_dimenssoes_tela(self, nova_res=tuple, res_original=tuple): 
+    def for_dimenssoes_tela(self, nova_res:tuple, res_original:tuple): 
         nova = nova_res
         original = res_original
         for borda in self.jogo_base.list_dimensoes_tela:
@@ -20,10 +20,9 @@ class Redimensionar_Interface:
             borda.y = borda_copy.y * y_ratio
             borda.width = borda_copy.width * x_ratio
             borda.height = borda_copy.height * y_ratio
-            self.jogo_base.tela = pygame.display.set_mode((borda.width, borda.height))
-        return
+        self.jogo_base.tela = pygame.display.set_mode((borda.width, borda.height))
 
-    def for_tela_inicial(self, nova_res=tuple, res_original=tuple):
+    def for_tela_inicial(self, nova_res:tuple, res_original:tuple):
         nova = nova_res
         original = res_original
         for tela in self.jogo_base.list_tela_inicial:
@@ -34,9 +33,8 @@ class Redimensionar_Interface:
             tela.y = tela_copy.y * y_ratio
             tela.width = tela_copy.width
             tela.height = tela_copy.height
-        return
 
-    def for_pre_pos_start(self, nova_res=tuple, res_original=tuple):
+    def for_pre_pos_start(self, nova_res:tuple, res_original:tuple):
         nova = nova_res
         original = res_original
         for start in self.jogo_base.list_pre_pos_start:
@@ -46,9 +44,8 @@ class Redimensionar_Interface:
             start.x = start_copy.x * x_ratio ##
             start.y = start_copy.y * y_ratio ##
         #print(self.jogo_base.list_pre_pos_start[9:])
-        return
 
-    def for_tela_config(self, nova_res=tuple, res_original=tuple):
+    def for_tela_config(self, nova_res:tuple, res_original:tuple):
         nova = nova_res
         original = res_original
         for config in self.jogo_base.list_tela_config:
@@ -59,9 +56,8 @@ class Redimensionar_Interface:
             config.y = config_copy.y * y_ratio ##
             config.width = config_copy.width * x_ratio
             config.height = config_copy.height * y_ratio
-        return
     
-    def calculo_obter_proporcao(self, nova_resolucao=tuple):
+    def calculo_obter_proporcao(self, nova_resolucao:tuple):
         nova_res = nova_resolucao
         res_original = self.resolucao_orginal
         

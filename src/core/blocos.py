@@ -3,9 +3,9 @@
 import pygame
 from pygame.locals import *
 
-import random
+
 class Blocos:
-    def __init__(self, jogo_base=object):
+    def __init__(self, jogo_base:object):
         self.jogo_base = jogo_base
         self.cor_blocos = (150,75,0)
         self.cor_animacao = (250,250,250)

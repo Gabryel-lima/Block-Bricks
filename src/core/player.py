@@ -8,7 +8,7 @@ from player_base import PlayerBase
 
 
 class Player(PlayerBase):
-    def __init__(self, jogo_base=object):
+    def __init__(self, jogo_base:object):
         super().__init__(jogo_base)
 
     #def tester_remove(self): //Possivel inicializador para remover player para teste no futuro.

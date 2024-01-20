@@ -5,10 +5,10 @@ import csv
 import pygame
 from pygame.locals import *
 from pygame import Vector2
-from data.bot_ia import ColetaDados
+#from data.bot_ia import ColetaDados
 
 class Bola:
-    def __init__(self, jogo_base=object):
+    def __init__(self, jogo_base:object):
         self.jogo_base = jogo_base
         #self.coleta = ColetaDados()
         self.vetor = Vector2()

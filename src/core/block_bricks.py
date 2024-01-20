@@ -7,7 +7,6 @@ import os
 
 import pygame
 from pygame.locals import *
-from OpenGL.GL import *
 
 from jogo_base import JogoBase
 
@@ -158,11 +157,13 @@ class Jogo(JogoBase):
             self.player2.reset()
             self.rect_botao_player1 = self.list_tela_inicial[0]
             self.rect_botao_player2 = self.list_tela_inicial[1]
+            self.rect_botao_config = self.list_tela_config[7]
 
         elif self.largura > 600:
             self.jogo_iniciado = False
             self.rect_botao_player1 = self.list_tela_inicial[0]
             self.rect_botao_player2 = self.list_tela_inicial[1]
+            self.rect_botao_config = self.list_tela_config[7]
 
     def exibir_pontuacao(self):
         mensagem = self.mesg
@@ -178,22 +179,6 @@ class Jogo(JogoBase):
         mensagem = self.mesg_nivel
         texto_formatado = self.fontes._fonte_candara.render(mensagem, False, (255,255,255))  
         self.tela.blit(texto_formatado, self.blit_xy_exibe_nivel)
-
-    # def exibir_mensagem_inte_iniciar(self):
-    #     mensagem = self.mesgite_iniciar
-    #     texto_formatado = self.fontes._fonte_times_new_roman.render(mensagem, False, (255,255,255))  
-    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_enter)
-        
-    #     mensagem = self.mesgc
-    #     texto_formatado = self.fontes._fonte_colibri.render(mensagem, False, (255,255,255))  
-    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_controles)
-        
-    #     if self.modo_jogador == 'Player2':
-    #         mensagem = self.mesgc2
-    #         texto_formatado = self.fontes._fonte_colibri.render(mensagem, False, (255,255,255))  
-    #         self.tela.blit(texto_formatado, self.blit_xy_iniciar_controles2)
-            
-    #         self.player2.desenho_player()
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocos.lis_blocos) == 0:
@@ -228,6 +213,26 @@ class Jogo(JogoBase):
                 else:
                     self.bola.VPos_y *= 1 
                     self.bola.VPos_x *= 1
+                    
+    def layout(self):
+        self.tela.fill((0,0,0)) # Se tu tirar daqui vai ferrar a animação!!!
+        self.desenho_borda()
+        self.botoes_tela_inicial_modos()
+        self.selecao_de_modos_estrutura()
+
+        if self.jogo_iniciado:
+            self.desenho_borda()
+            #self.bola.animacao_borda_bola()
+            self.bola.desenho_bola()
+            self.blocos.desenhar_blocos()
+
+            if self.modo_jogador == "Player1":
+                self.player.desenho_player()
+                #self.bot.bot_desenho_player()
+
+            elif self.modo_jogador == "Player2":
+                self.player.desenho_player()
+                self.player2.desenho_player()
 
     def run(self):
         while True:
@@ -264,28 +269,29 @@ class Jogo(JogoBase):
             self.mensagem_fim_de_nivel()
             pygame.display.update()
             
-    def layout(self):
-        self.tela.fill((0,0,0)) # Se tu tirar daqui vai ferrar a animação!!!
-        self.desenho_borda()
-        self.botoes_tela_inicial_modos()
-        self.selecao_de_modos_estrutura()
 
-        if self.jogo_iniciado:
-            self.desenho_borda()
-            #self.bola.animacao_borda_bola()
-            self.bola.desenho_bola()
-            self.blocos.desenhar_blocos()
+def cprfi():
 
-            if self.modo_jogador == "Player1":
-                self.player.desenho_player()
-                #self.bot.bot_desenho_player()
+    def mainProfile():
+        Jogo()
 
-            elif self.modo_jogador == "Player2":
-                self.player.desenho_player()
-                self.player2.desenho_player()
+    import cProfile
+    import pstats
 
-if __name__ == "__main__":
+    profile = cProfile.Profile()
+    profile.enable()
+
+    mainProfile()
+
+    profile.disable()
+    stats = pstats.Stats(profile)
+    stats.strip_dirs()
+    stats.sort_stats('calls')
+    stats.print_stats()
+
+def main():
     jogo = Jogo()
     jogo.run()
 
-
+if __name__ == "__main__":
+    main()

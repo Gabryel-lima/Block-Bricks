@@ -5,7 +5,7 @@ from pygame.locals import *
 
 
 class PlayerBase:
-    def __init__(self, jogo_base=object):
+    def __init__(self, jogo_base:object):
         self.jogo_base = jogo_base
         self.x = 280
         self.y = 402
