@@ -20,7 +20,6 @@ class Redimensionar_Interface:
             borda.y = borda_copy.y * y_ratio
             borda.width = borda_copy.width * x_ratio
             borda.height = borda_copy.height * y_ratio
-        self.jogo_base.tela = pygame.display.set_mode((borda.width, borda.height))
 
     def for_tela_inicial(self, nova_res:tuple, res_original:tuple):
         nova = nova_res
@@ -41,9 +40,8 @@ class Redimensionar_Interface:
             start_copy = start.copy()
             x_ratio = nova[0] / original[0] 
             y_ratio = nova[1] / original[1]
-            start.x = start_copy.x * x_ratio ##
-            start.y = start_copy.y * y_ratio ##
-        #print(self.jogo_base.list_pre_pos_start[9:])
+            start.x = start_copy.x * x_ratio 
+            start.y = start_copy.y * y_ratio 
 
     def for_tela_config(self, nova_res:tuple, res_original:tuple):
         nova = nova_res

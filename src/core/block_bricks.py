@@ -22,8 +22,6 @@ class Jogo(JogoBase):
         self.som_fim_nivel = pygame.mixer.Sound('sounds/som_fim_nivel.wav')
         self.fim_jogo = pygame.mixer.Sound('sounds/som_de_fim.wav')
         self.som_colisao = pygame.mixer.Sound('sounds/encosta_bloco.wav')
-        self.mesgc = f'"A"<Esquerda, "D">Direita, "LShift"<Aceleração>'
-        self.mesgc2 = f'"<-"<Esquerda, "->">Direita, "RShift"<Aceleração>'
         self.mesg = f'Pontos: {self.pontos}'
         self.lp = self.carregar_melhor_pontuacao()
         self.mesg_bp = f'Melhor pontuação: {self.lp}'
@@ -73,6 +71,7 @@ class Jogo(JogoBase):
             self.blocos.resetar_blocos()
             self.bola.reset()
             self.bola.iniciar_movimento()
+            self.bola.atualizar()
             self.reset_pontos()
             self.reset_pontos2()
             self.reset_nivel()
@@ -81,6 +80,7 @@ class Jogo(JogoBase):
             self.blocos.resetar_blocos()
             self.bola.reset()
             self.bola.iniciar_movimento()
+            self.bola.atualizar()
             self.reset_pontos()
             self.reset_pontos2()
             self.reset_nivel()
@@ -217,12 +217,11 @@ class Jogo(JogoBase):
     def layout(self):
         self.tela.fill((0,0,0)) # Se tu tirar daqui vai ferrar a animação!!!
         self.desenho_borda()
-        self.botoes_tela_inicial_modos()
-        self.selecao_de_modos_estrutura()
-
+        self.botoes_tela_inicial_modos() # Método da class mãe JogoBase
+        self.selecao_de_modos_estrutura() # Método da class mãe JogoBase
+        
         if self.jogo_iniciado:
             self.desenho_borda()
-            #self.bola.animacao_borda_bola()
             self.bola.desenho_bola()
             self.blocos.desenhar_blocos()
 

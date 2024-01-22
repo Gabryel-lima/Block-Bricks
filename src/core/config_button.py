@@ -25,7 +25,7 @@ class ConfigButton:
             self.func_vars_tela.tela.blit(scaled_copy, self.func_vars_tela.img_xy)
             return self.func_vars_tela.rect_botao_config
         
-    def desenho_botao_config(self, show=True, reset_rect=False):
+    def desenho_botao_config(self, show=True):
         if show:
             self.copy_surface.blit(self.img_config, (0,0))
             self.func_vars_tela.tela.blit(self.copy_surface, self.func_vars_tela.img_xy)

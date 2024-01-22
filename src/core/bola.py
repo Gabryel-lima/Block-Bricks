@@ -1,6 +1,7 @@
 
 import random
 import csv
+import os
 
 import pygame
 from pygame.locals import *
@@ -25,33 +26,33 @@ class Bola:
     def desenho_bola(self):
         pygame.draw.circle(self.jogo_base.tela, (255,255,255), (self.x, self.y), self.raio)
 
-    def animacao_borda_bola(self):
-        pass
-
     def iniciar_movimento(self):
         self.VPos_x = random.uniform(-3.0,3.0)   # random.uniform(-3.0,3.0) 
         self.VPos_y = random.uniform(-2.0,-2.5) # random.uniform(-2.0,-2.5)
-        self.bola_Rect.center = (self.x, self.y)
 
     def atualizar(self):
         self.x += self.VPos_x
         self.y += self.VPos_y
         self.bola_Rect.center = (self.x, self.y)
 
-        if self.x - self.raio <= 0 or self.x + self.raio >= self.jogo_base.largura:
+        if self.x - self.raio <= 0 or self.x + self.raio >= self.jogo_base.largura: # Responsável pelo rebauce da borda
             self.VPos_x *= -1
 
-        if self.y - self.raio <= 0:
+            self.VPos_x /= 1 # Adicionei para resetar a atualização constante ao tocar na borda
+
+        if self.y - self.raio <= 0 or self.y + self.raio >= self.jogo_base.altura: # Responsável pelo rebauce da borda
             self.VPos_y *= -1
+
+            self.VPos_y /= 1 # Adicionei para resetar a atualização constante ao tocar na borda
 
         #self.registrar_dados()
 
     def inverter_direcao(self):
         if pygame.key.get_pressed()[K_a]:
-            self.VPos_x -= 0.7
+            self.VPos_x -= 0.6
             self.VPos_y /= -1
         elif pygame.key.get_pressed()[K_d]:
-            self.VPos_x += 0.7
+            self.VPos_x += 0.6
             self.VPos_y /= -1
         else:
             self.VPos_x *= 1
@@ -85,10 +86,7 @@ class Bola:
         self.VPos_y = 0.0
         self.bola_Rect.center = (self.x, self.y)
 
-"""     def velocidade_vetorial(self):
-        if self.x > self.x_anterior:
-            return 
-        elif self.x < self.x_anterior:
-            return
-        else:
-            return """
+    def animacao_menu(self):
+        self.desenho_bola()
+        self.atualizar()
+

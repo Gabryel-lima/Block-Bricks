@@ -35,9 +35,9 @@ class JogoBase:
         #self.bot = BotPlayer(self.tela, self.config_button.largura, self.player.x, self.player.y)
         #self.coleta = ColetaDados()
         self._resolucao_base = (600,600)
-        self._resolucao_base2 = (745,720)
-        self.modo_player1 = f'Player 1'
-        self.modo_player2 = f'Player 2'
+        self._resolucao_base2 = (745,690)
+        self.modo_player1 = 'Player 1'
+        self.modo_player2 = 'Player 2'
         self.cor_botao_subl = (250,250,250)
         self.back = f'Voltar'
         self.mesgite_iniciar = f'Pressione a tecla "Enter" para iniciar'
@@ -58,7 +58,6 @@ class JogoBase:
         self.tela = pygame.display.set_mode(size=(self.largura, self.altura))
         self.borda = pygame.Rect((0,0), (self.largura, self.altura))
         self.list_dimensoes_tela = [self.borda]
-        return self
 
     def vars_tela_inicial(self) -> object:
         self.blit_xy_player1 = pygame.Rect(245,170, 170, 0)
@@ -91,9 +90,6 @@ class JogoBase:
         self.blit_xy_exibe_nivel = pygame.Rect(40,480, 0, 0)     
         self.blit_xy_mesg2_pontos = pygame.Rect(40,430, 0, 0)
         self.blit_xy_mesg_bp2 = pygame.Rect(40,530, 0, 0)
-        # self.blit_xy_iniciar_enter = pygame.Rect(95,195, 0, 0) # Devem retornar a lista em um futuro, se caso...
-        # self.blit_xy_iniciar_controles = pygame.Rect(55,235, 0, 0)
-        # self.blit_xy_iniciar_controles2 = pygame.Rect(45,265, 0, 0)
         self.list_pre_pos_start = [self.rect_botao_voltar,
                                 self.rect_botao_sublinhar_voltar,
                                 self.mesg_fj_blit_xy,
@@ -125,21 +121,6 @@ class JogoBase:
                                     self.img_xy, 
                                     self.rect_botao_config]
         return self
-    
-    # def exibir_mensagem_inte_iniciar(self):
-    #     mensagem = self.mesgite_iniciar
-    #     texto_formatado = self.fontes._fonte_times_new_roman.render(mensagem, False, (255,255,255))  
-    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_enter)
-    
-    # def exibir_mensagem_inte_controle_p1_iniciar(self):
-    #     mensagem = self.mesgc
-    #     texto_formatado = self.fontes._fonte_colibri.render(mensagem, False, (255,255,255))  
-    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_controles)
-        
-    # def exibir_mensagem_inte_controle_p2_iniciar(self):
-    #     mensagem = self.mesgc2
-    #     texto_formatado = self.fontes._fonte_colibri.render(mensagem, False, (255,255,255))  
-    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_controles2)
             
     def carregar_melhor_pontuacao2(self):
         try:
@@ -177,7 +158,7 @@ class JogoBase:
     def desenho_borda(self):
         pygame.draw.rect(self.tela, (115,115,115), self.borda, 3)
 
-    def animaçao_de_sublinhar_botao_tela_inicial(self): # 3
+    def animaçao_de_sublinhar_botao_tela_inicial(self):
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player)
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_mod_player2)
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_clink)
@@ -226,14 +207,12 @@ class JogoBase:
             texto_formatado2 = self.fontes._fonte_arial.render(mod2, False, self.cor_botao_modo2)
             self.tela.blit(texto_formatado2, self.blit_xy_player2)
             
-            self.config_button.botao_config() # 2
-            self.animaçao_de_sublinhar_botao_tela_inicial() # 3
-
             texto_clink = 'Criado por: Gabryel-lima'
             texto_formatado_c = self.fontes._fonte_impact.render(texto_clink, False, self.cor_clink)
             self.tela.blit(texto_formatado_c, self.blit_xy_clink)
 
-        return rect_modo1 or rect_modo2
+            self.config_button.botao_config() # 2
+            self.animaçao_de_sublinhar_botao_tela_inicial() # 3
 
     def animaçao_de_sublinhar_botao_voltar(self):
         pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_voltar)
@@ -371,13 +350,13 @@ class JogoBase:
             particao()
             pygame.display.update()
 
-    def selecao_de_modos_estrutura_particao(self):
+    def selecao_de_modos_estrutura_particao(self, nova_resolucao=None): # Ver a possibilidade de não mostrar o jogado antes do jogo iniciar, para dimensionalo no local correto;
         self.player.desenho_player()
         #self.bot.bot_desenho_player()
 
-    def selecao_de_modos_estrutura_particao2(self):
-        self.player.x = 530 // 2 - 40 // 2
-        self.player2.x = 600 // 2 - 5 // 2 + 20
+    def selecao_de_modos_estrutura_particao2(self, nova_resolucao=None):
+        self.player.x = 500 / 2 - 18
+        self.player2.x = 600 / 2 + 40
         self.player.desenho_player()
         self.player2.desenho_player()
 

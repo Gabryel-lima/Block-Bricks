@@ -5,10 +5,10 @@ from pygame.locals import *
 
 
 class PlayerBase:
-    def __init__(self, jogo_base:object):
+    def __init__(self, jogo_base:object, x:int=280, y:int=402):
         self.jogo_base = jogo_base
-        self.x = 280
-        self.y = 402
+        self.x = x
+        self.y = y
         self.rect = pygame.Rect(self.x, self.y, 40, 1)
 
     def player_colisao(self):

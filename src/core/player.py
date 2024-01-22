@@ -11,8 +11,6 @@ class Player(PlayerBase):
     def __init__(self, jogo_base:object):
         super().__init__(jogo_base)
 
-    #def tester_remove(self): //Possivel inicializador para remover player para teste no futuro.
-
     def desenho_player(self):
         pygame.draw.rect(self.jogo_base.tela, (255,0,0), ((self.x), (self.y), 40, 5))
 
@@ -36,4 +34,4 @@ class Player(PlayerBase):
         self.x = novo_x
 
     def resetp_1(self):
-        self.x = self.jogo_base.largura // 2 - 70
+        self.x = self.jogo_base.largura // 2 - 68
