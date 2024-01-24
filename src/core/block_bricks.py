@@ -67,7 +67,7 @@ class Jogo(JogoBase):
         self.salvar_melhor_pontuacao()
         modo_selecionado = self.selecao_de_modos_estrutura()
 
-        if modo_selecionado == self.executar_particao(particao=self.selecao_de_modos_estrutura_particao):
+        if modo_selecionado == self.executar_particao(particao=self.player.desenho_player):
             self.blocos.resetar_blocos()
             self.bola.reset()
             self.bola.iniciar_movimento()
@@ -76,7 +76,7 @@ class Jogo(JogoBase):
             self.reset_pontos2()
             self.reset_nivel()
 
-        elif modo_selecionado == self.executar_particao(particao=self.selecao_de_modos_estrutura_particao2):
+        elif modo_selecionado == self.executar_particao(particao=self.player2.desenho_player):
             self.blocos.resetar_blocos()
             self.bola.reset()
             self.bola.iniciar_movimento()
@@ -182,7 +182,7 @@ class Jogo(JogoBase):
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocos.lis_blocos) == 0:
-            texto_formatado = self.fontes._fonte_arial.render(f'Fim do Nivel {self.nivel}', False, (255,255,255))  
+            texto_formatado = self.fontes._fonte_arial.render(f'fim do Nivel {self.nivel}', True, (255,255,255))  
             self.tela.blit(texto_formatado, self.mesg_fj_blit_xy)
             self.niveis_count()
             self.som_de_fim_de_nivel()
@@ -194,14 +194,14 @@ class Jogo(JogoBase):
 
     def colisao_player_player2(self):
         if self.player.rect.colliderect(self.player2.rect) and pygame.key.get_pressed()[K_d]:
-            self.player.x -= 3.5
+            self.player._pos_x -= 3.5
             if pygame.key.get_pressed()[K_LSHIFT]:
-                self.player.x -= 4.5
+                self.player._pos_x -= 4.5
         
         if self.player2.rect.colliderect(self.player.rect) and pygame.key.get_pressed()[K_LEFT]:
-            self.player2.x += 3.5 
+            self.player2._pos_x += 3.5 
             if pygame.key.get_pressed()[K_RSHIFT]:
-                self.player2.x += 4.5
+                self.player2._pos_x += 4.5
 
     def inverter_direcao_bola_bloco(self):
         for bloco in self.blocos.lis_blocos:

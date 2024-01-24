@@ -58,6 +58,8 @@ class JogoBase:
         self.tela = pygame.display.set_mode(size=(self.largura, self.altura))
         self.borda = pygame.Rect((0,0), (self.largura, self.altura))
         self.list_dimensoes_tela = [self.borda]
+        
+        return self
 
     def vars_tela_inicial(self) -> object:
         self.blit_xy_player1 = pygame.Rect(245,170, 170, 0)
@@ -83,13 +85,16 @@ class JogoBase:
     def vars_pre_pos_start(self) -> object:
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
         self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3)
-        self.mesg_fj_blit_xy = pygame.Rect(215,225, 0, 0)
+        self.mesg_fj_blit_xy = pygame.Rect(205,225, 0, 0)
         self.blit_xy_voltar = pygame.Rect(40,300, 0, 0)
         self.blit_xy_mesg1_pontos = pygame.Rect(40,430, 0, 0)
         self.blit_xy_mesg_bp1 = pygame.Rect(40,530, 0, 0)   
         self.blit_xy_exibe_nivel = pygame.Rect(40,480, 0, 0)     
         self.blit_xy_mesg2_pontos = pygame.Rect(40,430, 0, 0)
         self.blit_xy_mesg_bp2 = pygame.Rect(40,530, 0, 0)
+        # self.blit_xy_iniciar_enter = pygame.Rect(95,195, 0, 0) # Devem retornar a lista em um futuro, se caso...
+        # self.blit_xy_iniciar_controles = pygame.Rect(55,235, 0, 0)
+        # self.blit_xy_iniciar_controles2 = pygame.Rect(45,265, 0, 0)
         self.list_pre_pos_start = [self.rect_botao_voltar,
                                 self.rect_botao_sublinhar_voltar,
                                 self.mesg_fj_blit_xy,
@@ -101,6 +106,21 @@ class JogoBase:
                                 self.blit_xy_mesg_bp2,
                                 ]
         return self
+
+    # def exibir_mensagem_inte_iniciar(self):
+    #     mensagem = self.mesgite_iniciar
+    #     texto_formatado = self.fontes._fonte_times_new_roman.render(mensagem, False, (255,255,255))  
+    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_enter)
+    
+    # def exibir_mensagem_inte_controle_p1_iniciar(self):
+    #     mensagem = self.mesgc
+    #     texto_formatado = self.fontes._fonte_colibri.render(mensagem, False, (255,255,255))  
+    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_controles)
+        
+    # def exibir_mensagem_inte_controle_p2_iniciar(self):
+    #     mensagem = self.mesgc2
+    #     texto_formatado = self.fontes._fonte_colibri.render(mensagem, False, (255,255,255))  
+    #     self.tela.blit(texto_formatado, self.blit_xy_iniciar_controles2)
 
     def vars_tela_config(self) -> object:
         self.fonte_config = pygame.font.SysFont('arial', 32, True, False)
@@ -177,29 +197,16 @@ class JogoBase:
         rect_modo1 = self.rect_botao_player1
         rect_modo2 = self.rect_botao_player2
         rect_c = self.clink_rect
+        
+        self.cor_botao_modo1 = (170,170,170) if rect_modo1.collidepoint(pos_mouse) else (255,255,255)
+        self.rect_botao_sublinhar_mod_player.width += 3 if rect_modo1.collidepoint(pos_mouse) else -2
 
-        if rect_modo1.collidepoint(pos_mouse):
-            self.cor_botao_modo1 = (170,170,170)
-            self.rect_botao_sublinhar_mod_player.width += 3  
-        else:
-            self.cor_botao_modo1 = (255,255,255)
-            self.rect_botao_sublinhar_mod_player.width -= 2
+        self.cor_botao_modo2 = (170,170,170) if rect_modo2.collidepoint(pos_mouse) else (255,255,255)
+        self.rect_botao_sublinhar_mod_player2.width += 3 if rect_modo2.collidepoint(pos_mouse) else -2
 
-        if rect_modo2.collidepoint(pos_mouse):
-            self.cor_botao_modo2 = (170,170,170)
-            self.rect_botao_sublinhar_mod_player2.width += 3  
-        else:
-            self.cor_botao_modo2 = (255,255,255)
-            self.rect_botao_sublinhar_mod_player2.width -= 2  
-
-        if rect_c.collidepoint(pos_mouse):
-            self.cor_clink = (170,170,170)
-            self.cor_botao_subl = (225,225,225)
-            self.rect_botao_sublinhar_clink.width += 280  
-        else:
-            self.cor_clink = (255,255,255)
-            self.cor_botao_subl = (225,225,225)
-            self.rect_botao_sublinhar_clink.width -= 280 
+        self.cor_clink = (170,170,170) if rect_c.collidepoint(pos_mouse) else (255,255,255)
+        self.cor_botao_subl = (225,225,225)
+        self.rect_botao_sublinhar_clink.width += 280 if rect_c.collidepoint(pos_mouse) else -280
 
         if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:
             texto_formatado1 = self.fontes._fonte_arial.render(mod1, False, self.cor_botao_modo1)
@@ -214,44 +221,21 @@ class JogoBase:
             self.config_button.botao_config() # 2
             self.animaçao_de_sublinhar_botao_tela_inicial() # 3
 
-    def animaçao_de_sublinhar_botao_voltar(self):
-        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_voltar)
-
-        self.rect_botao_sublinhar_voltar.width = min(self.rect_botao_sublinhar_voltar.width, 6)
-        self.rect_botao_sublinhar_voltar.width = max(self.rect_botao_sublinhar_voltar.width, 0)
-
-    def desenho_botao_back(self):
-        pos_mouse = pygame.mouse.get_pos()
-        rect_botao = self.rect_botao_voltar
-        mensagem = self.back
-
-        if rect_botao.collidepoint(pos_mouse):
-            self.cor_botao_voltar = (150,150,150)
-            self.cor_botao_subl = (200,200,200)
-            self.rect_botao_sublinhar_voltar.width += 86 
-        else:
-            self.cor_botao_voltar = (255,255,255)
-            self.cor_botao_subl = (200,200,200)
-            self.rect_botao_sublinhar_voltar.width -= 86
-
-        if self.rect_botao_voltar.width > 0:  
-            texto_formatado1 = self.fontes._fonte_arial.render(mensagem, False, self.cor_botao_voltar)
-            self.tela.blit(texto_formatado1, self.blit_xy_voltar)
-
-            self.animaçao_de_sublinhar_botao_voltar()
-
-        return rect_botao
-    
     def executar_particao_proporcao_resolucao(self):
         self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base)
         self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base)
+        self.redimensionar_interface.calculo_obter_proporcao_players(nova_resolucao=self._resolucao_base)
         self.config_button.copy_surface.fill((0,0,0))
 
     def executar_particao_proporcao_resolucao2(self):
         self.list_tela_config[0] = pygame.Rect(240,170,120,40)
+
         self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base2)
-        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base2)
         self.vars_dimensoes_tela(largura=self._resolucao_base2[0], altura=self._resolucao_base2[1])
+
+        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base2)
+        self.redimensionar_interface.calculo_obter_proporcao_players(nova_resolucao=self._resolucao_base2)
+        
         self.config_button.copy_surface.fill((0,0,0))
     
     def executar_particao_desenho_botoes_resolucao(self, particao_config:None): # ou 5
@@ -279,6 +263,30 @@ class JogoBase:
             particao_config()
             pygame.display.update()
 
+    def desenho_botao_back(self) -> pygame.Rect:
+        pos_mouse = pygame.mouse.get_pos()
+        rect_botao = self.rect_botao_voltar
+        mensagem = self.back
+
+        self.cor_botao_voltar = (150,150,150) if rect_botao.collidepoint(pos_mouse) else (255,255,255)
+        self.cor_botao_subl = (200,200,200)
+
+        self.rect_botao_sublinhar_voltar.width += 86 if rect_botao.collidepoint(pos_mouse) else -86
+
+        if self.rect_botao_voltar.width > 0:  
+            texto_formatado1 = self.fontes._fonte_arial.render(mensagem, False, self.cor_botao_voltar)
+            self.tela.blit(texto_formatado1, self.blit_xy_voltar)
+
+            self.animaçao_de_sublinhar_botao_voltar()
+
+        return rect_botao
+
+    def animaçao_de_sublinhar_botao_voltar(self):
+        pygame.draw.rect(self.tela, self.cor_botao_subl, self.rect_botao_sublinhar_voltar)
+
+        self.rect_botao_sublinhar_voltar.width = min(self.rect_botao_sublinhar_voltar.width, 6)
+        self.rect_botao_sublinhar_voltar.width = max(self.rect_botao_sublinhar_voltar.width, 0)
+
     def selecao_de_modos_estrutura(self): # 4 em decisão de onde o palyer vai interagir 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -291,15 +299,14 @@ class JogoBase:
                     pygame.time.delay(300)
                     self.modo_jogador = "Player1"
 
-                    self.executar_particao(particao=self.selecao_de_modos_estrutura_particao)
+                    self.executar_particao(particao=self.player.desenho_player)
 
                 elif self.rect_botao_player2.collidepoint(pygame.mouse.get_pos()):
                     self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.modo_jogador = "Player2"
-                    self.salvar_melhor_pontuacao2()
 
-                    self.executar_particao(particao=self.selecao_de_modos_estrutura_particao2)
+                    self.executar_particao(particao=self.player2.desenho_player)
 
                 elif self.clink_rect.collidepoint(pygame.mouse.get_pos()):
                     webbrowser.open("https://github.com/Gabryel-lima")
@@ -338,7 +345,7 @@ class JogoBase:
                     elif self.modo_jogador == "Player2":
                         self.player.resetp_1()
                         self.player2.reset()
-                        self.player2.rect = Rect(self.player2.x, self.player2.y, 40, 1)
+                        self.player2.rect = Rect(self.player2._pos_x, self.player2._pos_y, 40, 1)
                         self.tela.fill((0,0,0))
                         return
 
@@ -349,16 +356,6 @@ class JogoBase:
             self.blocos.desenhar_blocos()
             particao()
             pygame.display.update()
-
-    def selecao_de_modos_estrutura_particao(self, nova_resolucao=None): # Ver a possibilidade de não mostrar o jogado antes do jogo iniciar, para dimensionalo no local correto;
-        self.player.desenho_player()
-        #self.bot.bot_desenho_player()
-
-    def selecao_de_modos_estrutura_particao2(self, nova_resolucao=None):
-        self.player.x = 500 / 2 - 18
-        self.player2.x = 600 / 2 + 40
-        self.player.desenho_player()
-        self.player2.desenho_player()
 
     def niveis_count(self):
         self.nivel += 1

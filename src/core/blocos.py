@@ -15,9 +15,6 @@ class Blocos:
         self._largura_bloco = 57
         self._altura_bloco = 20
         self.lis_blocos = []
-        #self.nsort = random.randint(0,3) # Ainda não utilizado.
-        #self.countr = random.randint(2,12) # Ainda não utilizado.
-        #self.indice_aleatorio = []
         self.niveis = [
             (8,3),  # nível 1: (num_blocos_por_fileira, num_colunas)
             (8,4),  # nível 2

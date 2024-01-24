@@ -16,7 +16,7 @@ class ConfigButton:
         self.func_vars_tela = self.jogo_base.vars_tela_config() 
         self.func_vars_config = self.jogo_base.vars_tela_config() # Duas instancias para legibilidade.
         
-    def botao_config(self):
+    def botao_config(self) -> pygame.Rect:
         self.desenho_botao_config()
         pos_mouse = pygame.mouse.get_pos()
 
@@ -25,7 +25,7 @@ class ConfigButton:
             self.func_vars_tela.tela.blit(scaled_copy, self.func_vars_tela.img_xy)
             return self.func_vars_tela.rect_botao_config
         
-    def desenho_botao_config(self, show=True):
+    def desenho_botao_config(self, show=True) -> pygame.Rect:
         if show:
             self.copy_surface.blit(self.img_config, (0,0))
             self.func_vars_tela.tela.blit(self.copy_surface, self.func_vars_tela.img_xy)

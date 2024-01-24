@@ -49,10 +49,10 @@ class Bola:
 
     def inverter_direcao(self):
         if pygame.key.get_pressed()[K_a]:
-            self.VPos_x -= 0.6
+            self.VPos_x -= 0.7
             self.VPos_y /= -1
         elif pygame.key.get_pressed()[K_d]:
-            self.VPos_x += 0.6
+            self.VPos_x += 0.7
             self.VPos_y /= -1
         else:
             self.VPos_x *= 1

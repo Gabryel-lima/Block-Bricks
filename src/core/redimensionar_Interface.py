@@ -20,6 +20,10 @@ class Redimensionar_Interface:
             borda.y = borda_copy.y * y_ratio
             borda.width = borda_copy.width * x_ratio
             borda.height = borda_copy.height * y_ratio
+        print(self.jogo_base.largura)
+        self.jogo_base.largura = borda.width
+        self.jogo_base.altura = borda.height
+        print(self.jogo_base.largura)
 
     def for_tela_inicial(self, nova_res:tuple, res_original:tuple):
         nova = nova_res
@@ -41,7 +45,7 @@ class Redimensionar_Interface:
             x_ratio = nova[0] / original[0] 
             y_ratio = nova[1] / original[1]
             start.x = start_copy.x * x_ratio 
-            start.y = start_copy.y * y_ratio 
+            start.y = start_copy.y * y_ratio
 
     def for_tela_config(self, nova_res:tuple, res_original:tuple):
         nova = nova_res
@@ -50,8 +54,8 @@ class Redimensionar_Interface:
             config_copy = config.copy()
             x_ratio = nova[0] / original[0] 
             y_ratio = nova[1] / original[1]
-            config.x = config_copy.x * x_ratio ##
-            config.y = config_copy.y * y_ratio ##
+            config.x = config_copy.x * x_ratio 
+            config.y = config_copy.y * y_ratio 
             config.width = config_copy.width * x_ratio
             config.height = config_copy.height * y_ratio
     
@@ -96,6 +100,17 @@ class Redimensionar_Interface:
         
         self.jogo_base.blocos.lis_blocos.clear()
         self.jogo_base.blocos.criar_blocos()
+
+    def calculo_obter_proporcao_players(self, nova_resolucao=tuple):
+        nova_res = nova_resolucao 
+        res_orginal = self.resolucao_orginal
+
+        if nova_res != res_orginal:
+            self.jogo_base.player.ajuste_posicao_y += 50
+            self.jogo_base.player2.ajuste_posicao_y += 50
+        else:
+            self.jogo_base.player.ajuste_posicao_y -= 50
+            self.jogo_base.player2.ajuste_posicao_y -= 50
 
 
 

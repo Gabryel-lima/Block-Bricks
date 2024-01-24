@@ -12,10 +12,10 @@ class Player2(PlayerBase):
         super().__init__(jogo_base)
 
     def desenho_player(self):
-        pygame.draw.rect(self.jogo_base.tela, (255,150,60), ((self.x), (self.y), 40, 5))
+        pygame.draw.rect(self.jogo_base.tela, (255,150,60), ((self._pos_x), (self._pos_y), self._largura_draw_x, 5))
 
     def input_player2(self):
-        novo_x = self.x
+        novo_x = self._pos_x
         if pygame.key.get_pressed()[K_LEFT]:
             novo_x -= 3.5
 
@@ -29,12 +29,12 @@ class Player2(PlayerBase):
                 novo_x += 4.5
 
         # if self.colisao.left <= novo_x <= self.colisao.right - 40:
-        #     self.x = novo_x
+        #     self._pos_x = novo_x
 
-        self.x = novo_x
+        self._pos_x = novo_x
 
     def reset(self):
-        self.x = self.jogo_base.largura // 2 + 40
+        self._pos_x = self.jogo_base.largura // 2 + 40
         
 
     
