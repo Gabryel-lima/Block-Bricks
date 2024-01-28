@@ -8,13 +8,13 @@ import pygame
 from pygame.locals import *
 
 
-from player import Player
-from player2 import Player2
-from bola import Bola
-from blocos import Blocos
-from config_button import ConfigButton
-from redimensionar_Interface import Redimensionar_Interface
-from fontes import Fontes
+from src.core.player import Player
+from src.core.player2 import Player2
+from src.core.bola import Bola
+from src.core.blocos import Blocos
+from src.core.config_button import ConfigButton
+from src.core.redimensionar_Interface import Redimensionar_Interface
+from src.core.fontes import Fontes
 #from data.bot_ia import ColetaDados
 #from data.bot_player import BotPlayer
 
@@ -85,7 +85,7 @@ class JogoBase:
     def vars_pre_pos_start(self) -> object:
         self.rect_botao_voltar = pygame.Rect(40,300,85,30)
         self.rect_botao_sublinhar_voltar = pygame.Rect(40,340,0,3)
-        self.mesg_fj_blit_xy = pygame.Rect(205,225, 0, 0)
+        self.mesg_fj_blit_xy = pygame.Rect(215,225, 0, 0)
         self.blit_xy_voltar = pygame.Rect(40,300, 0, 0)
         self.blit_xy_mesg1_pontos = pygame.Rect(40,430, 0, 0)
         self.blit_xy_mesg_bp1 = pygame.Rect(40,530, 0, 0)   
@@ -345,7 +345,7 @@ class JogoBase:
                     elif self.modo_jogador == "Player2":
                         self.player.resetp_1()
                         self.player2.reset()
-                        self.player2.rect = Rect(self.player2._pos_x, self.player2._pos_y, 40, 1)
+                        self.player2.rect = Rect(self.player2._pos_x, self.player2._pos_y, self.player2._largura_draw_x, self.player2._altura_draw_y)
                         self.tela.fill((0,0,0))
                         return
 

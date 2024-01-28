@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import *
 
 
-from player_base import PlayerBase
+from src.core.player_base import PlayerBase
 
 
 class Player2(PlayerBase):

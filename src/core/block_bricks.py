@@ -1,14 +1,16 @@
 
 import sys
-sys.path.append('C:/Users/gabry/OneDrive/Área de Trabalho/Block-Bricks Pygame/src')
+import os
+
+PROJECT_DIR = os.path.abspath('C:/Users/gabry/OneDrive/Área de Trabalho/BlockBricksPygame')
+sys.path.append(PROJECT_DIR)
 
 import json
-import os
 
 import pygame
 from pygame.locals import *
 
-from jogo_base import JogoBase
+from src.core.jogo_base import JogoBase
 
 
 class Jogo(JogoBase):
@@ -25,7 +27,7 @@ class Jogo(JogoBase):
         self.mesg = f'Pontos: {self.pontos}'
         self.lp = self.carregar_melhor_pontuacao()
         self.mesg_bp = f'Melhor pontuação: {self.lp}'
-        self.mesg_fj = 'Fim de jogo!'
+        self.mesg_fj = f'Fim de jogo!'
         self.jogo_iniciado = False
 
     def verifica_altura_bola(self):
@@ -269,28 +271,28 @@ class Jogo(JogoBase):
             pygame.display.update()
             
 
-def cprfi():
+# def cprfi():
 
-    def mainProfile():
-        Jogo()
+#     def mainProfile():
+#         Jogo()
 
-    import cProfile
-    import pstats
+#     import cProfile
+#     import pstats
 
-    profile = cProfile.Profile()
-    profile.enable()
+#     profile = cProfile.Profile()
+#     profile.enable()
 
-    mainProfile()
+#     mainProfile()
 
-    profile.disable()
-    stats = pstats.Stats(profile)
-    stats.strip_dirs()
-    stats.sort_stats('calls')
-    stats.print_stats()
+#     profile.disable()
+#     stats = pstats.Stats(profile)
+#     stats.strip_dirs()
+#     stats.sort_stats('calls')
+#     stats.print_stats()
 
-def main():
-    jogo = Jogo()
-    jogo.run()
+# def main():
+#     jogo = Jogo()
+#     jogo.run()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

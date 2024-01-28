@@ -20,10 +20,8 @@ class Redimensionar_Interface:
             borda.y = borda_copy.y * y_ratio
             borda.width = borda_copy.width * x_ratio
             borda.height = borda_copy.height * y_ratio
-        print(self.jogo_base.largura)
         self.jogo_base.largura = borda.width
         self.jogo_base.altura = borda.height
-        print(self.jogo_base.largura)
 
     def for_tela_inicial(self, nova_res:tuple, res_original:tuple):
         nova = nova_res
