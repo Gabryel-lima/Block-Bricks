@@ -19,7 +19,7 @@ from src.core.fontes import Fontes
 #from data.bot_player import BotPlayer
 
 
-class JogoBase:
+class GameBase:
     def __init__(self):
         self.vars_dimensoes_tela()
         self.vars_tela_inicial()
@@ -28,10 +28,10 @@ class JogoBase:
         self.player = Player(self)
         self.player2 = Player2(self)
         self.bola = Bola(self)
-        self.blocos = Blocos(self)
-        self.fontes = Fontes(self)
+        self.blocks = Blocos(self)
+        self.fonts = Fontes(self)
         self.config_button = ConfigButton(self)
-        self.redimensionar_interface = Redimensionar_Interface(self)
+        self.resize_interface = Redimensionar_Interface(self)
         #self.bot = BotPlayer(self.tela, self.config_button.largura, self.player.x, self.player.y)
         #self.coleta = ColetaDados()
         self._resolucao_base = (600,600)
@@ -163,12 +163,12 @@ class JogoBase:
 
     def exibe_melhor_pontuacao2(self):
         mensagem = self.mesg_bp2
-        texo_formatado = self.fontes._fonte_candara.render(mensagem, False, (255,255,255))
+        texo_formatado = self.fonts._fonte_candara.render(mensagem, False, (255, 255, 255))
         self.tela.blit(texo_formatado, self.blit_xy_mesg_bp2)
     
     def exibir_pontuacao2(self):
         mensagem = self.mesg2
-        texto_formatado = self.fontes._fonte_candara.render(mensagem, False, (255,255,255))  
+        texto_formatado = self.fonts._fonte_candara.render(mensagem, False, (255, 255, 255))
         self.tela.blit(texto_formatado, self.blit_xy_mesg2_pontos)
 
     def atualiza_pontuacao2(self):
@@ -209,32 +209,32 @@ class JogoBase:
         self.rect_botao_sublinhar_clink.width += 280 if rect_c.collidepoint(pos_mouse) else -280
 
         if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:
-            texto_formatado1 = self.fontes._fonte_arial.render(mod1, False, self.cor_botao_modo1)
+            texto_formatado1 = self.fonts._fonte_arial.render(mod1, False, self.cor_botao_modo1)
             self.tela.blit(texto_formatado1, self.blit_xy_player1)
-            texto_formatado2 = self.fontes._fonte_arial.render(mod2, False, self.cor_botao_modo2)
+            texto_formatado2 = self.fonts._fonte_arial.render(mod2, False, self.cor_botao_modo2)
             self.tela.blit(texto_formatado2, self.blit_xy_player2)
             
             texto_clink = 'Criado por: Gabryel-lima'
-            texto_formatado_c = self.fontes._fonte_impact.render(texto_clink, False, self.cor_clink)
+            texto_formatado_c = self.fonts._fonte_impact.render(texto_clink, False, self.cor_clink)
             self.tela.blit(texto_formatado_c, self.blit_xy_clink)
 
             self.config_button.botao_config() # 2
             self.animaçao_de_sublinhar_botao_tela_inicial() # 3
 
     def executar_particao_proporcao_resolucao(self):
-        self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base)
-        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base)
-        self.redimensionar_interface.calculo_obter_proporcao_players(nova_resolucao=self._resolucao_base)
+        self.resize_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base)
+        self.resize_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base)
+        self.resize_interface.calculo_obter_proporcao_players(nova_resolucao=self._resolucao_base)
         self.config_button.copy_surface.fill((0,0,0))
 
     def executar_particao_proporcao_resolucao2(self):
         self.list_tela_config[0] = pygame.Rect(240,170,120,40)
 
-        self.redimensionar_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base2)
+        self.resize_interface.calculo_obter_proporcao(nova_resolucao=self._resolucao_base2)
         self.vars_dimensoes_tela(largura=self._resolucao_base2[0], altura=self._resolucao_base2[1])
 
-        self.redimensionar_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base2)
-        self.redimensionar_interface.calculo_obter_proporcao_players(nova_resolucao=self._resolucao_base2)
+        self.resize_interface.calculo_obter_proporcao_blocos(nova_resolucao=self._resolucao_base2)
+        self.resize_interface.calculo_obter_proporcao_players(nova_resolucao=self._resolucao_base2)
         
         self.config_button.copy_surface.fill((0,0,0))
     
@@ -274,7 +274,7 @@ class JogoBase:
         self.rect_botao_sublinhar_voltar.width += 86 if rect_botao.collidepoint(pos_mouse) else -86
 
         if self.rect_botao_voltar.width > 0:  
-            texto_formatado1 = self.fontes._fonte_arial.render(mensagem, False, self.cor_botao_voltar)
+            texto_formatado1 = self.fonts._fonte_arial.render(mensagem, False, self.cor_botao_voltar)
             self.tela.blit(texto_formatado1, self.blit_xy_voltar)
 
             self.animaçao_de_sublinhar_botao_voltar()
@@ -353,7 +353,7 @@ class JogoBase:
             self.desenho_botao_back()
             self.desenho_borda()
             self.bola.desenho_bola()
-            self.blocos.desenhar_blocos()
+            self.blocks.desenhar_blocos()
             particao()
             pygame.display.update()
 
@@ -363,7 +363,7 @@ class JogoBase:
                 
     def manipula_nivel(self):
         while True:
-            self.blocos.configurar_nivel()
+            self.blocks.configurar_nivel()
             break
 
     def continuar_prox_nivel(self):
