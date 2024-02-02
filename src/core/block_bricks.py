@@ -1,6 +1,6 @@
 
-import sys
-import os
+# import sys
+# import os
 
 import json
 
@@ -10,8 +10,8 @@ from pygame import *
 from src.core.game_base import GameBase
 
 
-PROJECT_DIR = os.path.abspath('C:/Users/gabby/AndroidStudioProjects/Block_Bricks_Pygame')
-sys.path.append(PROJECT_DIR)
+# PROJECT_DIR = os.path.abspath('C:/Users/gabby/AndroidStudioProjects/Block_Bricks_Pygame')
+# sys.path.append(PROJECT_DIR)
 
 
 class Game(GameBase):

@@ -50,7 +50,6 @@ class GameBase:
         self.width = width
         self.height = height
         self.relative_height_ball = 180
-        pygame.display.gl_set_attribute(flag=GL_ACCELERATED_VISUAL, value=1)
         self.screen = pygame.display.set_mode(size=(self.width, self.height))
         self.border = pygame.Rect((0, 0), (self.width, self.height))
         self.dimension_list_screen = [self.border]
