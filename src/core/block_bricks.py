@@ -4,6 +4,8 @@
 
 import json
 
+import pygame.window
+
 import pygame
 from pygame import *
 
