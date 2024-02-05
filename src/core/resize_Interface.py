@@ -57,7 +57,7 @@ class ResizeInterface:
             config.width = config_copy.width * x_ratio
             config.height = config_copy.height * y_ratio
     
-    def calculo_obter_proporcao(self, nova_resolucao: tuple):
+    def calculo_obter_proporcao(self, nova_resolucao:tuple):
         nova_res = nova_resolucao
         res_original = self.original_resolution
         
@@ -109,6 +109,10 @@ class ResizeInterface:
         else:
             self.game_base.player.set_pos_y -= 50
             self.game_base.player2.set_pos_y -= 50
+
+    def calculo_obter_proporcao_bola(self, nova_resolucao=tuple):
+        nova_res = nova_resolucao 
+        res_orginal = self.original_resolution
 
 
 

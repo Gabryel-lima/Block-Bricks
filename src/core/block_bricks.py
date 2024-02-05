@@ -4,8 +4,6 @@
 
 import json
 
-import pygame.window
-
 import pygame
 from pygame import *
 
@@ -80,7 +78,7 @@ class Game(GameBase):
             self.reset_nivel()
 
         elif modo_selecionado == self.executar_particao(particao=self.player2.desenho_player):
-            self.blocos.resetar_blocos()
+            self.blocks.resetar_blocos()
             self.ball.reset()
             self.ball.iniciar_movimento()
             self.ball.atualizar()

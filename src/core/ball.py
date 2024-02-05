@@ -10,7 +10,7 @@ from pygame import *
 # from data.bot_ia import ColetaDados
 
 class Ball:
-    def __init__(self, game_base: object):
+    def __init__(self, game_base:object):
         self.game_base = game_base
         # self.coleta = ColetaDados()
         #self.vetor = Vector2()
