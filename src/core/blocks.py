@@ -1,6 +1,5 @@
 
 import pygame
-from pygame.locals import *
 
 
 class Blocks:
@@ -58,7 +57,7 @@ class Blocks:
     def dimensionamento_altura_bloco(self, novo_valor=int):  # Ainda não utilizado.
         self._altura_bloco = novo_valor
         self.lis_blocos.clear()
-        self.criar_blocos()  
+        self.criar_blocos()
     
     def criar_blocos(self) -> pygame.Rect:
         for fileira in range(self.num_blocos_por_fileira):

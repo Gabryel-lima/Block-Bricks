@@ -1,7 +1,6 @@
 
 
 import pygame
-from pygame import *
 
 
 from src.core.player_base import PlayerBase
@@ -17,16 +16,16 @@ class Player(PlayerBase):
 
     def input_player(self):
         novo_x = self.pos_x
-        if pygame.key.get_pressed()[K_a]:
+        if pygame.key.get_pressed()[pygame.constants.K_a]:
             novo_x -= 3.5
 
-            if pygame.key.get_pressed()[K_LSHIFT]:
+            if pygame.key.get_pressed()[pygame.constants.K_LSHIFT]:
                 novo_x -= 4.5
 
-        if pygame.key.get_pressed()[K_d]:
+        if pygame.key.get_pressed()[pygame.constants.K_d]:
             novo_x += 3.5
 
-            if pygame.key.get_pressed()[K_LSHIFT]:
+            if pygame.key.get_pressed()[pygame.constants.K_LSHIFT]:
                 novo_x += 4.5
 
         # if self.colisao.left <= novo_x <= self.colisao.right - 40:

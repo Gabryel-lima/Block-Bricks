@@ -5,12 +5,11 @@
 import json
 
 import pygame
-from pygame import *
 
 from src.core.game_base import GameBase
 
 
-# PROJECT_DIR = os.path.abspath('C:/Users/gabby/AndroidStudioProjects/Block_Bricks_Pygame')
+# PROJECT_DIR = os.path.abspath('C:/Users/gabby/AndroidStudioProjects/Block_Bricks')
 # sys.path.append(PROJECT_DIR)
 
 
@@ -22,9 +21,9 @@ class Game(GameBase):
         pygame.display.set_icon(self.icon)
         self.clock_game = pygame.time.Clock()
         self.init_points = 0
-        self.sound_over_level = pygame.mixer.Sound('sounds/som_fim_nivel.wav')
-        self.sound_game_over = pygame.mixer.Sound('sounds/som_de_fim.wav')
         self.sound_collision = pygame.mixer.Sound('sounds/encosta_bloco.wav')
+        self.sound_game_over = pygame.mixer.Sound('sounds/som_de_fim.wav')
+        self.sound_over_level = pygame.mixer.Sound('sounds/som_fim_nivel.wav')
         self.mens_points = f'Pontos: {self.init_points}'
         self.loading_last_points = self.carregar_melhor_pontuacao()
         self.mens_bp = f'Melhor pontuação: {self.loading_last_points}'
@@ -194,14 +193,14 @@ class Game(GameBase):
             self.continuar_prox_nivel()
 
     def colision_player_player2(self):
-        if self.player.rect.colliderect(self.player2.rect) and pygame.key.get_pressed()[K_d]:
+        if self.player.rect.colliderect(self.player2.rect) and pygame.key.get_pressed()[pygame.constants.K_d]:
             self.player.pos_x -= 3.5
-            if pygame.key.get_pressed()[K_LSHIFT]:
+            if pygame.key.get_pressed()[pygame.constants.K_LSHIFT]:
                 self.player.pos_x -= 4.5
         
-        if self.player2.rect.colliderect(self.player.rect) and pygame.key.get_pressed()[K_LEFT]:
+        if self.player2.rect.colliderect(self.player.rect) and pygame.key.get_pressed()[pygame.constants.K_LEFT]:
             self.player2.pos_x += 3.5
-            if pygame.key.get_pressed()[K_RSHIFT]:
+            if pygame.key.get_pressed()[pygame.constants.K_RSHIFT]:
                 self.player2.pos_x += 4.5
 
     def invert_direction_ball_block(self):
@@ -238,7 +237,7 @@ class Game(GameBase):
     def run(self):
         while True:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.constants.QUIT:
                     pygame.quit()
 
             self.clock_game.tick(60)
@@ -268,28 +267,3 @@ class Game(GameBase):
             self.mensagem_fim_de_nivel()
             pygame.display.update()
 
-# def cprfi():
-
-#     def mainProfile():
-#         Game()
-
-#     import cProfile
-#     import pstats
-
-#     profile = cProfile.Profile()
-#     profile.enable()
-
-#     mainProfile()
-
-#     profile.disable()
-#     stats = pstats.Stats(profile)
-#     stats.strip_dirs()
-#     stats.sort_stats('calls')
-#     stats.print_stats()
-
-# def main():
-#     jogo = Jogo()
-#     jogo.run()
-
-# if __name__ == "__main__":
-#     main()

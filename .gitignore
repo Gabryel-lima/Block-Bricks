@@ -31,9 +31,7 @@ yarn-error.log
 
 # Ignorar diretórios de ambiente Python
 venv/
-src/jogo_base.py
-src/player_base.py
-src/bot_ia.py
-src/habilidade_players.py
+assets/Sprites.md
+src/core/game_base.py
+src/data/
 Anotações
-buildozer.spec

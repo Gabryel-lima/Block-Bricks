@@ -1,11 +1,9 @@
-from __future__ import annotations
+
 
 import json
-import os
 import webbrowser
 
 import pygame
-from pygame.locals import *
 
 
 from src.core.player import Player
@@ -19,6 +17,7 @@ from src.core.fonts import Fonts
 
 class GameBase:
     def __init__(self):
+        pygame.init()
         self.vars_screen_dimensions()
         self.vars_tela_inicial()
         self.vars_tela_config()
@@ -27,7 +26,7 @@ class GameBase:
         self.player2 = Player2(self)
         self.ball = Ball(self)
         self.blocks = Blocks(self)
-        self.fonts = Fonts(self)
+        self.fonts = Fonts()
         self.config_button = ConfigButton(self)
         self.resizeinterface = ResizeInterface(self)
         self.resolution_base = (600, 600)
@@ -46,7 +45,6 @@ class GameBase:
         self.player_mode = None
 
     def vars_screen_dimensions(self, width: int = 600, height: int = 600) -> object | int | tuple[int]:
-        pygame.init()
         self.width = width
         self.height = height
         self.relative_height_ball = 180
@@ -221,7 +219,7 @@ class GameBase:
     def executar_particao_desenho_botoes_resolucao(self, particao_config: None): # ou 5
         while True:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.constants.QUIT:
                     pygame.quit()
 
                 if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -265,7 +263,7 @@ class GameBase:
 
     def selecao_de_modos_estrutura(self): # 4 em decisão de onde o palyer vai interagir 
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.constants.QUIT:
                 pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -296,9 +294,8 @@ class GameBase:
     def executar_particao(self, particao:None): # 5
         while True:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.constants.QUIT:
                     pygame.quit()
-                    os._exit(0)
 
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
@@ -307,20 +304,20 @@ class GameBase:
                         pygame.time.delay(300)
                         return
 
-                if event.type == KEYDOWN and event.key == K_RETURN:
-                    self.rect_botao_config = Rect(0,0,0,0)
+                if event.type == pygame.constants.KEYDOWN and event.key == pygame.constants.K_RETURN:
+                    self.rect_botao_config = pygame.rect.Rect(0,0,0,0)
                     self.game_init = True
                     self.ball.iniciar_movimento()
                     if self.player_mode == "Player1":
                         self.player.reset()
-                        self.player2.rect = Rect(0,0,0,0)
+                        self.player2.rect = pygame.rect.Rect(0,0,0,0)
                         self.screen.fill((0, 0, 0))
                         return
                     
                     elif self.player_mode == "Player2":
                         self.player.resetp_1()
                         self.player2.reset()
-                        self.player2.rect = Rect(self.player2.pos_x,
+                        self.player2.rect = pygame.rect.Rect(self.player2.pos_x,
                                                  self.player2.pos_y,
                                                  self.player2.width_draw_x,
                                                  self.player2.height_draw_y)

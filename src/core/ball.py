@@ -1,16 +1,16 @@
+
+
 import random
-import csv
-import os
+# import csv
+# import os
 
 import pygame
-from pygame import *
-
 
 
 # from data.bot_ia import ColetaDados
 
 class Ball:
-    def __init__(self, game_base:object):
+    def __init__(self, game_base: object):
         self.game_base = game_base
         # self.coleta = ColetaDados()
         #self.vetor = Vector2()
@@ -49,10 +49,10 @@ class Ball:
         # self.registrar_dados()
 
     def inverter_direcao(self):
-        if pygame.key.get_pressed()[K_a]:
+        if pygame.key.get_pressed()[pygame.constants.K_a]:
             self.VPos_x -= 0.7
             self.VPos_y /= -1
-        elif pygame.key.get_pressed()[K_d]:
+        elif pygame.key.get_pressed()[pygame.constants.K_d]:
             self.VPos_x += 0.7
             self.VPos_y /= -1
         else:
@@ -70,10 +70,10 @@ class Ball:
         self.coleta.salva_dados() """
 
     def inverter_direcao2(self):
-        if pygame.key.get_pressed()[K_LEFT]:
+        if pygame.key.get_pressed()[pygame.constants.K_LEFT]:
             self.VPos_x -= 0.7
             self.VPos_y /= -1
-        elif pygame.key.get_pressed()[K_RIGHT]:
+        elif pygame.key.get_pressed()[pygame.constants.K_RIGHT]:
             self.VPos_x += 0.7
             self.VPos_y /= -1
         else:

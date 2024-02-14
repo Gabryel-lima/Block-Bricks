@@ -3,7 +3,6 @@
 from typing import Union
 
 import pygame
-from pygame.locals import *
 
 
 class ConfigButton:
@@ -34,7 +33,7 @@ class ConfigButton:
             return self.func_vars_tela.rect_botao_config
 
     @staticmethod
-    def get_value_list(self, list_name: list, index: int) -> Union[list, int]:
+    def get_value_list(self, list_name: list, index: int):
         return list_name[index]
 
     def partition_draw_buttons_resolutions(self) -> Union[pygame.Rect, int, list, int]:
