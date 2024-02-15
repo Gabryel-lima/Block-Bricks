@@ -6,7 +6,9 @@
 
 Block-Bricks is a 2D puzzle game implemented in Python using Pygame. It draws inspiration from classic 2D block games, challenging players to clear the board by eliminating groups of blocks. Have fun and test your puzzle-solving skills in this addictive game!
 
-![Alt Text](assets/videos/vfundo.mp4)
+## Gameplay Video
+
+[Watch Gameplay Video](future_implementation_url)
 
 ## License
 
