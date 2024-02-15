@@ -10,7 +10,7 @@ Block-Bricks is a 2D puzzle game implemented in Python using Pygame. It draws in
 
 ## License
 
-[Game-license]
+The source code and game assets for Block-Bricks are copyrighted and licensed under the terms of the following [license](https://github.com/Gabryel-lima/Block-Bricks/blob/master/LICENSE).
 
 ## Usage Restrictions
 
