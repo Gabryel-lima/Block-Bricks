@@ -33,5 +33,6 @@ yarn-error.log
 venv/
 assets/Sprites.md
 src/core/game_base.py
-src/data/
+src/data
 Anotações
+tests

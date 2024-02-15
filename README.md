@@ -1,38 +1,33 @@
 # Block-Bricks
-Jogo 2D em Python com Pygame.
-
-# Block-Bricks
 
 ![Block-Bricks Banner](assets/logo.ico)
 
-## Descrição
+## Description
 
-Block-Bricks é um jogo de quebra-cabeças inspirado em blocos clássicos 2d, onde o objetivo é limpar o tabuleiro eliminando grupos de blocos. Divirta-se e teste suas habilidades de resolução de quebra-cabeças neste jogo viciante!
+Block-Bricks is a 2D puzzle game implemented in Python using Pygame. It draws inspiration from classic 2D block games, challenging players to clear the board by eliminating groups of blocks. Have fun and test your puzzle-solving skills in this addictive game!
 
-## Licença
+![Alt Text](assets/videos/vfundo.mp4)
 
-O código-fonte e os recursos do jogo Block-Bricks estão protegidos por direitos autorais e são licenciados sob os termos da seguinte licença:
+## License
 
-[Game-license]
+The source code and game assets for Block-Bricks are copyrighted and licensed under the terms of the following [license](https://github.com/Gabryel-lima/Block-Bricks/blob/master/LICENSE).
 
-## Restrições de Uso
+## Usage Restrictions
 
-1. Este jogo e seu código-fonte são fornecidos apenas para fins de aprendizado, diversão e entretenimento. Você não tem permissão para comercializar o jogo ou qualquer parte dele sem autorização prévia.
+1. This game and its source code are provided for learning, fun, and entertainment purposes only. You are not allowed to commercialize the game or any part of it without prior authorization.
 
-2. Você tem permissão para estudar, modificar e melhorar o código-fonte do jogo para seu uso pessoal. No entanto, quaisquer modificações ou melhorias feitas devem ser mantidas privadas e não devem ser distribuídas publicamente sem autorização.
+2. You are allowed to study, modify, and improve the game's source code for your personal use. However, any modifications or improvements made must be kept private and should not be publicly distributed without authorization.
 
-3. A redistribuição deste jogo, seja no todo ou em parte, requer autorização prévia por escrito do proprietário dos direitos autorais.
+3. Redistribution of this game, either in whole or in part, requires prior written authorization from the copyright owner.
 
-4. Este jogo é fornecido "no estado em que se encontra", sem garantias de qualquer tipo, expressas ou implícitas. O proprietário dos direitos autorais não se responsabiliza por quaisquer danos ou consequências resultantes do uso deste jogo.
+4. This game is provided "as is," without warranties of any kind, either expressed or implied. The copyright owner is not liable for any damages or consequences resulting from the use of this game.
 
-## Contribuições
+## Contributions
 
-Contribuições para melhorias e correções de bugs são bem-vindas! Antes de enviar uma solicitação de pull com suas alterações, entre em contato para obter permissão e discutir as alterações propostas.
+Contributions for improvements and bug fixes are welcome! Before submitting a pull request with your changes, please reach out for permission and discuss the proposed alterations.
 
-## Contato
+## Contact
 
-Para qualquer dúvida, permissões especiais ou informações adicionais, entre em contato com o proprietário dos direitos autorais:
+For any questions, special permissions, or additional information, contact the copyright owner:
 
-[Gabryel-lima]
-[gabbryellimasi@gmail.com]
-
+[Gabryel-lima](mailto:gabbryellimasi@gmail.com)

@@ -13,11 +13,11 @@ class Fonts:
         self.font_times_new_roman = self.get_fonts_system('times new roman', 25, True, False)
         self.font_colibri = self.get_fonts_system('calibri', 30, False, False)
 
-    def get_fonts_system(self, name=str, size=int, bold: bool = False, italic: bool = False):
+    def get_fonts_system(self, name=str, size=int, bold: hash = False, italic: hash = False) -> pygame.Font:
 
         key = (name, size, bold, italic)
 
         if key not in self.__font_cache:
             self.__font_cache[key] = pygame.font.SysFont(name, size, bold, italic)
-        
+
         return self.__font_cache[key]
