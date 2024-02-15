@@ -9,6 +9,7 @@ __pycache__/
 *.swp
 *.swo
 *.log
+*.github
 
 # Ignorar arquivos de configuração de IDEs
 .idea/
