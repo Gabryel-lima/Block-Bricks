@@ -13,7 +13,7 @@ Block-Bricks é um jogo de quebra-cabeças inspirado em blocos clássicos 2d, on
 
 O código-fonte e os recursos do jogo Block-Bricks estão protegidos por direitos autorais e são licenciados sob os termos da seguinte licença:
 
-[Game-license]
+[https://github.com/Gabryel-lima/Block-Bricks/blob/master/LICENSE]
 
 ## Restrições de Uso
 
