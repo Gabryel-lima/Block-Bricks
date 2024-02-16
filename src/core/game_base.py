@@ -36,8 +36,8 @@ class GameBase:
         self.color_button_sublime = (250, 250, 250)
         self.back = f"Voltar"
         self.mens_ite_init = f'Pressione a tecla "Enter" para iniciar'
-        self.level = 1
-        self.mens_level = f'Nivel: {self.level}'
+        self.LEVEL = 1
+        self.mens_level = f'Nivel: {self.LEVEL}'
         self.points2 = 0
         self.mens_points_2 = f'Pontos: {self.points2}'
         self.loading_lp2 = self.carregar_melhor_pontuacao2()
@@ -333,8 +333,8 @@ class GameBase:
             pygame.display.update()
 
     def niveis_count(self):
-        self.level += 1
-        self.mens_level = f'Nivel: {self.level}'
+        self.LEVEL += 1
+        self.mens_level = f'Nivel: {self.LEVEL}'
                 
     def manipula_nivel(self):
         while True:

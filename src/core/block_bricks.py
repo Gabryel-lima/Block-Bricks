@@ -1,6 +1,5 @@
 
-# import sys
-# import os
+import os
 
 import json
 
@@ -9,25 +8,24 @@ import pygame
 from src.core.game_base import GameBase
 
 
-# PROJECT_DIR = os.path.abspath('C:/Users/gabby/AndroidStudioProjects/Block_Bricks')
-# sys.path.append(PROJECT_DIR)
+PATH = os.path.abspath('.') + '/'
 
 
 class Game(GameBase):
     def __init__(self):
         super().__init__()
-        self.icon = pygame.image.load('assets/logo.ico')
+        self.clock_game = pygame.time.Clock()
+        self.icon = pygame.image.load(PATH + '/assets/logo.png')
         pygame.display.set_caption('Block-Bricks *1.7')
         pygame.display.set_icon(self.icon)
-        self.clock_game = pygame.time.Clock()
         self.init_points = 0
         self.sound_collision = pygame.mixer.Sound('sounds/encosta_bloco.wav')
         self.sound_game_over = pygame.mixer.Sound('sounds/som_de_fim.wav')
         self.sound_over_level = pygame.mixer.Sound('sounds/som_fim_nivel.wav')
-        self.mens_points = f'Pontos: {self.init_points}'
+        self.mens_points = f'Points: {self.init_points}'
         self.loading_last_points = self.carregar_melhor_pontuacao()
-        self.mens_bp = f'Melhor pontuação: {self.loading_last_points}'
-        self.mens_game_over = f'Fim de jogo!'
+        self.mens_bp = f'Best Points: {self.loading_last_points}'
+        self.mens_game_over = f'Game over!'
         self.game_init = False
 
     def verify_height_ball(self):
@@ -182,7 +180,7 @@ class Game(GameBase):
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocks.lis_blocos) == 0:
-            texto_formatado = self.fonts.font_arial.render(f'fim do Nivel {self.level}', True, (255, 255, 255))
+            texto_formatado = self.fonts.font_arial.render(f'fim do Nivel {self.LEVEL}', True, (255, 255, 255))
             self.screen.blit(texto_formatado, self.mesg_fj_blit_xy)
             self.niveis_count()
             self.som_de_fim_de_nivel()
@@ -241,6 +239,7 @@ class Game(GameBase):
                     pygame.quit()
 
             self.clock_game.tick(60)
+            pygame.display.set_caption(f'FPS: {self.clock_game.get_fps()}')  # Adaptar e melhorar a exibição do fps
             self.layout()
 
             if self.game_init:
@@ -266,4 +265,23 @@ class Game(GameBase):
 
             self.mensagem_fim_de_nivel()
             pygame.display.update()
+
+
+""" Mensage_box exemple: """
+
+# import random
+
+# answer = pygame.display.message_box(
+#     "I will open two windows! Continue?",
+#     "Hello!",
+#     message_type="info",
+#     buttons=("Yes", "No", "Chance"),
+#     return_button=0,
+#     escape_button=1,
+# )
+
+# if answer == 1 or (answer == 2 and random.random() < 0.5):
+#     import sys
+
+#     sys.exit(0)
 
