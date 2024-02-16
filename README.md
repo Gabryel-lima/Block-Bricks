@@ -1,6 +1,6 @@
 # Block-Bricks
 
-![Block-Bricks Banner](assets/logo.ico)
+![Block-Bricks Banner](assets/logo.png)
 
 ## Description
 
@@ -8,7 +8,7 @@ Block-Bricks is a 2D puzzle game implemented in Python using Pygame. It draws in
 
 ## Screenshots
 
-![Shortly...]
+[Shortly...]
 
 ## Gameplay Video
 
