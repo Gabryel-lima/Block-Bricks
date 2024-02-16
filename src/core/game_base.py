@@ -15,6 +15,8 @@ from src.core.resize_Interface import ResizeInterface
 from src.core.fonts import Fonts
 
 
+from __init__ import *
+
 class GameBase:
     def __init__(self):
         pygame.init()
@@ -29,15 +31,11 @@ class GameBase:
         self.fonts = Fonts()
         self.config_button = ConfigButton(self)
         self.resizeinterface = ResizeInterface(self)
-        self.resolution_base = (600, 600)
-        self.resolution_base2 = (745, 690)
         self.modo_player1 = 'Player 1'
         self.modo_player2 = 'Player 2'
-        self.color_button_sublime = (250, 250, 250)
         self.back = f"Voltar"
         self.mens_ite_init = f'Pressione a tecla "Enter" para iniciar'
-        self.LEVEL = 1
-        self.mens_level = f'Nivel: {self.LEVEL}'
+        self.mens_level = f'Nivel: {LEVEL}'
         self.points2 = 0
         self.mens_points_2 = f'Pontos: {self.points2}'
         self.loading_lp2 = self.carregar_melhor_pontuacao2()
@@ -157,9 +155,9 @@ class GameBase:
         pygame.draw.rect(self.screen, (115, 115, 115), self.border, 3)
 
     def animaçao_de_sublinhar_botao_tela_inicial(self):
-        pygame.draw.rect(self.screen, self.color_button_sublime, self.rect_botao_sublinhar_mod_player)
-        pygame.draw.rect(self.screen, self.color_button_sublime, self.rect_botao_sublinhar_mod_player2)
-        pygame.draw.rect(self.screen, self.color_button_sublime, self.rect_botao_sublinhar_clink)
+        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.rect_botao_sublinhar_mod_player)
+        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.rect_botao_sublinhar_mod_player2)
+        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.rect_botao_sublinhar_clink)
 
         self.rect_botao_sublinhar_mod_player.width = min(self.rect_botao_sublinhar_mod_player.width, 120)
         self.rect_botao_sublinhar_mod_player.width = max(self.rect_botao_sublinhar_mod_player.width, 0)
@@ -183,7 +181,7 @@ class GameBase:
         self.rect_botao_sublinhar_mod_player2.width += 3 if rect_modo2.collidepoint(pos_mouse) else -2
 
         self.cor_clink = (170,170,170) if rect_c.collidepoint(pos_mouse) else (255,255,255)
-        self.color_button_sublime = (225, 225, 225)
+        COLOR_BUTTON_SUBLIME = (225, 225, 225)
         self.rect_botao_sublinhar_clink.width += 280 if rect_c.collidepoint(pos_mouse) else -280
 
         if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:
@@ -200,19 +198,19 @@ class GameBase:
             self.animaçao_de_sublinhar_botao_tela_inicial() # 3
 
     def executar_particao_proporcao_resolucao(self):
-        self.resizeinterface.calculo_obter_proporcao(nova_resolucao=self.resolution_base)
-        self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=self.resolution_base)
-        self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=self.resolution_base)
+        self.resizeinterface.calculo_obter_proporcao(nova_resolucao=RESOLUTION_BASE)
+        self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=RESOLUTION_BASE)
+        self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=RESOLUTION_BASE)
         self.config_button.copy_surface.fill((0, 0, 0))
 
     def executar_particao_proporcao_resolucao2(self):
         self.list_tela_config[0] = pygame.Rect(240, 170, 120, 40)
 
-        self.resizeinterface.calculo_obter_proporcao(nova_resolucao=self.resolution_base2)
-        self.vars_screen_dimensions(width=self.resolution_base2[0], height=self.resolution_base2[1])
+        self.resizeinterface.calculo_obter_proporcao(nova_resolucao=RESOLUTION_BASE_2)
+        self.vars_screen_dimensions(width=RESOLUTION_BASE_2[0], height=RESOLUTION_BASE_2[1])
 
-        self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=self.resolution_base2)
-        self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=self.resolution_base2)
+        self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=RESOLUTION_BASE_2)
+        self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=RESOLUTION_BASE_2)
         
         self.config_button.copy_surface.fill((0, 0, 0))
     
@@ -243,7 +241,7 @@ class GameBase:
         mensagem = self.back
 
         self.cor_botao_voltar = (150,150,150) if rect_botao.collidepoint(pos_mouse) else (255,255,255)
-        self.color_button_sublime = (200, 200, 200)
+        COLOR_BUTTON_SUBLIME = (200, 200, 200)
 
         self.rect_botao_sublinhar_voltar.width += 86 if rect_botao.collidepoint(pos_mouse) else -86
 
@@ -256,7 +254,7 @@ class GameBase:
         return rect_botao
 
     def animaçao_de_sublinhar_botao_voltar(self):
-        pygame.draw.rect(self.screen, self.color_button_sublime, self.rect_botao_sublinhar_voltar)
+        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.rect_botao_sublinhar_voltar)
 
         self.rect_botao_sublinhar_voltar.width = min(self.rect_botao_sublinhar_voltar.width, 6)
         self.rect_botao_sublinhar_voltar.width = max(self.rect_botao_sublinhar_voltar.width, 0)
@@ -333,8 +331,8 @@ class GameBase:
             pygame.display.update()
 
     def niveis_count(self):
-        self.LEVEL += 1
-        self.mens_level = f'Nivel: {self.LEVEL}'
+        LEVEL += 1
+        self.mens_level = f'Nivel: {LEVEL}'
                 
     def manipula_nivel(self):
         while True:

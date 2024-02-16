@@ -1,14 +1,11 @@
 
-import os
 
 import json
-
 import pygame
 
 from src.core.game_base import GameBase
 
-
-PATH = os.path.abspath('.') + '/'
+from __init__ import *
 
 
 class Game(GameBase):
@@ -180,7 +177,7 @@ class Game(GameBase):
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocks.lis_blocos) == 0:
-            texto_formatado = self.fonts.font_arial.render(f'fim do Nivel {self.LEVEL}', True, (255, 255, 255))
+            texto_formatado = self.fonts.font_arial.render(f'fim do Nivel {LEVEL}', True, (255, 255, 255))
             self.screen.blit(texto_formatado, self.mesg_fj_blit_xy)
             self.niveis_count()
             self.som_de_fim_de_nivel()

@@ -1,8 +1,8 @@
 
-import os
+#import os
 from src.core.block_bricks import Game
 
-# main_dir = os.path.split(os.path.abspath(__file__))[0]
+#main_dir = os.path.split(os.path.abspath(__file__))[0]
 
 
 # def cprfi():

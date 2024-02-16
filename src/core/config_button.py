@@ -46,9 +46,9 @@ class ConfigButton:
         rect2 = self.get_value_list(self, list_name=self.func_vars_tela.list_tela_config, index=1)
         rect3 = self.get_value_list(self, list_name=self.func_vars_tela.list_tela_config, index=2)
 
-        color_rect_resolution1 = (170, 170, 170) if rect1.collidepoint(pos_mouse)else(255, 255, 255)
-        color_rect_resolution2 = (170, 170, 170) if rect2.collidepoint(pos_mouse)else(255, 255, 255)
-        color_rect_resolution3 = (170, 170, 170) if rect3.collidepoint(pos_mouse)else(255, 255, 255)
+        color_rect_resolution1 = (170, 170, 170) if rect1.collidepoint(pos_mouse) else (255, 255, 255)
+        color_rect_resolution2 = (170, 170, 170) if rect2.collidepoint(pos_mouse) else (255, 255, 255)
+        color_rect_resolution3 = (170, 170, 170) if rect3.collidepoint(pos_mouse) else (255, 255, 255)
 
         text1 = self.func_vars_tela.fonte_config.render(resolution1, False, color_rect_resolution1)
         self.func_vars_tela.screen.blit(text1, self.func_vars_config.blit_xy_resolucao_texto1)
