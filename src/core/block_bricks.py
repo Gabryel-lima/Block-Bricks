@@ -5,7 +5,7 @@ import pygame
 
 from src.core.game_base import GameBase
 
-from __init__ import *
+from . import *
 
 
 class Game(GameBase):
@@ -53,7 +53,7 @@ class Game(GameBase):
                     self.atualiza_melhor_pontuacao()
                 elif self.player_mode == "Player2":
                     self.atualiza_pontuacao2()
-                    self.atualiza_melhor_pontuacao2()
+                    self.update_best_pontuation_player2()
 
     def particao_verificar_colisao(self):
         self.som_de_fim_de_jogo()
@@ -112,37 +112,32 @@ class Game(GameBase):
         if self.init_points > self.loading_last_points:
             self.loading_last_points = self.init_points
             self.salvar_melhor_pontuacao()
-            self.mens_bp = f'Melhor pontuação: {self.loading_last_points}'
+            self.mens_bp = f'Best points: {self.loading_last_points}'
 
     def reset_pontos2(self):
         if self.mensagem_fim_de_nivel == True:
-            self.mesg2 = f'Pontos: {self.pontos2}'
+            self.mesg2 = f'Points: {self.points2}'
         else:
-            self.pontos2 = 0
-            self.mesg2 = f'Pontos: {self.pontos2}'
-
-    def reset_melhor_pontuacao(self): # Não está sendo utilizado.
-        self.loading_last_points = 0
-        self.salvar_melhor_pontuacao()
-        pass
+            self.points2 = 0
+            self.mesg2 = f'Points: {self.points2}'
 
     def atualiza_pontuacao(self):
         self.init_points += 1
-        self.mens_points = f'Pontos: {self.init_points}'
+        self.mens_points = f'Points: {self.init_points}'
 
     def reset_pontos(self):
         if self.mensagem_fim_de_nivel == True:
-            self.mens_points = f'Pontos: {self.init_points}'
+            self.mens_points = f'Points: {self.init_points}'
         else:
             self.init_points = 0
-            self.mens_points = f'Pontos: {self.init_points}'
+            self.mens_points = f'Points: {self.init_points}'
 
     def reset_nivel(self):
         if self.mensagem_fim_de_nivel == True:
-            self.mesg_nivel = f'Nivel: {self.nivel}'
+            self.mesg_nivel = f'Level: {self.level}'
         else:
-            self.nivel = 1
-            self.mesg_nivel = f'Nivel: {self.nivel}'
+            self.level = 1
+            self.mesg_nivel = f'Level: {self.level}'
 
     def reset(self): # Esse metodo retorna o menu.
         if self.width == 600:
@@ -177,7 +172,7 @@ class Game(GameBase):
 
     def mensagem_fim_de_nivel(self):
         if len(self.blocks.lis_blocos) == 0:
-            texto_formatado = self.fonts.font_arial.render(f'fim do Nivel {LEVEL}', True, (255, 255, 255))
+            texto_formatado = self.fonts.font_arial.render(f'You win! {self.level}', True, (255, 255, 255))
             self.screen.blit(texto_formatado, self.mesg_fj_blit_xy)
             self.niveis_count()
             self.som_de_fim_de_nivel()
@@ -236,7 +231,7 @@ class Game(GameBase):
                     pygame.quit()
 
             self.clock_game.tick(60)
-            pygame.display.set_caption(f'FPS: {self.clock_game.get_fps()}')  # Adaptar e melhorar a exibição do fps
+            # pygame.display.set_caption(f'FPS: {self.clock_game.get_fps()}')  # Adaptar e melhorar a exibição do fps
             self.layout()
 
             if self.game_init:

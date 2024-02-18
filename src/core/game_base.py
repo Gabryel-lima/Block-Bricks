@@ -15,7 +15,7 @@ from src.core.resize_Interface import ResizeInterface
 from src.core.fonts import Fonts
 
 
-from __init__ import *
+from . import *
 
 class GameBase:
     def __init__(self):
@@ -31,14 +31,17 @@ class GameBase:
         self.fonts = Fonts()
         self.config_button = ConfigButton(self)
         self.resizeinterface = ResizeInterface(self)
+        #self.mens_ite_init = f'Pressione a tecla "Enter" para iniciar'
+        self.resolution_base = (600, 600)
+        self.resolution_base2 = (745, 690)
         self.modo_player1 = 'Player 1'
         self.modo_player2 = 'Player 2'
-        self.back = f"Voltar"
-        self.mens_ite_init = f'Pressione a tecla "Enter" para iniciar'
-        self.mens_level = f'Nivel: {LEVEL}'
+        self.back = f"Back"
+        self.level = 1
+        self.mens_level = f'Level: {self.level}'
         self.points2 = 0
         self.mens_points_2 = f'Pontos: {self.points2}'
-        self.loading_lp2 = self.carregar_melhor_pontuacao2()
+        self.loading_lp2 = self.load_best_pontuation_player2()
         self.mens_bp2 = f'Melhor pontuação: {self.loading_lp2}'
         self.player_mode = None
 
@@ -118,7 +121,7 @@ class GameBase:
                                     self.rect_botao_config]
         return self
             
-    def carregar_melhor_pontuacao2(self):
+    def load_best_pontuation_player2(self):
         try:
             with open('src/json/best_score2.json', 'r') as file:
                 data = json.load(file)
@@ -126,16 +129,16 @@ class GameBase:
         except (FileNotFoundError, KeyError):
             return 0
 
-    def salvar_melhor_pontuacao2(self):
+    def save_best_pontuation_player2(self):
         data = {'best_score2': self.loading_lp2}
         with open('src/json/best_score2.json', 'w') as file:
             json.dump(data, file)
 
-    def atualiza_melhor_pontuacao2(self):
+    def update_best_pontuation_player2(self):
         if self.points2 > self.loading_lp2:
             self.loading_lp2 = self.points2
-            self.salvar_melhor_pontuacao2()
-            self.mens_bp2 = f'Melhor pontuação: {self.loading_lp2}'
+            self.save_best_pontuation_player2()
+            self.mens_bp2 = f'Best pontuation: {self.loading_lp2}'
 
     def exibe_melhor_pontuacao2(self):
         mensagem = self.mens_bp2
@@ -181,7 +184,6 @@ class GameBase:
         self.rect_botao_sublinhar_mod_player2.width += 3 if rect_modo2.collidepoint(pos_mouse) else -2
 
         self.cor_clink = (170,170,170) if rect_c.collidepoint(pos_mouse) else (255,255,255)
-        COLOR_BUTTON_SUBLIME = (225, 225, 225)
         self.rect_botao_sublinhar_clink.width += 280 if rect_c.collidepoint(pos_mouse) else -280
 
         if self.rect_botao_player1.width > 0 and self.rect_botao_player2.width > 0 and self.clink_rect.width > 0:
@@ -198,19 +200,19 @@ class GameBase:
             self.animaçao_de_sublinhar_botao_tela_inicial() # 3
 
     def executar_particao_proporcao_resolucao(self):
-        self.resizeinterface.calculo_obter_proporcao(nova_resolucao=RESOLUTION_BASE)
-        self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=RESOLUTION_BASE)
-        self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=RESOLUTION_BASE)
+        self.resizeinterface.calculo_obter_proporcao(nova_resolucao=self.resolution_base)
+        self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=self.resolution_base)
+        self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=self.resolution_base)
         self.config_button.copy_surface.fill((0, 0, 0))
 
     def executar_particao_proporcao_resolucao2(self):
         self.list_tela_config[0] = pygame.Rect(240, 170, 120, 40)
 
-        self.resizeinterface.calculo_obter_proporcao(nova_resolucao=RESOLUTION_BASE_2)
-        self.vars_screen_dimensions(width=RESOLUTION_BASE_2[0], height=RESOLUTION_BASE_2[1])
+        self.resizeinterface.calculo_obter_proporcao(nova_resolucao=self.resolution_base2)
+        self.vars_screen_dimensions(width=self.resolution_base2[0], height=self.resolution_base2[1])
 
-        self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=RESOLUTION_BASE_2)
-        self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=RESOLUTION_BASE_2)
+        self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=self.resolution_base2)
+        self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=self.resolution_base2)
         
         self.config_button.copy_surface.fill((0, 0, 0))
     
@@ -241,9 +243,7 @@ class GameBase:
         mensagem = self.back
 
         self.cor_botao_voltar = (150,150,150) if rect_botao.collidepoint(pos_mouse) else (255,255,255)
-        COLOR_BUTTON_SUBLIME = (200, 200, 200)
-
-        self.rect_botao_sublinhar_voltar.width += 86 if rect_botao.collidepoint(pos_mouse) else -86
+        self.rect_botao_sublinhar_voltar.width += 68 if rect_botao.collidepoint(pos_mouse) else -6
 
         if self.rect_botao_voltar.width > 0:  
             texto_formatado1 = self.fonts.font_arial.render(mensagem, False, self.cor_botao_voltar)
@@ -332,7 +332,7 @@ class GameBase:
 
     def niveis_count(self):
         LEVEL += 1
-        self.mens_level = f'Nivel: {LEVEL}'
+        self.mens_level = f'Level: {LEVEL}'
                 
     def manipula_nivel(self):
         while True:
