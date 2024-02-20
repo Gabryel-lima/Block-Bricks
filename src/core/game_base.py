@@ -40,9 +40,9 @@ class GameBase:
         self.level = 1
         self.mens_level = f'Level: {self.level}'
         self.points2 = 0
-        self.mens_points_2 = f'Pontos: {self.points2}'
+        self.mens_points_2 = f'Points: {self.points2}'
         self.loading_lp2 = self.load_best_pontuation_player2()
-        self.mens_bp2 = f'Melhor pontuação: {self.loading_lp2}'
+        self.mens_bp2 = f'Best pontuation: {self.loading_lp2}'
         self.player_mode = None
 
     def vars_screen_dimensions(self, width: int = 600, height: int = 600) -> object | int | tuple[int]:
@@ -152,7 +152,7 @@ class GameBase:
 
     def atualiza_pontuacao2(self):
         self.points2 += 1
-        self.mens_points_2 = f'Pontos: {self.points2}'
+        self.mens_points_2 = f'Points: {self.points2}'
 
     def desenho_borda(self):
         pygame.draw.rect(self.screen, (115, 115, 115), self.border, 3)
@@ -331,8 +331,8 @@ class GameBase:
             pygame.display.update()
 
     def niveis_count(self):
-        LEVEL += 1
-        self.mens_level = f'Level: {LEVEL}'
+        self.level += 1
+        self.mens_level = f'Level: {self.level}'
                 
     def manipula_nivel(self):
         while True:

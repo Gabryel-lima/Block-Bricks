@@ -1,17 +1,20 @@
 
+
 import pygame
 
+from . import PATH
 
-class Blocks:
-    def __init__(self, game_base: object):
+class Blocks(pygame.sprite.Sprite):
+    def __init__(self, game_base):
+        super().__init__()
         self.game_base = game_base
+        self._largura_bloco = 57
+        self._altura_bloco = 20
         self.cor_blocos = (150, 75, 0)
         self.cor_animacao = (250, 250, 250)
         self.cor_animacao_none = (150, 150, 100)
         self.nivel_atual = 0
         self._espaco_blocos = 16
-        self._largura_bloco = 57
-        self._altura_bloco = 20
         self.lis_blocos = []
         self.niveis = [
             (8,3),  # nível 1: (num_blocos_por_fileira, num_colunas)
@@ -26,19 +29,37 @@ class Blocks:
             (8,8)  # nível 10
         ]
         self.configurar_nivel()
-        #self.bloco_img = pygame.image.load('assets/sprite_0.png')
-        #self.bloco_img = pygame.transform.scale(self.bloco_img, (56, 19))
+        # self.animation = False
+        # self.lis_sprites = [
+        #     pygame.image.load(PATH + f'/assets/sprite_{i}.png') for i in range(1, 4)
+        # ]
+        # self.current_sprite = 0 # index 
+        # self.image = self.lis_sprites[self.current_sprite] # Surface
+        # self.rect = self.image.get_rect()
+        # self.rect = [self.bloco_Rect.x, self.bloco_Rect.y] # Pos
+
+    # def sprite_animation(self):
+    #     self.animation = True
+
+    # def update(self, speed: float = 0.20):
+    #     if self.animation:
+    #         self.current_sprite += speed
+    #         if int(self.current_sprite) >= len(self.lis_sprites):
+    #             self.current_sprite = 0
+
+    #     self.image = self.lis_sprites[int(self.current_sprite)]
+    #     self.game_base.moving_sprites.draw(self.game_base.screen)
 
     @property
     def espaco_blocos(self) -> int:
         return self._espaco_blocos
     
     @property
-    def largura_bloco(self) -> int: # Ainda não utilizado.
+    def largura_bloco(self) -> int:
         return self._largura_bloco
     
     @property
-    def altura_bloco(self) -> int: # Ainda não utilizado.
+    def altura_bloco(self) -> int:
         return self._altura_bloco
 
     @espaco_blocos.setter
@@ -48,18 +69,18 @@ class Blocks:
         self.criar_blocos()  
 
     @largura_bloco.setter
-    def dimensionamento_largura_bloco(self, novo_valor=int):  # Ainda não utilizado.
+    def dimensionamento_largura_bloco(self, novo_valor=int):
         self._largura_bloco = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
     
     @altura_bloco.setter
-    def dimensionamento_altura_bloco(self, novo_valor=int):  # Ainda não utilizado.
+    def dimensionamento_altura_bloco(self, novo_valor=int):
         self._altura_bloco = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()
     
-    def criar_blocos(self) -> pygame.Rect:
+    def criar_blocos(self):
         for fileira in range(self.num_blocos_por_fileira):
             for coluna in range(self.num_colunas):
                 x = self._espaco_blocos + coluna * (self._largura_bloco + self._espaco_blocos)
@@ -70,8 +91,8 @@ class Blocks:
     def desenhar_blocos(self):
         for bloco in self.lis_blocos:
             pygame.draw.rect(self.game_base.screen, self.cor_blocos, bloco, width=0, border_radius=3) #self.game_base.screen.blit(self.bloco_img, bloco)
-
-    def animacao_blocos(self, index=int) -> pygame.Rect:
+            
+    def animacao_blocos(self, index=int):
         for indice, bloco in enumerate(self.lis_blocos):
             if indice == index:
                 bloco_antigo = bloco.copy()

@@ -11,8 +11,10 @@ from . import *
 class Game(GameBase):
     def __init__(self):
         super().__init__()
+        # self.moving_sprites = pygame.sprite.Group()
+        # self.moving_sprites.add(self.blocks)
         self.clock_game = pygame.time.Clock()
-        self.icon = pygame.image.load(PATH + '/assets/logo.png')
+        self.icon = pygame.image.load(PATH + '/assets/logo.png').convert_alpha()
         pygame.display.set_caption('Block-Bricks *1.7')
         pygame.display.set_icon(self.icon)
         self.init_points = 0
@@ -233,6 +235,8 @@ class Game(GameBase):
             self.clock_game.tick(60)
             # pygame.display.set_caption(f'FPS: {self.clock_game.get_fps()}')  # Adaptar e melhorar a exibição do fps
             self.layout()
+
+            # self.moving_sprites.update() # Tálvez usar sprite no futuro...
 
             if self.game_init:
                 self.verificar_colisao()

@@ -8,12 +8,12 @@ import pygame
 class ConfigButton:
     def __init__(self, game_base: object):
         self.game_base = game_base
-        self.img_config_load = pygame.image.load('assets/gear_config.png')
-        self.img_config = pygame.transform.scale(self.img_config_load, (50, 50))
+        self.img_config_load = pygame.image.load('assets/gear_config.png').convert_alpha()
+        self.img_config = pygame.transform.scale(self.img_config_load, (50, 50)).convert_alpha()
         self.resolution_text1 = f'600x600'
         self.resolution_text2 = f'750x720'
         self.resolution_text3 = f'Fullscreen'
-        self.copy_surface = pygame.SurfaceType((50, 50), pygame.SRCALPHA)
+        self.copy_surface = pygame.SurfaceType((50, 50), pygame.SRCALPHA).convert_alpha()
         self.func_vars_tela = self.game_base.vars_tela_config()
         self.func_vars_config = self.game_base.vars_tela_config()
         
