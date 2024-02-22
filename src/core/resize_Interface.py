@@ -2,10 +2,13 @@
 
 import pygame
 
+from src.core.settings import ConfigVars
+
 
 class ResizeInterface:
     def __init__(self, game_base: object):
         self.game_base = game_base
+        self.settings = ConfigVars(self.game_base)
         self.original_resolution = (self.game_base.width, self.game_base.height)
 
     def for_dimenssoes_tela(self, nova_res:tuple, res_original:tuple): 

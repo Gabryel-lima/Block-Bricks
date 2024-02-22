@@ -2,7 +2,6 @@
 
 import pygame
 
-from . import PATH
 
 class Blocks(pygame.sprite.Sprite):
     def __init__(self, game_base):
@@ -52,30 +51,33 @@ class Blocks(pygame.sprite.Sprite):
 
     @property
     def espaco_blocos(self) -> int:
+        """Permite eu reescrever seu valor retornado em um @property.setter"""
         return self._espaco_blocos
     
     @property
     def largura_bloco(self) -> int:
+        """Permite eu reescrever seu valor retornado em um @property.setter"""
         return self._largura_bloco
     
     @property
     def altura_bloco(self) -> int:
+        """Permite eu reescrever seu valor retornado em um @property.setter"""
         return self._altura_bloco
 
     @espaco_blocos.setter
-    def dimensionamento_espaco_blocos(self, novo_valor=int):
+    def dimensionamento_espaco_blocos(self, novo_valor:int):
         self._espaco_blocos = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
 
     @largura_bloco.setter
-    def dimensionamento_largura_bloco(self, novo_valor=int):
+    def dimensionamento_largura_bloco(self, novo_valor:int):
         self._largura_bloco = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()  
     
     @altura_bloco.setter
-    def dimensionamento_altura_bloco(self, novo_valor=int):
+    def dimensionamento_altura_bloco(self, novo_valor:int):
         self._altura_bloco = novo_valor
         self.lis_blocos.clear()
         self.criar_blocos()

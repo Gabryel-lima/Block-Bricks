@@ -5,7 +5,7 @@ import pygame
 
 from src.core.game_base import GameBase
 
-from . import *
+from src.core.settings import PATH
 
 
 class Game(GameBase):
