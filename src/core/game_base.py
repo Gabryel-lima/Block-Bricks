@@ -88,46 +88,46 @@ class GameBase:
         pygame.draw.rect(self.screen, (115, 115, 115), self.border, 3)
 
     def animaçao_de_sublinhar_botao_tela_inicial(self):
-        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player'])
-        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player2'])
-        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_clink'])
+        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.settings.rect_botao_sublinhar_mod_player)
+        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.settings.rect_botao_sublinhar_mod_player2)
+        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.settings.rect_botao_sublinhar_clink)
 
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player'].width = min(self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player'].width, 120)
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player'].width = max(self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player'].width, 0)
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player2'].width = min(self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player2'].width, 122)
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player2'].width = max(self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player2'].width, 0)
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_clink'].width = min(self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_clink'].width, 3)
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_clink'].width = max(self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_clink'].width, 0)
+        self.settings.rect_botao_sublinhar_mod_player.width = min(self.settings.rect_botao_sublinhar_mod_player.width, 120)
+        self.settings.rect_botao_sublinhar_mod_player.width = max(self.settings.rect_botao_sublinhar_mod_player.width, 0)
+        self.settings.rect_botao_sublinhar_mod_player2.width = min(self.settings.rect_botao_sublinhar_mod_player2.width, 122)
+        self.settings.rect_botao_sublinhar_mod_player2.width = max(self.settings.rect_botao_sublinhar_mod_player2.width, 0)
+        self.settings.rect_botao_sublinhar_clink.width = min(self.settings.rect_botao_sublinhar_clink.width, 3)
+        self.settings.rect_botao_sublinhar_clink.width = max(self.settings.rect_botao_sublinhar_clink.width, 0)
 
     def botoes_tela_inicial_modos(self): # 1
         pos_mouse = pygame.mouse.get_pos()
         mod1 = self.modo_player1
         mod2 = self.modo_player2
-        rect_modo1 = self.settings.get_vars_tela_inicial()['rect_botao_player1']
-        rect_modo2 = self.settings.get_vars_tela_inicial()['rect_botao_player2']
-        rect_c = self.settings.get_vars_tela_inicial()['clink_rect']
+        rect_modo1 = self.settings.rect_botao_player1
+        rect_modo2 = self.settings.rect_botao_player2
+        rect_c = self.settings.clink_rect
         
         self.cor_botao_modo1 = (170,170,170) if rect_modo1.collidepoint(pos_mouse) else (255,255,255)
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player'].width += 3 if rect_modo1.collidepoint(pos_mouse) else -2
+        self.settings.rect_botao_sublinhar_mod_player.width += 3 if rect_modo1.collidepoint(pos_mouse) else -2
 
         self.cor_botao_modo2 = (170,170,170) if rect_modo2.collidepoint(pos_mouse) else (255,255,255)
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_mod_player2'].width += 3 if rect_modo2.collidepoint(pos_mouse) else -2
+        self.settings.rect_botao_sublinhar_mod_player2.width += 3 if rect_modo2.collidepoint(pos_mouse) else -2
 
         self.cor_clink = (170,170,170) if rect_c.collidepoint(pos_mouse) else (255,255,255)
-        self.settings.get_vars_tela_inicial()['rect_botao_sublinhar_clink'].width += 280 if rect_c.collidepoint(pos_mouse) else -280
+        self.settings.rect_botao_sublinhar_clink.width += 280 if rect_c.collidepoint(pos_mouse) else -280
 
-        if self.settings.get_vars_tela_inicial()['rect_botao_player1'].width > 0 and \
-            self.settings.get_vars_tela_inicial()['rect_botao_player2'].width > 0 and \
-            self.settings.get_vars_tela_inicial()['clink_rect'].width > 0:
+        if self.settings.rect_botao_player1.width > 0 and \
+            self.settings.rect_botao_player2.width > 0 and \
+            self.settings.clink_rect.width > 0:
 
             texto_formatado1 = self.fonts.font_arial.render(mod1, False, self.cor_botao_modo1)
-            self.screen.blit(texto_formatado1, self.settings.get_vars_tela_inicial()['blit_xy_player1'])
+            self.screen.blit(texto_formatado1, self.settings.blit_xy_player1)
             texto_formatado2 = self.fonts.font_arial.render(mod2, False, self.cor_botao_modo2)
-            self.screen.blit(texto_formatado2, self.settings.get_vars_tela_inicial()['blit_xy_player2'])
+            self.screen.blit(texto_formatado2, self.settings.blit_xy_player2)
             
             texto_clink = 'Criado por: Gabryel-lima'
             texto_formatado_c = self.fonts.font_impact.render(texto_clink, False, self.cor_clink)
-            self.screen.blit(texto_formatado_c, self.settings.get_vars_tela_inicial()['blit_xy_clink'])
+            self.screen.blit(texto_formatado_c, self.settings.blit_xy_clink)
 
             self.config_button.button_config() # 2
             self.animaçao_de_sublinhar_botao_tela_inicial() # 3
@@ -139,7 +139,7 @@ class GameBase:
         self.config_button.copy_surface.fill((0, 0, 0))
 
     def executar_particao_proporcao_resolucao2(self):
-        self.settings.get_vars_tela_config()['rect_resolucao_texto1'] = pygame.Rect(240, 170, 120, 40)
+        self.settings.rect_resolucao_texto1 = pygame.Rect(240, 170, 120, 40)
 
         self.resizeinterface.calculo_obter_proporcao(nova_resolucao=self.resolution_base2)
         self.vars_screen_dimensions(width=self.resolution_base2[0], height=self.resolution_base2[1])
@@ -172,25 +172,25 @@ class GameBase:
 
     def desenho_botao_back(self) -> pygame.Rect:
         pos_mouse = pygame.mouse.get_pos()
-        rect_botao = self.settings.get_vars_pre_pos_start()['rect_botao_voltar']
+        rect_botao = self.settings.rect_botao_voltar
         mensagem = self.back
 
         self.cor_botao_voltar = (150,150,150) if rect_botao.collidepoint(pos_mouse) else (255,255,255)
-        self.settings.get_vars_pre_pos_start()['rect_botao_sublinhar_voltar'].width += 68 if rect_botao.collidepoint(pos_mouse) else -6
+        self.settings.rect_botao_sublinhar_voltar.width += 68 if rect_botao.collidepoint(pos_mouse) else -6
 
-        if self.settings.get_vars_pre_pos_start()['rect_botao_voltar'].width > 0:  
+        if self.settings.rect_botao_voltar.width > 0:  
             texto_formatado1 = self.fonts.font_arial.render(mensagem, False, self.cor_botao_voltar)
-            self.screen.blit(texto_formatado1, self.settings.get_vars_pre_pos_start()['blit_xy_voltar'])
+            self.screen.blit(texto_formatado1, self.settings.blit_xy_voltar)
 
             self.animaçao_de_sublinhar_botao_voltar()
 
         return rect_botao
 
     def animaçao_de_sublinhar_botao_voltar(self):
-        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.settings.get_vars_pre_pos_start()['rect_botao_sublinhar_voltar'])
+        pygame.draw.rect(self.screen, COLOR_BUTTON_SUBLIME, self.settings.rect_botao_sublinhar_voltar)
 
-        self.settings.get_vars_pre_pos_start()['rect_botao_sublinhar_voltar'].width = min(self.settings.get_vars_pre_pos_start()['rect_botao_sublinhar_voltar'].width, 6)
-        self.settings.get_vars_pre_pos_start()['rect_botao_sublinhar_voltar'].width = max(self.settings.get_vars_pre_pos_start()['rect_botao_sublinhar_voltar'].width, 0)
+        self.settings.rect_botao_sublinhar_voltar.width = min(self.settings.rect_botao_sublinhar_voltar.width, 6)
+        self.settings.rect_botao_sublinhar_voltar.width = max(self.settings.rect_botao_sublinhar_voltar.width, 0)
 
     def selecao_de_modos_estrutura(self): # 4 em decisão de onde o palyer vai interagir 
         for event in pygame.event.get():
@@ -198,25 +198,25 @@ class GameBase:
                 pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                if self.settings.get_vars_tela_inicial()['rect_botao_player1'].collidepoint(pygame.mouse.get_pos()):
-                    self.settings.get_vars_tela_inicial()['rect_botao_player1'] = pygame.Rect(0,0,0,0)
+                if self.settings.rect_botao_player1.collidepoint(pygame.mouse.get_pos()):
+                    self.settings.rect_botao_player1 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.player_mode = "Player1"
 
                     self.executar_particao(particao=self.player.desenho_player)
 
-                elif self.settings.get_vars_tela_inicial()['rect_botao_player2'].collidepoint(pygame.mouse.get_pos()):
-                    self.settings.get_vars_tela_inicial()['rect_botao_player2'] = pygame.Rect(0,0,0,0)
+                elif self.settings.rect_botao_player2.collidepoint(pygame.mouse.get_pos()):
+                    self.settings.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.player_mode = "Player2"
 
                     self.executar_particao(particao=self.player2.desenho_player)
 
-                elif self.settings.get_vars_tela_inicial()['clink_rect'].collidepoint(pygame.mouse.get_pos()):
+                elif self.settings.clink_rect.collidepoint(pygame.mouse.get_pos()):
                     webbrowser.open("https://github.com/Gabryel-lima")
                     pygame.time.delay(300)
                 
-                elif self.settings.get_vars_tela_config()['rect_botao_config'].collidepoint(pygame.mouse.get_pos()):
+                elif self.settings.rect_botao_config.collidepoint(pygame.mouse.get_pos()):
                     self.config_button.draw_button_config(show=False)
                     pygame.time.delay(300)
                     
@@ -236,7 +236,7 @@ class GameBase:
                         return
 
                 if event.type == pygame.constants.KEYDOWN and event.key == pygame.constants.K_RETURN:
-                    self.settings.get_vars_tela_config()['rect_botao_config'] = pygame.rect.Rect(0,0,0,0)
+                    self.settings.rect_botao_config = pygame.rect.Rect(0,0,0,0)
                     self.game_init = True
                     self.ball.iniciar_movimento()
                     if self.player_mode == "Player1":
@@ -276,7 +276,7 @@ class GameBase:
         self.game_init = True
         self.ball.iniciar_movimento()
         self.manipula_nivel()
-        self.settings.get_vars_tela_inicial()['rect_botao_player1'] = pygame.Rect(0,0,0,0)
-        self.settings.get_vars_tela_inicial()['rect_botao_player2'] = pygame.Rect(0,0,0,0)
+        self.settings.rect_botao_player1 = pygame.Rect(0,0,0,0)
+        self.settings.rect_botao_player2 = pygame.Rect(0,0,0,0)
         return
 
