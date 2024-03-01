@@ -4,6 +4,8 @@ from typing import Union
 
 import pygame
 
+from pygame._sdl2 import Texture
+
 from src.core.settings import PATH, ConfigVars
 
 
@@ -12,33 +14,33 @@ class ConfigButton:
         self.game_base = game_base
         self.settings = ConfigVars(self.game_base)
         self.fonte_config = pygame.font.SysFont('arial', 32, True, False)
-        self.img_config_load = pygame.image.load(PATH + 'assets/gear_config.png').convert_alpha()
-        self.img_config = pygame.transform.scale(self.img_config_load, (50, 50)).convert_alpha()
+        self.img_config_load = pygame.image.load(PATH + 'assets/gear_config.png')
+        self.img_config = pygame.transform.scale(self.img_config_load, (50, 50))
         self.resolution_text1 = f'600x600'
         self.resolution_text2 = f'750x720'
         self.resolution_text3 = f'Fullscreen'
-        self.copy_surface = pygame.SurfaceType((50, 50), pygame.SRCALPHA).convert_alpha()
+        self.copy_surface = pygame.SurfaceType((50, 50), pygame.SRCALPHA)
         
-    def button_config(self) -> pygame.Rect:
+    def button_config(self):
         self.draw_button_config()
         pos_mouse = pygame.mouse.get_pos()
 
         if self.settings.rect_botao_config.collidepoint(pos_mouse):
             scaled_copy = pygame.transform.scale_by(self.img_config, (1.1, 1.1))
             self.game_base.screen.blit(scaled_copy, self.settings.img_xy)
-            return self.settings.rect_botao_config
+        return self.settings.rect_botao_config
         
-    def draw_button_config(self, show=True) -> pygame.Rect:
+    def draw_button_config(self, show: bool = True):
         if show:
             self.copy_surface.blit(self.img_config, (0, 0))
             self.game_base.screen.blit(self.copy_surface, self.settings.img_xy)
-            return self.settings.rect_botao_config
+        return self.settings.rect_botao_config
 
     @staticmethod
     def _get_value_list(index_list_name: int):
         return index_list_name
 
-    def partition_draw_buttons_resolutions(self) -> Union[pygame.Rect, int, list, int]:
+    def partition_draw_buttons_resolutions(self) -> pygame.Rect | int | list[any]:
         pos_mouse = pygame.mouse.get_pos()
         resolution1 = self.resolution_text1
         resolution2 = self.resolution_text2

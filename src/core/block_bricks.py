@@ -3,6 +3,8 @@
 import json
 import pygame
 
+from pygame._sdl2 import Renderer, Texture, Image, Window, messagebox
+
 from src.core.game_base import GameBase
 
 from src.core.settings import PATH
@@ -14,7 +16,7 @@ class Game(GameBase):
         # self.moving_sprites = pygame.sprite.Group()
         # self.moving_sprites.add(self.blocks)
         self.clock_game = pygame.time.Clock()
-        self.icon = pygame.image.load(PATH + '/assets/logo.png').convert_alpha()
+        self.icon = pygame.image.load(PATH + '/assets/logo.png')
         pygame.display.set_caption('Block-Bricks *1.7')
         pygame.display.set_icon(self.icon)
         self.init_points = 0
@@ -209,7 +211,7 @@ class Game(GameBase):
                     self.ball.VPos_x *= 1
                     
     def layout(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.fill((0,0,0))
         self.desenho_borda()
         self.botoes_tela_inicial_modos()
         self.selecao_de_modos_estrutura()
@@ -261,7 +263,6 @@ class Game(GameBase):
 
             self.mensagem_fim_de_nivel()
             pygame.display.update()
-
 
 """ Mensage_box exemple: """
 

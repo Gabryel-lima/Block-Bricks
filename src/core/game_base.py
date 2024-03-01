@@ -5,6 +5,8 @@ import webbrowser
 
 import pygame
 
+from pygame._sdl2 import Renderer, Texture, Image, Window, messagebox
+
 from src.core.player import Player
 from src.core.player2 import Player2
 from src.core.ball import Ball
@@ -18,16 +20,13 @@ from src.core.settings import COLOR_BUTTON_SUBLIME, ConfigVars
 class GameBase:
     def __init__(self):
         pygame.init()
-        self.vars_screen_dimensions()
-        self.settings = ConfigVars(self)
-        self.player = Player(self)
-        self.player2 = Player2(self)
-        self.ball = Ball(self)
-        self.blocks = Blocks(self)
-        self.fonts = Fonts()
-        self.config_button = ConfigButton(self)
-        self.resizeinterface = ResizeInterface(self)
-        #self.mens_ite_init = f'Pressione a tecla "Enter" para iniciar'
+        self.width = self.resolution_base[0]
+        self.height = self.resolution_base[1]
+        self.relative_height_ball = 180
+        self.screen = pygame.display.set_mode(size=(self.width, self.height))
+        self.border = pygame.Rect((0, 0), (self.width, self.height))
+        self.dimension_list_screen = [self.border]
+
         self.resolution_base = (600, 600)
         self.resolution_base2 = (745, 690)
         self.modo_player1 = 'Player 1'
@@ -40,16 +39,15 @@ class GameBase:
         self.loading_lp2 = self.load_best_pontuation_player2()
         self.mens_bp2 = f'Best pontuation: {self.loading_lp2}'
         self.player_mode = None
-
-    def vars_screen_dimensions(self, width: int = 600, height: int = 600) -> object | int | tuple[int]:
-        self.width = width
-        self.height = height
-        self.relative_height_ball = 180
-        self.screen = pygame.display.set_mode(size=(self.width, self.height))
-        self.border = pygame.Rect((0, 0), (self.width, self.height))
-        self.dimension_list_screen = [self.border]
-        
-        return self
+        self.settings = ConfigVars(self)
+        self.player = Player(self)
+        self.player2 = Player2(self)
+        self.ball = Ball(self)
+        self.blocks = Blocks(self)
+        self.fonts = Fonts()
+        self.config_button = ConfigButton(self)
+        self.resizeinterface = ResizeInterface(self)
+        #self.mens_ite_init = f'Pressione a tecla "Enter" para iniciar'
             
     def load_best_pontuation_player2(self):
         try:
@@ -73,12 +71,12 @@ class GameBase:
     def exibe_melhor_pontuacao2(self):
         mensagem = self.mens_bp2
         texo_formatado = self.fonts.font_candara.render(mensagem, False, (255, 255, 255))
-        self.screen.blit(texo_formatado, self.settings['blit_xy_mesg_bp2'])
+        self.screen.blit(texo_formatado, self.settings.blit_xy_mesg_bp2)
     
     def exibir_pontuacao2(self):
         mensagem = self.mens_points_2
         texto_formatado = self.fonts.font_candara.render(mensagem, False, (255, 255, 255))
-        self.screen.blit(texto_formatado, self.settings['blit_xy_mesg2_pontos'])
+        self.screen.blit(texto_formatado, self.settings.blit_xy_mesg2_pontos)
 
     def atualiza_pontuacao2(self):
         self.points2 += 1
@@ -142,7 +140,8 @@ class GameBase:
         self.settings.rect_resolucao_texto1 = pygame.Rect(240, 170, 120, 40)
 
         self.resizeinterface.calculo_obter_proporcao(nova_resolucao=self.resolution_base2)
-        self.vars_screen_dimensions(width=self.resolution_base2[0], height=self.resolution_base2[1])
+        
+        self.vars_screen_dimensions(resolution_base=self.resolution_base)
 
         self.resizeinterface.calculo_obter_proporcao_blocos(nova_resolucao=self.resolution_base2)
         self.resizeinterface.calculo_obter_proporcao_players(nova_resolucao=self.resolution_base2)

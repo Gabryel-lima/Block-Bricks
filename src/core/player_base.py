@@ -5,8 +5,8 @@ import pygame
 class PlayerBase:
     def __init__(self, game_base: object):
         self.game_base = game_base
-        self.pos_x = 280
-        self.pos_y = 402
+        self.pos_x: int = 280
+        self.pos_y: int = 402
         self.width_draw_x = 40
         self.height_draw_y = 1
         self.rect = pygame.Rect(self.pos_x, self.pos_y, self.get_width_draw_x, self.height_draw_y)
