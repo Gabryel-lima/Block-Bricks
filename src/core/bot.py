@@ -6,8 +6,15 @@
 # tf.get_logger().setLevel('ERROR')  # Desativa mensagens de log do TensorFlow
 
 # import pygame, keras
+from pathlib import Path
+
 import pygame
 import numpy as np
+
+try:
+    import keras
+except ImportError:
+    keras = None
 
 class Bot:
     def __init__(self, game_base):
@@ -18,15 +25,19 @@ class Bot:
         self.height_draw_y = 1 # 1
         self.rect = pygame.Rect(self.pos_x, self.pos_y, self.width_draw_x, self.height_draw_y)
         self.model = None
-        #self.load_weights()
+        self.model_path = Path("hard_model.keras")
+        self.load_weights()
     
     def draw_bot(self):
         pygame.draw.rect(self.game_base.screen, (20, 155, 40),
                          (self.pos_x, self.pos_y, self.width_draw_x, 5))
         
     def load_weights(self):
-        # Carrega o modelo salvo usando Keras
-        self.model = keras.models.load_model('hard_model.keras')
+        if keras is None or not self.model_path.exists():
+            self.model = None
+            return
+
+        self.model = keras.models.load_model(self.model_path)
         print("Modelo carregado com sucesso...")
     
     def reset_bot(self):
@@ -46,6 +57,10 @@ class Bot:
                 self.pos_x += 3.0
     
     def update(self):
+        if self.model is None:
+            self.follow_ball()
+            return
+
         # Obtém a observação atual do estado do jogo
         state = self.get_observation()
         
@@ -63,6 +78,13 @@ class Bot:
             self.move_left()
         elif action == 2:
             self.fine_adjustment(distance_to_ball)
+
+    def follow_ball(self):
+        distance_to_ball = self.calculate_distance_to_ball()
+        if distance_to_ball > 5:
+            self.move_right()
+        elif distance_to_ball < -5:
+            self.move_left()
     
     def get_observation(self):
         obs = np.array(pygame.surfarray.array3d(self.game_base.screen_surface), dtype=np.float32) 

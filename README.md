@@ -46,6 +46,31 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 Contributions are welcome! Feel free to open issues or pull requests with improvements or suggestions.
 
+## Automation
+
+The repository now exposes an operational entrypoint through the root Makefile.
+
+### Daily commands
+
+- `make help`: list the available commands grouped by category.
+- `make setup`: create `.venv`, install the package in editable mode, and install dev tooling.
+- `make check-dependencies`: validate required commands, key files, and runtime hints.
+- `make run`: run the game in the foreground for direct local iteration.
+- `make start`: start the game in managed background mode.
+- `make logs`: follow the managed log file at `.local/runtime/block-bricks.log`.
+- `make status`: inspect the managed process state.
+- `make stop`: stop the managed process.
+
+### Quality and packaging
+
+- `make smoke`: non-interactive smoke validation for imports, assets, and score files.
+- `make test`: run the lightweight automated test suite.
+- `make lint`: run Ruff checks.
+- `make format`: run Black formatting.
+- `make build`: produce source and wheel distributions.
+
+`make run` is the fast foreground development flow. `make start` is the managed operational flow with PID and logs, useful when you want a long-lived local process you can inspect with `make status` and `make logs`.
+
 ## Contact
 
 If you have questions or are interested in collaborating, feel free to reach out:

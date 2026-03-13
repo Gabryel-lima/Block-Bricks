@@ -5,7 +5,6 @@ from src.core.game_base import GameBase
 
 from src.utils.utils import scaled_surface_percent, apenda_dot
 
-from src.data.coleta_dados import count_reinits
 from src.core.decorators import clock, bool_game_over
 import numpy as np
 
