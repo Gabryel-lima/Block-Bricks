@@ -1,4 +1,9 @@
+from pathlib import Path
+
 from setuptools import setup, find_packages
+
+
+README_PATH = Path(__file__).with_name("README.md")
 
 setup(
     name="Block_Bricks",
@@ -6,8 +11,8 @@ setup(
     author="Gabryel-lima",
     author_email="gabbryellimasi@gmail.com",
     description="Block-Bricks is a 2D puzzle game implemented in Python using Pygame. It draws inspiration from classic 2D block games, challenging players to clear the board by eliminating groups of blocks. Have fun and test your puzzle-solving skills in this addictive game!",
-    long_description=open('./README.md').read(),
-    long_description_content_type='./Block-Bricks.md',
+    long_description=README_PATH.read_text(encoding="utf-8"),
+    long_description_content_type='text/markdown',
     url="https://github.com/Gabryel-lima/Block-Bricks-Public",
     packages=find_packages(),
     include_package_data=True,

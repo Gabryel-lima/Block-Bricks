@@ -1,14 +1,15 @@
-import pygame, json, random, os
-from enum import Enum
+import json
+import random
 
-from src.core.game_base import GameBase
+import pygame
+
+from src.core.game_base import GameBase, SceneState
+from src.core.runtime_paths import asset_path, json_path
 
 from src.utils.utils import scaled_surface_percent, apenda_dot
 
 from src.core.decorators import clock, bool_game_over
 import numpy as np
-
-PATH = os.path.abspath('.') + '/'
 
 class Game(GameBase):
     def __init__(self):
@@ -16,7 +17,7 @@ class Game(GameBase):
         # self.moving_sprites = pygame.sprite.Group()
         # self.moving_sprites.add(self.blocks)
         self.clock_game = pygame.time.Clock()
-        self.icon = pygame.image.load(PATH + '/assets/logo.ico').convert_alpha()
+        self.icon = pygame.image.load(asset_path('logo.ico')).convert_alpha()
         pygame.display.set_caption('Block-Bricks *2.0')
         pygame.display.set_icon(self.icon)
         #self.sound_collision = pygame.mixer.Sound('sounds/encosta_bloco.wav')
@@ -80,26 +81,23 @@ class Game(GameBase):
         pygame.display.flip()
         pygame.time.delay(3000)
         self.salvar_melhor_pontuacao()
-        modo_selecionado = self.selecao_de_modos_estrutura()
+        self.restart_current_mode()
 
-        if modo_selecionado == self.executar_particao(particao=self.player.desenho_player):
-            self.blocks.resetar_blocos()
+    def restart_current_mode(self):
+        self.blocks.resetar_blocos()
+        self.reset_pontos_and_levels()
+        self.reset_pontos2()
+
+        if self.player_mode == "AI":
+            self.ball.reset_with_custom()
+            self.player.reset()
+            self.bot.reset_bot()
+        else:
             self.ball.reset()
-            self.ball.iniciar_movimento()
-            self.ball.atualizar()
-            self.reset_pontos_and_levels()
-            self.reset_pontos2()
+            self.player.reset()
+            self.player2.reset()
 
-        elif modo_selecionado == self.executar_particao(particao=self.player2.desenho_player):
-            self.blocks.resetar_blocos()
-            self.ball.reset()
-            self.ball.iniciar_movimento()
-            self.ball.atualizar()
-            self.reset_pontos_and_levels()
-            self.reset_pontos2()
-
-        elif modo_selecionado == self.executar_particao(particao=self.bot.draw_bot):
-            self.reset_env()
+        self.set_scene_state(SceneState.READY)
 
     def sound_ball_and_blocks(self):
         sound = self.sound_collision
@@ -118,7 +116,7 @@ class Game(GameBase):
 
     def carregar_melhor_pontuacao(self):
         try:
-            with open('src/json/best_score.json', 'r') as file:
+            with json_path('best_score.json').open('r', encoding='utf-8') as file:
                 data = json.load(file)
                 return data['best_score']
         except (FileNotFoundError, KeyError):
@@ -126,7 +124,7 @@ class Game(GameBase):
             
     def salvar_melhor_pontuacao(self):
         data = {'best_score': self.loading_last_points}
-        with open('src/json/best_score.json', 'w') as file:
+        with json_path('best_score.json').open('w', encoding='utf-8') as file:
             json.dump(data, file)
 
     def atualiza_melhor_pontuacao(self):
@@ -156,20 +154,15 @@ class Game(GameBase):
         self.mesg_nivel = f'Level: {self.blocks.level_blocks}'
 
     def reset(self): # Esse metodo retorna o menu.
-        if self.width == 600:
-            self.game_init = False
-            self.ball.reset()
-            self.player.reset()
-            self.player2.reset()
-            self.rect_botao_player1 = self.list_tela_inicial[0]
-            self.rect_botao_player2 = self.list_tela_inicial[1]
-            self.rect_botao_config = self.list_tela_config[7]
-
-        elif self.width > 600:
-            self.game_init = False
-            self.rect_botao_player1 = self.list_tela_inicial[0]
-            self.rect_botao_player2 = self.list_tela_inicial[1]
-            self.rect_botao_config = self.list_tela_config[7]
+        self.set_scene_state(SceneState.MENU)
+        self.player_mode = None
+        self.ball.reset()
+        self.player.reset()
+        self.player2.reset()
+        self.bot.reset_bot()
+        self.vars_tela_inicial()
+        self.vars_tela_config()
+        self.rect_botao_config = self.list_tela_config[7]
 
     def exibir_pontuacao(self):
         mensagem = self.mens_points_1_2
@@ -226,28 +219,56 @@ class Game(GameBase):
                     # Colisão nos lados esquerdo ou direito do bloco, inverte o eixo X
                     self.ball.VPos_x *= -1
                     
-    def layout(self):
+    def draw_selected_mode(self):
+        self.ball.desenho_bola()
+        self.blocks.desenhar_blocos()
+
+        if self.player_mode == "Player1":
+            self.player.desenho_player()
+        elif self.player_mode == "Player2":
+            self.player.desenho_player()
+            self.player2.desenho_player()
+        elif self.player_mode == "AI":
+            self.bot.draw_bot()
+
+    def draw_hud(self):
+        if self.player_mode == "Player1":
+            self.exibir_nivel()
+            self.exibe_melhor_pontuacao()
+            self.exibir_pontuacao()
+        elif self.player_mode == "Player2":
+            self.exibir_nivel()
+            self.exibe_melhor_pontuacao2()
+            self.exibir_pontuacao2()
+        elif self.player_mode == "AI":
+            self.exibir_nivel()
+            self.exibe_melhor_pontuacao()
+            self.exibir_pontuacao()
+
+    def layout(self, events=None):
         self.screen.fill((0, 0, 0))
         self.desenho_borda()
-        self.botoes_tela_inicial_modos()
-        self.selecao_de_modos_estrutura()
-        
-        if self.game_init:
-            self.desenho_borda()
-            self.ball.desenho_bola()
-            self.blocks.desenhar_blocos()
-            #self.new_sensor.draw_lines_sensor(self.screen)
-            #self.sensor.draw_lines_sensor(self.screen)
 
-            if self.player_mode == "Player1":
-                self.player.desenho_player()
+        if self.scene_state is SceneState.MENU:
+            self.botoes_tela_inicial_modos()
+            self.handle_menu_events(events)
+            return
 
-            elif self.player_mode == "Player2":
-                self.player.desenho_player()
-                self.player2.desenho_player()
+        if self.scene_state is SceneState.CONFIG:
+            self.desenho_botao_back()
+            self.config_button.partition_draw_buttons_resolutions()
+            self.handle_config_events(events)
+            return
 
-            elif self.player_mode == "AI":
-                self.bot.draw_bot()
+        self.draw_selected_mode()
+
+        if self.scene_state is SceneState.READY:
+            self.desenho_botao_back()
+            self.handle_ready_events(events)
+            return
+
+        if self.scene_state is SceneState.PLAYING:
+            self.draw_hud()
 
     def reset_env(self): # Realmente tenho que ver que canário reseta o jogo todo
         self.screen.fill((0, 0, 0))
@@ -282,32 +303,27 @@ class Game(GameBase):
 
     def run(self):
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.constants.QUIT:
-                    pygame.quit()
+            events = pygame.event.get()
+
+            for event in events:
+                self.handle_system_event(event)
 
             self.clock_game.tick(60)
             self.update_caption_with_fps()
-            self.layout()
+            self.layout(events)
 
             # self.moving_sprites.update() # Tálvez usar sprite no futuro...
 
-            if self.game_init:
+            if self.scene_state is SceneState.PLAYING:
                 self.verificar_colisao()
                 self.colision_player_player2()
                 self.ball.atualizar()
 
                 if self.player_mode == "Player1":
-                    self.exibir_nivel()
-                    self.exibe_melhor_pontuacao()
-                    self.exibir_pontuacao()
                     self.player.player_collision()
                     self.player.input_player()
 
                 elif self.player_mode == "Player2":
-                    self.exibir_nivel()
-                    self.exibe_melhor_pontuacao2()
-                    self.exibir_pontuacao2()
                     self.player.player_collision()
                     self.player.input_player()
                     self.player2.player_collision()
@@ -315,13 +331,11 @@ class Game(GameBase):
 
                 elif self.player_mode == "AI":
                     #self.clock_game.tick(120) # Mantém a o frame_hate como no jogo normal
-                    self.exibir_nivel()
-                    self.exibe_melhor_pontuacao()
-                    self.exibir_pontuacao()
                     self.bot.bot_collision()
                     self.bot.update()
 
-            self.mensagem_fim_de_nivel()
+                self.mensagem_fim_de_nivel()
+
             pygame.display.update()
             #return pygame.surfarray.array3d(self.screen)
 

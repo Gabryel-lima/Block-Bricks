@@ -1,14 +1,14 @@
 
-import pygame, os
+import pygame
 from typing_extensions import Union
 
-PATH = os.path.abspath('.') + '/'
+from src.core.runtime_paths import asset_path
 
 class ConfigButton:
     def __init__(self, game_base):
         self.game_base = game_base
         self.fonte_config = pygame.font.SysFont('arial', 32, True, False)
-        self.img_config_load = pygame.image.load(PATH + 'assets/gear_config.png')
+        self.img_config_load = pygame.image.load(asset_path('gear_config.png')).convert_alpha()
         self.img_config = pygame.transform.scale(self.img_config_load, (50, 50))
         self.resolution_text1 = f'600x600'
         self.resolution_text2 = f'750x720'

@@ -1,5 +1,9 @@
 
-import pygame, json, webbrowser
+import json
+import webbrowser
+from enum import Enum
+
+import pygame
 
 
 from src.core.setings import ConfigVars
@@ -11,6 +15,14 @@ from src.core.blocks import Blocks
 from src.core.config_button import ConfigButton
 from src.core.resize_Interface import ResizeInterface
 from src.core.fonts import Fonts
+from src.core.runtime_paths import json_path
+
+
+class SceneState(Enum):
+    MENU = "menu"
+    CONFIG = "config"
+    READY = "ready"
+    PLAYING = "playing"
 
 class GameBase:
     def __init__(self): # TODO ESTÁ LIXOSO ISTO AQUI!!! Devo mexer també na inicialização correta de cada objeto, do fundo para fora
@@ -41,6 +53,17 @@ class GameBase:
         self.loading_lp2 = self.load_best_pontuation_player2()
         self.mens_bp2 = f'Best pontuation: {self.loading_lp2}'
         self.player_mode = None
+        self.scene_state = SceneState.MENU
+
+    @staticmethod
+    def handle_system_event(event: pygame.event.Event) -> None:
+        if event.type == pygame.constants.QUIT:
+            pygame.quit()
+            raise SystemExit
+
+    def set_scene_state(self, scene_state: SceneState) -> None:
+        self.scene_state = scene_state
+        self.game_init = scene_state is SceneState.PLAYING
 
     def vars_screen_dimensions(self, width: int = 608, height: int = 608) -> object | int | tuple[int]:
         self.width = width
@@ -123,7 +146,7 @@ class GameBase:
             
     def load_best_pontuation_player2(self):
         try:
-            with open('src/json/best_score2.json', 'r') as file:
+            with json_path('best_score2.json').open('r', encoding='utf-8') as file:
                 data = json.load(file)
                 return data['best_score2']
         except (FileNotFoundError, KeyError):
@@ -131,7 +154,7 @@ class GameBase:
 
     def save_best_pontuation_player2(self):
         data = {'best_score2': self.loading_lp2}
-        with open('src/json/best_score2.json', 'w') as file:
+        with json_path('best_score2.json').open('w', encoding='utf-8') as file:
             json.dump(data, file)
 
     def update_best_pontuation_player2(self):
@@ -236,25 +259,8 @@ class GameBase:
         self.config_button.copy_surface.fill((0, 0, 0))
 
     def executar_particao_desenho_botoes_resolucao(self, particao_config: None): # ou 5
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.constants.QUIT:
-                    pygame.quit()
-
-                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                    rect1, rect2, rect3 = self.config_button.partition_draw_buttons_resolutions()
-
-                    if rect1.collidepoint(pygame.mouse.get_pos()):
-                        self.executar_particao_proporcao_resolucao()
-                        return
-                    elif rect2.collidepoint(pygame.mouse.get_pos()):
-                        self.executar_particao_proporcao_resolucao2()
-                        return
-
-            self.screen.fill((0, 0, 0))
-            self.desenho_borda()
-            particao_config()
-            pygame.display.update()
+        self.set_scene_state(SceneState.CONFIG)
+        return particao_config
 
     def desenho_botao_back(self) -> pygame.Rect:
         pos_mouse = pygame.mouse.get_pos()
@@ -279,30 +285,27 @@ class GameBase:
         self.rect_botao_sublinhar_voltar.width = max(self.rect_botao_sublinhar_voltar.width, 0)
 
     def selecao_de_modos_estrutura(self): # 4 em decisão de onde o palyer vai interagir 
-        for event in pygame.event.get():
-            if event.type == pygame.constants.QUIT:
-                pygame.quit()
+        return self.scene_state
 
+    def handle_menu_events(self, events=None):
+        if events is None:
+            events = pygame.event.get()
+
+        for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.rect_botao_player1.collidepoint(pygame.mouse.get_pos()):
-                    self.rect_botao_player1 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.player_mode = "Player1"
-
                     self.executar_particao(particao=self.player.desenho_player)
 
                 elif self.rect_botao_player2.collidepoint(pygame.mouse.get_pos()):
-                    self.rect_botao_player2 = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.player_mode = "Player2"
-
                     self.executar_particao(particao=self.player2.desenho_player)
 
                 elif self.rect_botao_bot.collidepoint(pygame.mouse.get_pos()):
-                    self.rect_botao_bot = pygame.Rect(0,0,0,0)
                     pygame.time.delay(300)
                     self.player_mode = "AI"
-
                     self.executar_particao(particao=self.bot.draw_bot)
 
                 elif self.clink_rect.collidepoint(pygame.mouse.get_pos()):
@@ -315,58 +318,79 @@ class GameBase:
                     
                     self.executar_particao_desenho_botoes_resolucao(particao_config=self.config_button.partition_draw_buttons_resolutions)
 
+    def handle_config_events(self, events=None):
+        if events is None:
+            events = pygame.event.get()
+
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
+                    self.reset()
+                    pygame.time.delay(300)
+                    return
+
+                rect1, rect2, rect3 = self.config_button.partition_draw_buttons_resolutions()
+
+                if rect1.collidepoint(pygame.mouse.get_pos()):
+                    self.executar_particao_proporcao_resolucao()
+                    self.set_scene_state(SceneState.MENU)
+                    return
+                if rect2.collidepoint(pygame.mouse.get_pos()):
+                    self.executar_particao_proporcao_resolucao2()
+                    self.set_scene_state(SceneState.MENU)
+                    return
+                if rect3.collidepoint(pygame.mouse.get_pos()):
+                    self.set_scene_state(SceneState.MENU)
+                    return
+
+    def start_selected_mode(self):
+        self.rect_botao_config = pygame.rect.Rect(0,0,0,0)
+        self.ball.iniciar_movimento()
+
+        if self.player_mode == "Player1":
+            self.player.reset()
+            self.player2.rect = pygame.rect.Rect(0,0,0,0)
+            self.bot.rect = pygame.rect.Rect(0,0,0,0)
+        elif self.player_mode == "Player2":
+            self.player.resetp_1()
+            self.player2.reset()
+            self.player2.rect = pygame.rect.Rect(self.player2.pos_x,
+                                     self.player2.pos_y,
+                                     self.player2.width_draw_x,
+                                     self.player2.height_draw_y)
+            self.bot.rect = pygame.rect.Rect(0,0,0,0)
+        elif self.player_mode == "AI":
+            self.bot.reset_bot()
+            self.reset_env()
+            self.player.rect = pygame.rect.Rect(0,0,0,0)
+            self.player2.rect = pygame.rect.Rect(0,0,0,0)
+            self.bot.rect = pygame.rect.Rect(self.bot.pos_x,
+                                             self.bot.pos_y,
+                                             self.bot.width_draw_x,
+                                             self.bot.height_draw_y)
+
+        self.screen.fill((0, 0, 0))
+        self.set_scene_state(SceneState.PLAYING)
+
+    def handle_ready_events(self, events=None):
+        if events is None:
+            events = pygame.event.get()
+
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
+                    self.reset()
+                    self.screen.fill((0, 0, 0))
+                    pygame.time.delay(300)
+                    return
+
+            if event.type == pygame.constants.KEYDOWN and event.key == pygame.constants.K_RETURN:
+                self.start_selected_mode()
+                return
+
     def executar_particao(self, particao=None): # 5
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.constants.QUIT:
-                    pygame.quit()
-
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if self.desenho_botao_back().collidepoint(pygame.mouse.get_pos()):
-                        self.reset()
-                        self.screen.fill((0, 0, 0))
-                        pygame.time.delay(300)
-                        return
-
-                if event.type == pygame.constants.KEYDOWN and event.key == pygame.constants.K_RETURN:
-                    self.rect_botao_config = pygame.rect.Rect(0,0,0,0)
-                    self.game_init = True
-                    self.ball.iniciar_movimento()
-                    if self.player_mode == "Player1":
-                        self.player.reset()
-                        self.player2.rect = pygame.rect.Rect(0,0,0,0)
-                        self.screen.fill((0, 0, 0))
-                        return
-                    
-                    elif self.player_mode == "Player2":
-                        self.player.resetp_1()
-                        self.player2.reset()
-                        self.player2.rect = pygame.rect.Rect(self.player2.pos_x,
-                                                 self.player2.pos_y,
-                                                 self.player2.width_draw_x,
-                                                 self.player2.height_draw_y)
-                        self.screen.fill((0, 0, 0))
-                        return
-                    
-                    elif self.player_mode == "AI":
-                        self.bot.reset_bot()
-                        self.reset_env()
-                        self.player.rect = pygame.rect.Rect(0,0,0,0)
-                        self.player2.rect = pygame.rect.Rect(0,0,0,0)
-                        self.bot.rect = pygame.rect.Rect(self.bot.pos_x,
-                                                         self.bot.pos_y,
-                                                         self.bot.width_draw_x,
-                                                         self.bot.height_draw_y)
-                        self.screen.fill((0, 0, 0))
-                        return
-
-            self.screen.fill((0, 0, 0))
-            self.desenho_botao_back()
-            self.desenho_borda()
-            self.ball.desenho_bola()
-            self.blocks.desenhar_blocos()
-            particao()
-            pygame.display.update()
+        self.set_scene_state(SceneState.READY)
+        return particao
 
     def niveis_count(self):
         self.level += 1
@@ -378,7 +402,7 @@ class GameBase:
             break
 
     def continuar_prox_nivel(self):
-        self.game_init = True
+        self.set_scene_state(SceneState.PLAYING)
         self.ball.iniciar_movimento()
         self.manipula_nivel()
         self.rect_botao_player1 = pygame.Rect(0,0,0,0)
