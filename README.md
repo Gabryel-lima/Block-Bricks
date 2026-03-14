@@ -53,7 +53,9 @@ The repository now exposes an operational entrypoint through the root Makefile.
 ### Daily commands
 
 - `make help`: list the available commands grouped by category.
-- `make setup`: create `.venv`, install the package in editable mode, and install dev tooling.
+- `make setup`: create `.venv`, install the base game runtime in editable mode, and install dev tooling.
+- `make setup-ai`: install the same base environment plus the optional AI stack.
+- `make doctor`: print environment diagnostics, including whether the optional AI stack is available.
 - `make check-dependencies`: validate required commands, key files, and runtime hints.
 - `make run`: run the game in the foreground for direct local iteration.
 - `make start`: start the game in managed background mode.
@@ -70,6 +72,17 @@ The repository now exposes an operational entrypoint through the root Makefile.
 - `make build`: produce source and wheel distributions.
 
 `make run` is the fast foreground development flow. `make start` is the managed operational flow with PID and logs, useful when you want a long-lived local process you can inspect with `make status` and `make logs`.
+
+### Optional AI dependencies
+
+The base game runtime now installs only the packages needed to run Block-Bricks locally. This avoids startup crashes on older CPUs where TensorFlow wheels may emit `illegal instruction` during import.
+
+- Use `make setup` on older or compatibility-sensitive machines.
+- Use `make setup-ai` when you want the optional AI stack in the project virtual environment.
+- Install optional AI dependencies manually with `pip install -e .[ai]` or `pip install -r requirements-ai.txt` if you are not using the Makefile workflow.
+- Use `make check-dependencies` or `make doctor` to confirm whether `keras`, `tensorflow`, and `hard_model.keras` are available before enabling the Keras-backed bot.
+- The Keras-backed bot model is disabled by default and only loads when `BLOCK_BRICKS_ENABLE_KERAS_BOT=1` is set.
+- Without that variable, Bot mode still works with the built-in heuristic controller and does not import TensorFlow/Keras during startup.
 
 ## Contact
 

@@ -1,12 +1,17 @@
-.PHONY: setup install install-dev run dev start up serve-prod stop down restart status logs game-run game-start game-stop game-status game-logs
+.PHONY: setup setup-ai install install-dev install-ai run dev start up serve-prod stop down restart status logs game-run game-start game-stop game-status game-logs
 
 ##@ Setup
 setup: ## Prepare the project from scratch in .venv and install runtime plus dev tooling.
 	@bash scripts/setup.sh
 
+setup-ai: ## Prepare .venv with runtime, dev tooling, and optional AI dependencies.
+	@bash scripts/setup.sh --ai
+
 install: setup ## Alias for setup.
 
 install-dev: setup ## Alias for setup with dev tooling.
+
+install-ai: setup-ai ## Alias for setup with optional AI dependencies.
 
 ##@ Runtime
 run: ## Run the game in the foreground for fast local iteration.

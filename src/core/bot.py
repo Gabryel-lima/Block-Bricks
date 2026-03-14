@@ -1,20 +1,8 @@
-# import os
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # Desativa mensagens de aviso do TensorFlow
-# os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'  # Desativa as operações customizadas do oneDNN para evitar mensagens de aviso
-
-# import tensorflow as tf
-# tf.get_logger().setLevel('ERROR')  # Desativa mensagens de log do TensorFlow
-
-# import pygame, keras
+import os
 from pathlib import Path
 
 import pygame
 import numpy as np
-
-try:
-    import keras
-except ImportError:
-    keras = None
 
 class Bot:
     def __init__(self, game_base):
@@ -26,14 +14,29 @@ class Bot:
         self.rect = pygame.Rect(self.pos_x, self.pos_y, self.width_draw_x, self.height_draw_y)
         self.model = None
         self.model_path = Path("hard_model.keras")
-        self.load_weights()
+        self.keras_backend_enabled = os.getenv("BLOCK_BRICKS_ENABLE_KERAS_BOT", "0") == "1"
+        self._model_load_attempted = False
     
     def draw_bot(self):
         pygame.draw.rect(self.game_base.screen, (20, 155, 40),
                          (self.pos_x, self.pos_y, self.width_draw_x, 5))
+
+    def ensure_model_loaded(self):
+        if self._model_load_attempted:
+            return
+
+        self._model_load_attempted = True
+
+        if not self.keras_backend_enabled or not self.model_path.exists():
+            self.model = None
+            return
+
+        self.load_weights()
         
     def load_weights(self):
-        if keras is None or not self.model_path.exists():
+        try:
+            import keras
+        except Exception:
             self.model = None
             return
 
@@ -57,6 +60,8 @@ class Bot:
                 self.pos_x += 3.0
     
     def update(self):
+        self.ensure_model_loaded()
+
         if self.model is None:
             self.follow_ball()
             return

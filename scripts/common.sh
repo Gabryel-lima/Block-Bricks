@@ -29,7 +29,7 @@ ensure_runtime_dir() {
 
 require_venv() {
   if [[ ! -x "${PYTHON_BIN}" ]]; then
-    error "Virtual environment not found at ${VENV_DIR}. Run 'make setup' first."
+    error "Virtual environment not found at ${VENV_DIR}. Run 'make setup' or 'make setup-ai' first."
     exit 1
   fi
 }

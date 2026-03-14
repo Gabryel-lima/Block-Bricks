@@ -12,10 +12,15 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        "tensorflow>=2.0",
         "pygame-ce",
         "numpy"
     ],
+    extras_require={
+        "ai": [
+            "keras>=3.0",
+            "tensorflow>=2.0",
+        ],
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

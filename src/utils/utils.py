@@ -1,18 +1,27 @@
 import numpy as np
 import math
-import pandas as pd
 import os
-import matplotlib.pyplot as plt
 import pygame
 from typing import Any
 
-plt.rc('font', size=14)
-plt.rc('axes', labelsize=14, titlesize=14)
-plt.rc('legend', fontsize=14)
-plt.rc('xtick', labelsize=10)
-plt.rc('ytick', labelsize=10)
-
 from typing import Union, Tuple, Optional, Dict
+
+
+def _get_matplotlib_pyplot():
+    import matplotlib.pyplot as plt
+
+    plt.rc('font', size=14)
+    plt.rc('axes', labelsize=14, titlesize=14)
+    plt.rc('legend', fontsize=14)
+    plt.rc('xtick', labelsize=10)
+    plt.rc('ytick', labelsize=10)
+    return plt
+
+
+def _get_pandas_module():
+    import pandas as pd
+
+    return pd
 
 def scaled_surface_percent(surf, percentage):
     width, height = surf.get_size()
@@ -125,6 +134,8 @@ def save_fig(name:str="file", path:str=r".", tight_layout=True, fig_extension="p
 
     Parâmetros:
         >>> def save_fig(name='name_file', path='name_path')"""
+    plt = _get_matplotlib_pyplot()
+
     # Garante que o diretório existe
     os.makedirs(path, exist_ok=True)
     # Corrige a forma de criar o caminho completo
@@ -140,6 +151,8 @@ def create_backup_pkl(path:str=r"./", df=None, name:str="file", pkl_extension="p
 
     Parâmetros:
        >>> def create_backup_pkl(path='file_path', name='name_file')"""
+    pd = _get_pandas_module()
+
     os.makedirs(path, exist_ok=True)
     file = os.path.join(path, name + "." + pkl_extension)
     if df is not None:
@@ -149,6 +162,7 @@ def create_backup_pkl(path:str=r"./", df=None, name:str="file", pkl_extension="p
 def describe_pkl_read(file_path_pkl:str=None):
     """Uma descrição dos dados em .pkl"""
     if file_path_pkl is not None:
+        pd = _get_pandas_module()
         file = pd.read_pickle(file_path_pkl)
         print(file.describe())
     else:
@@ -163,6 +177,7 @@ def transform_pkl_to_csv(file_path_pkl:str=None, output_file_name:str=None, csv_
     if file_path_pkl is None:
         print("\nArquivo pickle não encontrado.\n")
         return  # Garante que o código pare aqui se o caminho não for fornecido
+    pd = _get_pandas_module()
     df = pd.read_pickle(file_path_pkl)
     if output_file_name is not None:
         df.to_csv(output_file_name + "." + csv_extension, index=False)
